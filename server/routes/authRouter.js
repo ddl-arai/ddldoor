@@ -9,6 +9,7 @@ authRouter.post('/login', passport.authenticate('local', { session: true }), (re
 
 /* GET auth/check */
 authRouter.get('/check', (req, res, next) => {
+  console.log(req);
   //if(error) next(error);
   if(req.isAuthenticated()){
     res.json(true);
