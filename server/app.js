@@ -41,7 +41,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
-      secure: true // https => true
+      secure: false // https => true
     },
     proxy: true
 }));
