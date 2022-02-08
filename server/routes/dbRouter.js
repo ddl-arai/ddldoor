@@ -17,7 +17,7 @@ dbRouter.post('/user', (req, res, next) => {
 });
 
 /* POST db/user/exist */
-dbRouter.post('/exist', (req, res, next) => {
+dbRouter.post('/user/exist', (req, res, next) => {
   User.findOne({email: req.body['email']}, (error, user) => {
       if(error) next(error);
       if(!user){
