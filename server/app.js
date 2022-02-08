@@ -39,7 +39,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
-      secure: false // https => true
+      secure: true // https => true
     },
     proxy: true
 }));
@@ -96,7 +96,7 @@ app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
-  
+    console.log(res.locals.message);
     // render the error page
     res.status(err.status || 500);
     res.json('Something error happened!');
