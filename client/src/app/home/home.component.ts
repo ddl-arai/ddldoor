@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     /* Initial display */
-    this.router.navigate(['/home/mail']);
+    this.router.navigate(['/home/member']);
   }
 
 }
