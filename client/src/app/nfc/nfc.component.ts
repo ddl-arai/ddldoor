@@ -8,17 +8,20 @@ import { NFCPortLib, NFCPortError, Configuration, DetectionOption, Communication
   styleUrls: ['./nfc.component.scss']
 })
 export class NfcComponent implements OnInit {
+	detectTitle: any;
+	detectMessage: any;
+	communicateTitle: any;
+	communicateMessage: any;
 
-  constructor() { 
-  }
+	constructor() { 
+	}
 
-  ngOnInit(): void {
-  }
-  
-	detectTitle: any = document.getElementById('detect-title');
-	detectMessage: any = document.getElementById('detect');
-	communicateTitle: any = document.getElementById('communicate-title');
-	communicateMessage: any = document.getElementById('communicate');
+	ngOnInit(): void {
+		this.detectTitle = document.getElementById('detect-title');
+		this.detectMessage = document.getElementById('detect');
+		this.communicateTitle = document.getElementById('communicate-title');
+		this.communicateMessage = document.getElementById('communicate');
+	}
 
   /*
 	document.getElementById('FeliCa').addEventListener('click', function () {
@@ -37,12 +40,12 @@ export class NfcComponent implements OnInit {
 
 		let lib : any;
 
-    /* 
+     
 		this.detectTitle.innerText = '';
 		this.detectMessage.innerText = '';
 		this.communicateTitle.innerText = '';
 		this.communicateMessage.innerText = '';
-    */
+    
    
 		try {
 			/* create NFCPortLib object */
