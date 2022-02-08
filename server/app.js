@@ -6,7 +6,7 @@ let mongoose = require('mongoose');
 require('dotenv').config();
 
 mongoose.connect(
-    'mongodb://localhost:27017/ddldoor?authSource=admin',
+    'mongodb://localhost:27017/ddldoor?authSource=ddldoor',
     {
         useNewUrlParser: true,
         user: 'ddldoor',
