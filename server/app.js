@@ -23,6 +23,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 
+let User = require('./models/user');
+
 var authRouter = require('./routes/authRouter');
 var dbRouter = require('./routes/dbRouter');
 
