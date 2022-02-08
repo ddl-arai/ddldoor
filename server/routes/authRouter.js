@@ -9,7 +9,6 @@ authRouter.post('/login', passport.authenticate('local', { session: true }), (re
 
 /* GET auth/check */
 authRouter.get('/check', (req, res, next) => {
-  if(error) next(error);
   if(req.isAuthenticated()){
     res.json(true);
   }
@@ -21,7 +20,6 @@ authRouter.get('/check', (req, res, next) => {
 
 /* GET auth/logout */
 authRouter.get('/logout', (req, res, next) => {
-  if(error) next(error);
   req.logout();
   res.json({result: 'Logout Success'});
 });
