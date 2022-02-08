@@ -1,10 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NfcComponent } from './nfc/nfc.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { HomeComponent } from './home/home.component';
+import { MemberComponent } from './member/member.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  { path: "", redirectTo: "nfc", pathMatch: "full" },
-  { path: "nfc", component: NfcComponent }
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'home', 
+    component: HomeComponent,
+    canActivate: [AuthGuard],
+    children:[
+      { path: 'member', component: MemberComponent }
+    ]
+  },
+  { path: 'nfc', component: NfcComponent }
 ];
 
 @NgModule({
