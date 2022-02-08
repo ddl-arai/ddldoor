@@ -11,7 +11,7 @@ import { shareReplay, catchError} from 'rxjs/operators';
 export class AuthService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-    withCredentials: true
+    //withCredentials: true
   };
 
   constructor(
