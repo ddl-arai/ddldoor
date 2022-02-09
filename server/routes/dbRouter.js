@@ -30,6 +30,14 @@ dbRouter.post('/user/exist', (req, res, next) => {
   });
 });
 
+/* GET db/members */
+dbRouter.get('/members', (req, res, next) => {
+  Member.find({}, (error, members) => {
+    if(error) next(error);
+    res.json(members);
+  });
+});
+
 /* POST db/member */
 dbRouter.post('/member', (req, res, next) => {
   Member.create(req.body, error => {

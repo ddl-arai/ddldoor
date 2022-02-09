@@ -43,7 +43,7 @@ export class DbService {
     const url = `db/${kind}`;
     return this.http.get<T[]>(url, this.httpOptions)
     .pipe(
-      catchError(this.handleError<T[]>())
+      catchError(this.handleError<T[]>([]))
     );
   }
 
