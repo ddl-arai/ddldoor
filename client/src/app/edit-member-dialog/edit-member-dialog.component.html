@@ -5,7 +5,8 @@
     <mat-card-content>
       <div fxLayout="column" fxLayoutAlign="space-around">
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="ID" name="id" [(ngModel)]="member.id" formControlName="id" readonly>
+            <input matInput placeholder="ID" name="id" type="number" [(ngModel)]="member.id" formControlName="id" readonly>
+            <mat-hint>IDは編集できません</mat-hint>
         </mat-form-field>
 
         <mat-form-field class="example-full-width">

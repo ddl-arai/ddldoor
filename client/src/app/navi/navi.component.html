@@ -5,7 +5,8 @@
         [opened]="(isHandset$ | async) === false">
       <mat-toolbar>DDLDoor</mat-toolbar>
       <mat-nav-list>
-        <a mat-list-item [routerLink]="['/home/member']">メンバーリスト</a>
+        <a mat-list-item [routerLink]="['/home/member']">メンバー情報</a>
+        <a mat-list-item [routerLink]="['/home/statusList']">在外室一覧</a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>

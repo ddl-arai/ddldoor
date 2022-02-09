@@ -36,6 +36,7 @@ import { MemberComponent } from './member/member.component';
 import { NaviComponent } from './navi/navi.component';
 import { MemberDialogComponent } from './member-dialog/member-dialog.component';
 import { EditMemberDialogComponent } from './edit-member-dialog/edit-member-dialog.component';
+import { StatusListComponent } from './status-list/status-list.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { EditMemberDialogComponent } from './edit-member-dialog/edit-member-dial
     MemberComponent,
     NaviComponent,
     MemberDialogComponent,
-    EditMemberDialogComponent
+    EditMemberDialogComponent,
+    StatusListComponent
   ],
   imports: [
     BrowserModule,

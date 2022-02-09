@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { MemberComponent } from './member/member.component';
 import { AuthGuard } from './auth.guard';
+import { StatusListComponent } from './status-list/status-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -15,7 +16,8 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuard],
     children:[
-      { path: 'member', component: MemberComponent }
+      { path: 'member', component: MemberComponent },
+      { path: 'statusList', component: StatusListComponent }
     ]
   },
   { path: 'nfc', component: NfcComponent }

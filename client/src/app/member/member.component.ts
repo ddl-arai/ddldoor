@@ -14,7 +14,7 @@ export interface displayData {
   lastname: string,
   firstname: string,
   company: string
-  status: string  // 在室 or 外室
+  status: string  // 在室 or 外室 or 初期状態
 }
 
 
@@ -57,11 +57,16 @@ export class MemberComponent implements OnInit {
       let displayMembers: displayData[] = [];
       members.forEach(member => {
         let status: string;
-        if(member.attendance === true){
-          status = '在室';
+        if(member.init){
+          status = '初期状態';
         }
         else{
-          status = '外室';
+          if(member.attendance){
+            status = '在室';
+          }
+          else{
+            status = '外室';
+          }
         }
         displayMembers.push({
           id: member.id,
