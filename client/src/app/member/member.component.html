@@ -1,7 +1,10 @@
 <mat-card class="data-card">
     <mat-card-header class="header">
         <mat-card-title>メンバー情報</mat-card-title>
-        <button fxFlexOffset="auto" mat-raised-button color="accent" (click)="onRegister()">登録</button>
+        <span fxLayout="row" fxFlexOffset="auto" fxLayoutGap="10px">
+            <button mat-icon-button color="primary" (click)="onRefresh()"><mat-icon>refresh</mat-icon></button>
+            <button mat-raised-button color="accent" (click)="onRegister()">登録</button>
+        </span>
     </mat-card-header>
     <mat-card-content>
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

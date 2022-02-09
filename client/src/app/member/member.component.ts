@@ -24,7 +24,7 @@ export interface displayData {
   styleUrls: ['./member.component.scss']
 })
 export class MemberComponent implements OnInit {
-  members: member[] = [];
+  //members: member[] = [];
   displayedColumns: string[] = [
     'id',
     'name',
@@ -99,6 +99,10 @@ export class MemberComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(() => {
       this.ngOnInit();
-    })
+    });
+  }
+
+  onRefresh(): void {
+    this.ngOnInit();
   }
 }
