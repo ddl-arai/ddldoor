@@ -8,4 +8,4 @@ let mongoose = require("mongoose"),
     attendance: Boolean
   });
 
-module.exports = mongoose.model("Member", userSchema, 'member');
+module.exports = mongoose.model("Member", memberSchema, 'member');
