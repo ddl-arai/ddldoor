@@ -1,6 +1,7 @@
 let express = require('express');
 let dbRouter = express.Router();
 let User = require('../models/user');
+let Member = require('../models/member');
 let bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -26,6 +27,14 @@ dbRouter.post('/user/exist', (req, res, next) => {
       else{
           res.json(true);
       }
+  });
+});
+
+/* POST db/member */
+dbRouter.post('/member', (req, res, next) => {
+  Member.create(req.body, error => {
+    if(error) next(error);
+    res.json(true);
   });
 });
 

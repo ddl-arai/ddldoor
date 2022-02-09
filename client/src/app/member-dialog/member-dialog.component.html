@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>メンバー登録</h2>
+<div mat-dialog-content>
+  <form class="example-form" [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
+    <mat-card-content>
+      <div fxLayout="column" fxLayoutAlign="space-around">
+        <mat-form-field class="example-full-width">
+          <mat-label>ID</mat-label>
+          <mat-select [formControl]="idControl">
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let id of idOptions" [value]="id">
+              {{id}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="idControl.hasError('required')">
+              <strong>IDを選択してください</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="名前" name="name" formControlName="name">
+          <mat-error *ngIf="nameControl.hasError('required')">
+              <strong>名前を入力してください</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="姓(全角カナ)" name="lastname" formControlName="lastname">
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="名(全角カナ)" name="firstname" formControlName="firstname">
+          </mat-form-field>
+        </div>
+
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="所属" name="company" formControlName="company">
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <span fxLayout="row" fxLayoutAlign="space-between center">
+      <button mat-button (click)="onCancel()">キャンセル</button>
+      <button mat-raised-button class="btn-block" color="accent" type="submit" [disabled]="form.invalid">登録</button>
+    </span>
+  </form>
+
+
+</div>
+<!--
+<div mat-dialog-actions class="dialog-buttons">
+  <button mat-button (click)="onCancel()">キャンセル</button>
+  <span fxFlexOffset="auto">
+    <button mat-raised-button color="primary" (click)="onRegister()">登録</button>
+  </span>
+</div>-->

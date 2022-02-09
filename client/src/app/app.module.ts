@@ -21,6 +21,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 /* Component */
@@ -31,6 +33,7 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { MemberComponent } from './member/member.component';
 import { NaviComponent } from './navi/navi.component';
+import { MemberDialogComponent } from './member-dialog/member-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,8 @@ import { NaviComponent } from './navi/navi.component';
     RegisterComponent,
     HomeComponent,
     MemberComponent,
-    NaviComponent
+    NaviComponent,
+    MemberDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +67,9 @@ import { NaviComponent } from './navi/navi.component';
     MatToolbarModule,
     MatListModule,
     MatMenuModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatTableModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],
