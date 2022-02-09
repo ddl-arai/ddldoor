@@ -18,7 +18,7 @@ export class MemberDialogComponent implements OnInit {
     firstname: '',
     company: '',
     attendance: false,
-    init: true
+    initial: true
   }
   idOptions: number[] = [...Array(100).keys()].map(i => ++i);
 

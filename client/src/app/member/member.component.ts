@@ -57,7 +57,7 @@ export class MemberComponent implements OnInit {
       let displayMembers: displayData[] = [];
       members.forEach(member => {
         let status: string;
-        if(member.init){
+        if(member.initial){
           status = '初期状態';
         }
         else{

@@ -5,5 +5,5 @@ export interface member {
     firstname: string;
     company: string;
     attendance: boolean;
-    init: boolean;
+    initial: boolean;
 }
