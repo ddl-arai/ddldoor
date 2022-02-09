@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { MemberDialogComponent } from '../member-dialog/member-dialog.component';
+import { EditMemberDialogComponent } from '../edit-member-dialog/edit-member-dialog.component';
 
 
 export interface displayData {
@@ -30,7 +31,8 @@ export class MemberComponent implements OnInit {
     'lastname',
     'firstname',
     'company',
-    'status'
+    'status',
+    'edit'
   ];
   dataSource = new MatTableDataSource<displayData>();
   usedIds: number[] = [];
@@ -75,10 +77,23 @@ export class MemberComponent implements OnInit {
     });
   }
 
-  onRegister(): void{
+  onRegister(): void {
     let dialogRef = this.dialog.open(MemberDialogComponent, {
       width: '400px',
       data: this.usedIds
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.ngOnInit();
+    });
+  }
+
+  onEdit(id: number): void {
+    let dialogRef = this.dialog.open(EditMemberDialogComponent, {
+      width: '400px',
+      data: {
+        id: id,
+        usedIds: this.usedIds
+      }
     });
     dialogRef.afterClosed().subscribe(() => {
       this.ngOnInit();

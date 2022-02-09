@@ -35,6 +35,7 @@ import { HomeComponent } from './home/home.component';
 import { MemberComponent } from './member/member.component';
 import { NaviComponent } from './navi/navi.component';
 import { MemberDialogComponent } from './member-dialog/member-dialog.component';
+import { EditMemberDialogComponent } from './edit-member-dialog/edit-member-dialog.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { MemberDialogComponent } from './member-dialog/member-dialog.component';
     HomeComponent,
     MemberComponent,
     NaviComponent,
-    MemberDialogComponent
+    MemberDialogComponent,
+    EditMemberDialogComponent
   ],
   imports: [
     BrowserModule,

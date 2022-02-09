@@ -30,6 +30,14 @@ dbRouter.post('/user/exist', (req, res, next) => {
   });
 });
 
+/* GET db/members/:id */
+dbRouter.get('/member/:id', function(req, res, next){
+  Member.findOne({id: req.params.id}, (error, member) => {
+      if(error) next(error);
+      res.json(member);
+  })
+})
+
 /* GET db/members */
 dbRouter.get('/members', (req, res, next) => {
   Member.find({}, (error, members) => {
@@ -43,6 +51,14 @@ dbRouter.post('/member', (req, res, next) => {
   Member.create(req.body, error => {
     if(error) next(error);
     res.json(true);
+  });
+});
+
+/* PUT db/member */
+dbRouter.put('/member', function(req, res, next){
+  Member.updateOne({id: req.body.id}, req.body, error => {
+      if(error) next(error);
+      res.json(true);
   });
 });
 

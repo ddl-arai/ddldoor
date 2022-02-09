@@ -39,6 +39,14 @@ export class DbService {
     );
   }
 
+  get<T>(kind: string, id: number): Observable<T> {
+    const url = `db/${kind}/${id}`;
+    return this.http.get<T>(url, this.httpOptions)
+    .pipe(
+      catchError(this.handleError<T>())
+    );
+  }
+
   getAll<T>(kind: string): Observable<T[]> {
     const url = `db/${kind}`;
     return this.http.get<T[]>(url, this.httpOptions)

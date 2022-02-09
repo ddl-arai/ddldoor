@@ -63,7 +63,7 @@ export class MemberDialogComponent implements OnInit {
         this.dialogRef.close();
       }
       else{
-        this.snackBar.open('登録できませんでした', '閉じる', {duration: 5000});
+        this.snackBar.open('登録できませんでした', '閉じる', {duration: 7000});
       }
     })
   }
