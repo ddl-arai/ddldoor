@@ -5,11 +5,6 @@ import { member } from '../models/member';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-export interface DialogData {
-  id: number,
-  usedIds: number[]
-}
-
 @Component({
   selector: 'app-edit-member-dialog',
   templateUrl: './edit-member-dialog.component.html',
@@ -24,7 +19,6 @@ export class EditMemberDialogComponent implements OnInit {
     company: '',
     attendance: false
   }
-  idOptions: number[] = [...Array(100).keys()].map(i => ++i);
   form!: FormGroup;
   idControl = new FormControl(null, Validators.required);
   nameControl = new FormControl(null, Validators.required);
@@ -34,16 +28,14 @@ export class EditMemberDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<EditMemberDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public id: number,
     private dbService: DbService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
-    this.data.usedIds.push(this.data.id);
-    this.idOptions = this.idOptions.filter(i => this.data.usedIds.indexOf(i) === -1);
-    this.getMember(this.data.id);
+    this.getMember(this.id);
     this.form = this.fb.group({
       id: this.idControl,
       name: this.nameControl,
@@ -59,9 +51,6 @@ export class EditMemberDialogComponent implements OnInit {
   }
 
   onSave(): void {
-    /* --- Test Begin ---- */
-    this.member.id = this.data.id;
-    /* --- Test End --- */
     this.dbService.update<member>('member', this.member)
     .subscribe(result => {
       if(result){

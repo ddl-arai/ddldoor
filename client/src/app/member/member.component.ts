@@ -90,10 +90,7 @@ export class MemberComponent implements OnInit {
   onEdit(id: number): void {
     let dialogRef = this.dialog.open(EditMemberDialogComponent, {
       width: '400px',
-      data: {
-        id: id,
-        usedIds: this.usedIds
-      }
+      data: id
     });
     dialogRef.afterClosed().subscribe(() => {
       this.ngOnInit();
