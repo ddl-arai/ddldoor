@@ -49,9 +49,10 @@ export class MemberComponent implements OnInit {
     this.dbService.getAll<member>('members')
     .subscribe(members => {
       if(members.length === 0){
-        this.snackBar.open('データがありませんでした', '閉じる', {duration: 5000});
+        this.snackBar.open('データがありませんでした', '閉じる', {duration: 7000});
         return;
       }
+      let displayMembers: displayData[] = [];
       members.forEach(member => {
         let status: string;
         if(member.attendance === true){
@@ -60,7 +61,7 @@ export class MemberComponent implements OnInit {
         else{
           status = '外室';
         }
-        this.dataSource.data.push({
+        displayMembers.push({
           id: member.id,
           name: member.name,
           lastname: member.lastname,
@@ -70,6 +71,7 @@ export class MemberComponent implements OnInit {
         });
         this.usedIds.push(member.id);
       });
+      this.dataSource.data = displayMembers;
     });
   }
 
