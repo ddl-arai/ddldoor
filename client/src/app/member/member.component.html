@@ -44,8 +44,8 @@
                 <th mat-header-cell *matHeaderCellDef>状況</th>
                 <td mat-cell *matCellDef="let element">
                     <span *ngIf="element.status=='外室'" style="color: blue;">{{element.status}}</span>
-                    <span *ngIf="element.orderStatus=='在室'" style="color: green;">{{element.status}}</span>
-                    <span *ngIf="element.orderStatus=='初期状態'" style="color: red;">{{element.status}}</span>
+                    <span *ngIf="element.status=='在室'" style="color: green;">{{element.status}}</span>
+                    <span *ngIf="element.status=='初期状態'" style="color: red;">{{element.status}}</span>
                 </td>
             </ng-container>
 
