@@ -65,7 +65,7 @@ dbRouter.put('/member', function(req, res, next){
 
 /* GET db/card/:idm */
 dbRouter.get('/card/:idm', function(req, res, next){
-  Member.findOne({idm: req.params.idm}, (error, card) => {
+  Card.findOne({idm: req.params.idm}, (error, card) => {
       if(error) next(error);
       res.json(card);
   })
@@ -89,7 +89,7 @@ dbRouter.post('/card', (req, res, next) => {
 
 /* PUT db/card */
 dbRouter.put('/card', function(req, res, next){
-  Member.updateOne({idm: req.body.idm}, req.body, error => {
+  Card.updateOne({idm: req.body.idm}, req.body, error => {
       if(error) next(error);
       res.json(true);
   });
