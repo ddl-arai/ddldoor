@@ -91,8 +91,11 @@ export class NfcComponent implements OnInit {
 	}
 
 	onCardRegister(): void {
-		this.dialog.open(CardDialogComponent, {
+		let dialogRef = this.dialog.open(CardDialogComponent, {
 			width: '400px'
+		});
+		dialogRef.afterClosed().subscribe(() => {
+			this.ngOnInit();
 		});
 	}
 
