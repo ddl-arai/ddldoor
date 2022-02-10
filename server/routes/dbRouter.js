@@ -73,7 +73,6 @@ dbRouter.get('/cards', (req, res, next) => {
 
 /* POST db/card */
 dbRouter.post('/card', (req, res, next) => {
-  console.log(typeof req.body["expire"]);
   Card.create(req.body, error => {
     if(error) next(error);
     res.json(true);
