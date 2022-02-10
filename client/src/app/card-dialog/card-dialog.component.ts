@@ -25,7 +25,6 @@ export class CardDialogComponent implements OnInit {
   form!: FormGroup;
   idmControl = new FormControl(null, Validators.required);
   idControl = new FormControl(null, Validators.required);
-  enableControl = new FormControl(null, Validators.required);  // may not need
   remarkControl = new FormControl(null);
 
 
@@ -41,9 +40,9 @@ export class CardDialogComponent implements OnInit {
     this.form = this.fb.group({
       idm: this.idmControl,
       id: this.idControl,
-      enable: this.enableControl,
       remark: this.remarkControl,
     });
+    console.log(this.card.enable);
   }
 
   getMembers(): void {
