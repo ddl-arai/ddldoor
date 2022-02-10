@@ -1,8 +1,8 @@
 <h2 mat-dialog-title>カード登録</h2>
 <div mat-dialog-content>
-    <div fxLayout="column" fxLayoutAlign="space-around center">
+    <div fxLayout="column" fxLayoutAlign="space-around center" class="nfc">
         <div *ngIf="scanStatus==0"><mat-icon class="nfc-icon" color="accent">nfc</mat-icon></div>
-        <div *ngIf="scanStatus==1"><mat-spinner diameter="40"></mat-spinner></div>
+        <div *ngIf="scanStatus==1"><mat-spinner diameter="60"></mat-spinner></div>
         <div *ngIf="scanStatus==2"><mat-icon class="nfc-icon">done</mat-icon></div>
     
         <button mat-raised-button color="accent" type="button" (click)="onScan()" [disabled]="scanStatus==1">スキャン</button>
