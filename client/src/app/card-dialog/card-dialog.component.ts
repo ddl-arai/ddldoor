@@ -25,6 +25,7 @@ export class CardDialogComponent implements OnInit {
   form!: FormGroup;
   idmControl = new FormControl(null, Validators.required);
   idControl = new FormControl(null, Validators.required);
+  enableControl = new FormControl(true);
   remarkControl = new FormControl(null);
 
 
@@ -40,9 +41,9 @@ export class CardDialogComponent implements OnInit {
     this.form = this.fb.group({
       idm: this.idmControl,
       id: this.idControl,
+      enable: this.enableControl,
       remark: this.remarkControl,
     });
-    console.log(this.card.enable);
   }
 
   getMembers(): void {
@@ -57,6 +58,7 @@ export class CardDialogComponent implements OnInit {
   onSubmit(): void {
     this.card.id = this.form.get('id')?.value;
     this.card.remark = this.form.get('remark')?.value;
+    this.card.enable = this.form.get('enable')?.value;
     /* Expired after 5 yeas */
     this.card.expire = new Date().setFullYear(new Date().getFullYear() + 5).toString();
     this.dbService.add<card>('card', this.card)

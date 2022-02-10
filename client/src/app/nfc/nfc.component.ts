@@ -68,12 +68,13 @@ export class NfcComponent implements OnInit {
 					}
 					member = members.find(m => m.id === card.id);
 					if(member !== undefined){
+						let expire = new Date(card.expire);
 						displayCards.push({
 							idm: card.idm,
 							id: card.id,
 							name:  member.name,
 							enable: enable,
-							expire: new Date(card.expire).toDateString(),
+							expire: `${expire.getFullYear()}/${expire.getMonth() + 1}/${expire.getDay()}`,
 							remark: card.remark
 						});
 					}
