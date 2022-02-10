@@ -21,6 +21,7 @@ export class CardDialogComponent implements OnInit {
     remark: ''
   }
   scanStatus: number = 0;
+  terminate: boolean = false;
   members: member[] = [];
   form!: FormGroup;
   idmControl = new FormControl(null, Validators.required);
@@ -52,6 +53,7 @@ export class CardDialogComponent implements OnInit {
   }
 
   onCancel(): void {
+    this.terminate = true;
     this.dialogRef.close();
   }
 
@@ -60,7 +62,7 @@ export class CardDialogComponent implements OnInit {
     this.card.remark = this.form.get('remark')?.value;
     this.card.enable = this.form.get('enable')?.value;
     /* Expired after 5 yeas */
-    this.card.expire = new Date().setFullYear(new Date().getFullYear() + 5).toString();
+    this.card.expire = new Date().setFullYear(new Date().getFullYear() + 5).toLocaleString();
     this.dbService.add<card>('card', this.card)
     .subscribe(result => {
       if(result){
@@ -102,6 +104,9 @@ export class CardDialogComponent implements OnInit {
 			/* detectCard (FeliCa Card) */
 			let detectOption = new DetectionOption(new Uint8Array([0xff, 0xff]), 0, true, false, null);
 			while(this.card.idm===''){
+        if(this.terminate){
+          break;
+        }
         await lib.detectCard('iso18092', detectOption)
           .then((ret: { systemCode: null; idm: any; pmm: any; }) => {
           if (ret.systemCode == null) {
