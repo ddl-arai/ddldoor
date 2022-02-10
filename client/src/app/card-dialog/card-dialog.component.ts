@@ -65,6 +65,7 @@ export class CardDialogComponent implements OnInit {
     console.log(now.toString());
     /* Expired after 5 yeas */
     this.card.expire = new Date(now.setFullYear(now.getFullYear() + 5)).toString();
+    console.log(this.card.expire);
     this.dbService.add<card>('card', this.card)
     .subscribe(result => {
       if(result){
