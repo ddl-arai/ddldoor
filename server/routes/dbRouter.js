@@ -32,7 +32,7 @@ dbRouter.post('/user/exist', (req, res, next) => {
 });
 
 /* GET db/members/:id */
-dbRouter.get('/member/:id', function(req, res, next){
+dbRouter.get('/member/:id', (req, res, next) => {
   Member.findOne({id: req.params.id}, (error, member) => {
       if(error) next(error);
       res.json(member);
@@ -56,7 +56,7 @@ dbRouter.post('/member', (req, res, next) => {
 });
 
 /* PUT db/member */
-dbRouter.put('/member', function(req, res, next){
+dbRouter.put('/member', (req, res, next) => {
   Member.updateOne({id: req.body.id}, req.body, error => {
       if(error) next(error);
       res.json(true);
@@ -64,7 +64,7 @@ dbRouter.put('/member', function(req, res, next){
 });
 
 /* GET db/card/:idm */
-dbRouter.get('/card/:idm', function(req, res, next){
+dbRouter.get('/card/:idm', (req, res, next) => {
   Card.findOne({idm: req.params.idm}, (error, card) => {
       if(error) next(error);
       res.json(card);
@@ -94,10 +94,18 @@ dbRouter.post('/card', (req, res, next) => {
 });
 
 /* PUT db/card */
-dbRouter.put('/card', function(req, res, next){
+dbRouter.put('/card', (req, res, next) => {
   Card.updateOne({idm: req.body.idm}, req.body, error => {
       if(error) next(error);
       res.json(true);
+  });
+});
+
+/* GET db/logs */
+dbRouter.get('/logs', (req, res, next) => {
+  Log.find({}, (error, logs) => {
+    if(error) next(error);
+    res.json(logs);
   });
 });
 

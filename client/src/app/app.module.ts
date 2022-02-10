@@ -24,6 +24,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 
 
 /* Component */
@@ -81,7 +83,9 @@ import { EditCardDialogComponent } from './edit-card-dialog/edit-card-dialog.com
     MatSlideToggleModule,
     MatTableModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSort,
+    MatPaginator
   ],
   providers: [],
   bootstrap: [AppComponent],
