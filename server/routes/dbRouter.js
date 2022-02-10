@@ -73,9 +73,6 @@ dbRouter.get('/cards', (req, res, next) => {
 
 /* POST db/card */
 dbRouter.post('/card', (req, res, next) => {
-  let time = new Date(req.body['expire']);
-  /* Expired after 5 yeas */
-  req.body['expire'] = new Date(time.setFullYear(time.getFullYear() + 5));
   Card.create(req.body, error => {
     if(error) next(error);
     res.json(true);
