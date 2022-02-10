@@ -64,7 +64,7 @@ dbRouter.put('/member', function(req, res, next){
 });
 
 /* GET db/card/:idm */
-dbRouter.get('/member/:idm', function(req, res, next){
+dbRouter.get('/card/:idm', function(req, res, next){
   Member.findOne({idm: req.params.idm}, (error, card) => {
       if(error) next(error);
       res.json(card);
