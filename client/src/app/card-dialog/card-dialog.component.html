@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>カード登録</h2>
+<div mat-dialog-content>
+    <div *ngFor="scanStatus==0"><mat-icon>nfc</mat-icon></div>
+    <div *ngFor="scanStatus==1"><mat-spinner></mat-spinner></div>
+    <div *ngFor="scanStatus==2"><mat-icon>done</mat-icon></div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" type="button" (click)="onScan()" [disabled]="scanStatus==1">スキャン</button>
+    </div>
+    <form class="example-form" [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
+        <mat-card-content>
+        <div fxLayout="column" fxLayoutAlign="space-around">
+
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="IDm" name="idm" [(ngModel)]="card.idm" formControlName="idm" readonly>
+                <mat-error *ngIf="idmControl.hasError('required')">
+                    <strong>カードをスキャンしてください</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+            <mat-label>紐づけ先</mat-label>
+            <mat-select [formControl]="idControl">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let member of members" [value]="member.id">
+                {{member.name}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="idControl.hasError('required')">
+                <strong>紐づけ先を選択してください</strong>
+            </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-slide-toggle [(ngModel)]="card.enable"></mat-slide-toggle>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>備考</mat-label>
+                <textarea matInput name="remark" formControlName="remark"></textarea>
+            </mat-form-field>
+        </div>
+        </mat-card-content>
+        <span fxLayout="row" fxLayoutAlign="space-between center">
+        <button mat-button type="button" (click)="onCancel()">キャンセル</button>
+        <button mat-raised-button class="btn-block" color="accent" type="submit" [disabled]="form.invalid">カード登録</button>
+        </span>
+    </form>
+
+
+</div>

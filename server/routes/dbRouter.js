@@ -2,6 +2,7 @@ let express = require('express');
 let dbRouter = express.Router();
 let User = require('../models/user');
 let Member = require('../models/member');
+let Card = require('../models/card');
 let bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -59,6 +60,22 @@ dbRouter.put('/member', function(req, res, next){
   Member.updateOne({id: req.body.id}, req.body, error => {
       if(error) next(error);
       res.json(true);
+  });
+});
+
+/* GET db/cards */
+dbRouter.get('/cards', (req, res, next) => {
+  Card.find({}, (error, cards) => {
+    if(error) next(error);
+    res.json(cards);
+  });
+});
+
+/* POST db/card */
+dbRouter.post('/card', (req, res, next) => {
+  Card.create(req.body, error => {
+    if(error) next(error);
+    res.json(true);
   });
 });
 

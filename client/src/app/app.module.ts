@@ -38,6 +38,7 @@ import { MemberDialogComponent } from './member-dialog/member-dialog.component';
 import { EditMemberDialogComponent } from './edit-member-dialog/edit-member-dialog.component';
 import { StatusListComponent } from './status-list/status-list.component';
 import { LogComponent } from './log/log.component';
+import { CardDialogComponent } from './card-dialog/card-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { LogComponent } from './log/log.component';
     MemberDialogComponent,
     EditMemberDialogComponent,
     StatusListComponent,
-    LogComponent
+    LogComponent,
+    CardDialogComponent
   ],
   imports: [
     BrowserModule,
