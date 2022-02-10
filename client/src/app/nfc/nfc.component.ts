@@ -6,6 +6,7 @@ import { DbService } from '../db.service';
 import { card } from '../models/card';
 import { member } from '../models/member';
 import { CardDialogComponent } from '../card-dialog/card-dialog.component';
+import { EditCardDialogComponent } from '../edit-card-dialog/edit-card-dialog.component';
 
 
 export interface displayData {
@@ -101,6 +102,12 @@ export class NfcComponent implements OnInit {
 	}
 
 	onEdit(idm: string): void {
-
+		let dialogRef = this.dialog.open(EditCardDialogComponent, {
+			width: '400px',
+			data: idm
+		});
+		dialogRef.afterClosed().subscribe(() => {
+			this.ngOnInit();
+		});
 	}
 }

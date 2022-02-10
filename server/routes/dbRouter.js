@@ -63,6 +63,14 @@ dbRouter.put('/member', function(req, res, next){
   });
 });
 
+/* GET db/card/:idm */
+dbRouter.get('/member/:idm', function(req, res, next){
+  Member.findOne({idm: req.params.idm}, (error, card) => {
+      if(error) next(error);
+      res.json(card);
+  })
+});
+
 /* GET db/cards */
 dbRouter.get('/cards', (req, res, next) => {
   Card.find({}, (error, cards) => {
@@ -76,6 +84,14 @@ dbRouter.post('/card', (req, res, next) => {
   Card.create(req.body, error => {
     if(error) next(error);
     res.json(true);
+  });
+});
+
+/* PUT db/card */
+dbRouter.put('/card', function(req, res, next){
+  Member.updateOne({idm: req.body.idm}, req.body, error => {
+      if(error) next(error);
+      res.json(true);
   });
 });
 
