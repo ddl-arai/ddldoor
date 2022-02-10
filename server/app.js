@@ -9,7 +9,7 @@ mongoose.connect(
     'mongodb://localhost:27017/ddldoor?authSource=admin',
     {
         useNewUrlParser: true,
-        user: 'ddldoor',
+        user: 'admin',
         pass: process.env.DB_PW
     }
 );
