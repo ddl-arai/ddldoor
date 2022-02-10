@@ -79,6 +79,12 @@ dbRouter.get('/cards', (req, res, next) => {
   });
 });
 
+/**
+ * TODO:
+ * Prohibit the duplicated idm!
+ * Make the process in server or client
+ */
+
 /* POST db/card */
 dbRouter.post('/card', (req, res, next) => {
   Card.create(req.body, error => {

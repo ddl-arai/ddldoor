@@ -12,15 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./edit-card-dialog.component.scss']
 })
 export class EditCardDialogComponent implements OnInit {
-  member: member = {
-    id: 0,
-    name: '',
-    lastname: '',
-    firstname: '',
-    company: '',
-    attendance: false,
-    initial: true
-  }
+  members: member[] = []; 
   card: card = {
     idm: '',
     id: 0,
@@ -57,9 +49,9 @@ export class EditCardDialogComponent implements OnInit {
     this.dbService.get<card>('card', idm)
     .subscribe(card => {
       this.card = card;
-      this.dbService.get<member>('member', this.card.id)
-      .subscribe(member => {
-        this.member = member;
+      this.dbService.getAll<member>('members')
+      .subscribe(members => {
+        this.members = members;
         this.enableControl.setValue(this.card.enable);
       })
     })
