@@ -74,7 +74,7 @@ export class NfcComponent implements OnInit {
 							id: card.id,
 							name:  member.name,
 							enable: enable,
-							expire: `${expire.getFullYear()}/${expire.getMonth() + 1}/${expire.getDay()}`,
+							expire: `${expire.getFullYear()}/${('0' + (expire.getMonth() + 1).toString()).slice(-2)}/${('0' + expire.getDay().toString()).slice(-2)}`,
 							remark: card.remark
 						});
 					}
