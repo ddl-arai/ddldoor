@@ -3,6 +3,7 @@ let dbRouter = express.Router();
 let User = require('../models/user');
 let Member = require('../models/member');
 let Card = require('../models/card');
+let Log = require('../models/log');
 let bcrypt = require('bcrypt');
 const saltRounds = 10;
 
