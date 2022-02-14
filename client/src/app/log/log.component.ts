@@ -27,8 +27,8 @@ export class LogComponent implements OnInit, AfterViewInit{
   ];
   dataSource = new MatTableDataSource<displayData>();
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  //@ViewChild(MatPaginator) paginator!: MatPaginator;
+  //@ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private dbService: DbService,
@@ -40,8 +40,8 @@ export class LogComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    //this.dataSource.paginator = this.paginator;
+    //this.dataSource.sort = this.sort;
   }
 
   getLogs(): void {
