@@ -38,7 +38,7 @@ export class LogComponent implements OnInit, AfterViewInit{
 
   constructor(
     private dbService: DbService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -75,19 +75,13 @@ export class LogComponent implements OnInit, AfterViewInit{
     this.ngOnInit();
   }
 
-  onCSVExport(): void {
-
-  }
-
   pad(number: number): string {
     let str: string = `${('0' + String(number)).slice(-2)}`;
     return str;
   }
 
   onFilter(): void {
-    console.log(this.range.value['start']);
-    console.log(this.range.value['end']);
-    this.dataSource.data = this.dataSource.data.filter(e => new Date(e.date) >= this.range.value['start'] && new Date(e.date) <= this.range.value['end']);
+    this.dataSource.data = this.dataSource.data.filter(element => new Date(element.date) >= this.range.value['start'] && new Date(element.date) <= this.range.value['end']);
   }
 
 }

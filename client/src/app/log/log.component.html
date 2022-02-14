@@ -2,28 +2,26 @@
     <mat-card-header class="header">
         <mat-card-title>ログ</mat-card-title>
 
-            <span fxLayout="row" fxFlexOffset="auto" fxLayoutGap="24px">
+            <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="24px">
+                <mat-form-field class="example-full-width">
+                    <mat-label>日付フィルター</mat-label>
+                    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                        <input matStartDate formControlName="start" placeholder="開始日" readonly>
+                        <input matEndDate formControlName="end" placeholder="終了日" readonly>
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker>
+                        <mat-datepicker-actions>
+                            <button mat-button matDatepickerCancel>キャンセル</button>
+                            <button mat-raised-button color="primary" (click)="onFilter()" matDatepickerApply>フィルター</button>
+                        </mat-datepicker-actions>
+                    </mat-date-range-picker>
+                    <!--
+                    <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid')">不正な開始時刻です</mat-error>
+                    <mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">不正な終了時刻です</mat-error>
+                    -->
+                </mat-form-field>
                 <button mat-icon-button color="accent" (click)="onRefresh()"><mat-icon class="refresh-icon">refresh</mat-icon></button>
-                <div class="date-picker">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>日付範囲の選択</mat-label>
-                            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                                <input matStartDate formControlName="start" placeholder="開始日付">
-                                <input matEndDate formControlName="end" placeholder="終了日付">
-                            </mat-date-range-input>
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker>
-                                <mat-datepicker-actions>
-                                    <button mat-button matDatepickerCancel>キャンセル</button>
-                                    <button mat-raised-button color="primary" (click)="onFilter()" matDatepickerApply>フィルター</button>
-                                </mat-datepicker-actions>
-                            </mat-date-range-picker>
-                        
-                            <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid')">不正な開始時刻です</mat-error>
-                            <mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">不正な終了時刻です</mat-error>
-    
-                        </mat-form-field>
-                </div>
                 <button mat-raised-button color="accent" (click)="exporter.exportTable('csv')">CSV出力</button>
 
             </span>
@@ -62,7 +60,7 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-            <mat-paginator [pageSizeOptions]="[50, 75, 100]"></mat-paginator>
+            <mat-paginator [pageSizeOptions]="[5, 75, 100]"></mat-paginator>
         </div>
     </mat-card-content>
 </mat-card>
