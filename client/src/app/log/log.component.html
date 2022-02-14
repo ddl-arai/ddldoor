@@ -2,8 +2,8 @@
     <mat-card-header class="header">
         <mat-card-title>ログ</mat-card-title>
 
-            <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="24px">
-                <mat-form-field class="example-full-width">
+            <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="24px">
+                <mat-form-field class="example-full-width" appearance="fill">
                     <mat-label>日付フィルター</mat-label>
                     <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
                         <input matStartDate formControlName="start" placeholder="開始日" readonly>

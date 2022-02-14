@@ -28,7 +28,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule, MAT_DATE_LOCALE} from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 
 /* Component */
@@ -93,9 +95,11 @@ import { EditCardDialogComponent } from './edit-card-dialog/edit-card-dialog.com
     MatDatepickerModule,
     MatNativeDateModule
   ],
-  providers: [{
-    provide: MAT_DATE_LOCALE, useValue: 'ja-JP'
-  }],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
