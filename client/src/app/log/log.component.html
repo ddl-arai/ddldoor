@@ -1,6 +1,6 @@
 <mat-card class="data-card">
     <mat-card-header class="header">
-        <mat-card-title>ログ</mat-card-title>
+        <mat-card-title><title>ログ</title></mat-card-title>
 
             <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="24px">
                 <mat-form-field class="example-full-width">
@@ -28,7 +28,7 @@
     </mat-card-header>
     <mat-card-content>
         <div class="mat-elevation-z8">
-            <table mat-table matTableExporter [dataSource]="dataSource" matSort matSortActive="no" matSortDirection="asc" #exporter="matTableExporter">
+            <table mat-table matTableExporter [dataSource]="dataSource" matSort matSortActive="no" matSortDirection="desc" #exporter="matTableExporter">
 
                 <!--- Note that these columns can be defined in any order.
                     The actual rendered columns are set as a property on the row definition" -->
