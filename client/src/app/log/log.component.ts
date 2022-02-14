@@ -43,6 +43,7 @@ export class LogComponent implements OnInit, AfterViewInit{
 
   ngOnInit(): void {
     this.getLogs();
+    this.range.reset();
   }
 
   ngAfterViewInit(): void {
