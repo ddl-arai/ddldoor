@@ -81,7 +81,6 @@ export class LogComponent implements OnInit, AfterViewInit{
 
   pad(number: number): string {
     let str: string = `${('0' + String(number)).slice(-2)}`;
-    console.log(str);
     return str;
   }
 
