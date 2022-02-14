@@ -11,6 +11,8 @@ stampRouter.get('/' , (req, res, next) => {
         res.json(false);
     }
     const now = new Date(req.query.ms);
+    console.log(req.query.ms);
+    
     Log.create({
         date: `${now.getFullYear()}/${zeroPad(now.getMonth() + 1)}/${zeroPad(now.getDay())}`,
         time: `${zeroPad(now.getHours())}:${zeroPad(now.getMinutes())}:${zeroPad(now.getSeconds())}`,
@@ -24,8 +26,8 @@ stampRouter.get('/' , (req, res, next) => {
 });
 
 /* 1 -> 01 */
-function zeroPad(str){
-    return ('0' + str).slice(-2);
+function zeroPad(number){
+    return ('0' + String(number)).slice(-2);
 }
 
 module.exports = stampRouter;
