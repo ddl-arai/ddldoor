@@ -5,6 +5,7 @@ import { DbService } from '../db.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { FormGroup, FormControl } from '@angular/forms';
 
 export interface displayData {
   no: number,
@@ -26,6 +27,11 @@ export class LogComponent implements OnInit, AfterViewInit{
     'idm',
   ];
   dataSource = new MatTableDataSource<displayData>();
+
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

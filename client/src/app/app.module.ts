@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 /* Material */
 import { MatButtonModule } from '@angular/material/button';
@@ -85,7 +86,8 @@ import { EditCardDialogComponent } from './edit-card-dialog/edit-card-dialog.com
     MatDialogModule,
     MatSelectModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatTableExporterModule
   ],
   providers: [],
   bootstrap: [AppComponent],
