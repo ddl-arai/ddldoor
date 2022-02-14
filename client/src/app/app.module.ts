@@ -27,7 +27,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 /* Component */
 import { AppComponent } from './app.component';
@@ -87,7 +87,8 @@ import { EditCardDialogComponent } from './edit-card-dialog/edit-card-dialog.com
     MatSelectModule,
     MatSortModule,
     MatPaginatorModule,
-    MatTableExporterModule
+    MatTableExporterModule,
+    MatDatepickerModule
   ],
   providers: [],
   bootstrap: [AppComponent],
