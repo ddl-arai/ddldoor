@@ -27,8 +27,8 @@ export class LogComponent implements OnInit, AfterViewInit{
   ];
   dataSource = new MatTableDataSource<displayData>();
 
-  //@ViewChild(MatPaginator) paginator!: MatPaginator;
-  //@ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private dbService: DbService,
@@ -40,8 +40,8 @@ export class LogComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    //this.dataSource.paginator = this.paginator;
-    //this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   getLogs(): void {
@@ -53,7 +53,13 @@ export class LogComponent implements OnInit, AfterViewInit{
       }
       let displaylogs: displayData[] = [];
       logs.forEach(log => {
-        displaylogs.push(log);
+        let time = new Date(log.ms);
+        displaylogs.push({
+          no: log.no,
+          date: `${time.getFullYear()}/${this.padding(time.getMonth() + 1)}/${this.padding(time.getDay())}`,
+          time: `${this.padding(time.getHours())}:${this.padding(time.getMinutes())}:${this.padding(time.getSeconds())}`,
+          idm: log.idm,
+        });
       });
       this.dataSource.data = displaylogs;
     })
@@ -65,6 +71,10 @@ export class LogComponent implements OnInit, AfterViewInit{
 
   onCSVExport(): void {
 
+  }
+
+  padding(number: number): string {
+    return `${('0' + String(number)).slice(-2)}`;
   }
 
 }

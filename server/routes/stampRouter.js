@@ -9,13 +9,9 @@ let Log = require('../models/log');
 stampRouter.get('/' , (req, res, next) => {
     if(!req.query.devno || !req.query.idm || !req.query.ms){
         res.json(false);
-    }
-    const now = new Date(req.query.ms);
-    console.log(req.query.ms);
-    
+    }    
     Log.create({
-        date: `${now.getFullYear()}/${zeroPad(now.getMonth() + 1)}/${zeroPad(now.getDay())}`,
-        time: `${zeroPad(now.getHours())}:${zeroPad(now.getMinutes())}:${zeroPad(now.getSeconds())}`,
+        ms: req.query.ms,
         idm: req.query.idm,
         devno: req.query.devno
     }, error => {
@@ -24,10 +20,5 @@ stampRouter.get('/' , (req, res, next) => {
         console.log('After res!');
     });
 });
-
-/* 1 -> 01 */
-function zeroPad(number){
-    return ('0' + String(number)).slice(-2);
-}
 
 module.exports = stampRouter;

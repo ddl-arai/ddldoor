@@ -3,8 +3,7 @@ const autoIncrement = require('mongoose-sequence')(mongoose);
 let Schema = mongoose.Schema;
 let logSchema = new Schema({
     no: Number,
-    date: String,
-    time: String,
+    ms: Number,
     idm: String,
     devno: String
 });
