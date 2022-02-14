@@ -2,5 +2,6 @@ export interface log {
     no: number;
     date: string;
     time: string;
-    idm: string
+    idm: string;
+    devno: number;
 }

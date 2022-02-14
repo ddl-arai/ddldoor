@@ -25,8 +25,9 @@ const bcrypt = require('bcrypt');
 
 let User = require('./models/user');
 
-var authRouter = require('./routes/authRouter');
-var dbRouter = require('./routes/dbRouter');
+let authRouter = require('./routes/authRouter');
+let dbRouter = require('./routes/dbRouter');
+let stampRouter = require('./routes/stampRouter');
 
 let app = express();
 
@@ -89,6 +90,7 @@ function passwordValidator(reqPassword, dbPassword) {
 
 app.use('/auth', authRouter);
 app.use('/db', dbRouter);
+app.use('/stamp', stampRouter);
 
 app.use(express.static(path.join(__dirname, '../client/dist/client')));
 app.use('/*', express.static(path.join(__dirname, '../client/dist/client/index.html')));

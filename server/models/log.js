@@ -6,6 +6,7 @@ let logSchema = new Schema({
     date: String,
     time: String,
     idm: String,
+    devno: String
 });
 logSchema.plugin(autoIncrement, {inc_field: 'no'});
 module.exports = mongoose.model("Log", logSchema, 'log');
