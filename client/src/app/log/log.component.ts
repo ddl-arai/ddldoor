@@ -84,4 +84,8 @@ export class LogComponent implements OnInit, AfterViewInit{
     return str;
   }
 
+  onFilter(): void {
+    this.dataSource.data = this.dataSource.data.filter(e => new Date(e.date) >= this.range.value['start'] && new Date(e.date) <= this.range.value['end']);
+  }
+
 }
