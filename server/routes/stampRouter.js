@@ -10,7 +10,7 @@ stampRouter.get('/' , (req, res, next) => {
     if(!req.query.devno || !req.query.idm || !req.query.ms){
         res.json(false);
     }
-    const now = new Date(req.query.time);
+    const now = new Date(req.query.ms);
     Log.create({
         date: `${now.getFullYear()}/${zeroPad(now.getMonth() + 1)}/${zeroPad(now.getDay())}`,
         time: `${zeroPad(now.getHours())}:${zeroPad(now.getMinutes())}:${zeroPad(now.getSeconds())}`,
