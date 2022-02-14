@@ -56,8 +56,8 @@ export class LogComponent implements OnInit, AfterViewInit{
         let time = new Date(log.ms);
         displaylogs.push({
           no: log.no,
-          date: `${time.getFullYear()}/${this.padding(time.getMonth() + 1)}/${this.padding(time.getDay())}`,
-          time: `${this.padding(time.getHours())}:${this.padding(time.getMinutes())}:${this.padding(time.getSeconds())}`,
+          date: `${time.getFullYear()}/${this.pad(time.getMonth() + 1)}/${this.pad(time.getDate())}`,
+          time: `${this.pad(time.getHours())}:${this.pad(time.getMinutes())}:${this.pad(time.getSeconds())}`,
           idm: log.idm,
         });
       });
@@ -73,7 +73,7 @@ export class LogComponent implements OnInit, AfterViewInit{
 
   }
 
-  padding(number: number): string {
+  pad(number: number): string {
     let str: string = `${('0' + String(number)).slice(-2)}`;
     console.log(str);
     return str;
