@@ -74,7 +74,9 @@ export class LogComponent implements OnInit, AfterViewInit{
   }
 
   padding(number: number): string {
-    return `${('0' + String(number)).slice(-2)}`;
+    let str: string = `${('0' + String(number)).slice(-2)}`;
+    console.log(str);
+    return str;
   }
 
 }
