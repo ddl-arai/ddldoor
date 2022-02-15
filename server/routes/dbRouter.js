@@ -4,6 +4,7 @@ let User = require('../models/user');
 let Member = require('../models/member');
 let Card = require('../models/card');
 let Log = require('../models/log');
+let Device = require('../models/device');
 let bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -107,6 +108,14 @@ dbRouter.get('/logs', (req, res, next) => {
   Log.find({}, (error, logs) => {
     if(error) next(error);
     res.json(logs);
+  });
+});
+
+/* GET db/devices */
+dbRouter.get('/devices', (req, res, next) => {
+  Device.find({}, (error, devices) => {
+    if(error) next(error);
+    res.json(devices);
   });
 });
 
