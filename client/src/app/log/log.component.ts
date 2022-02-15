@@ -6,12 +6,20 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { FormGroup, FormControl } from '@angular/forms';
+import { member } from '../models/member';
+import { device } from '../models/device';
+import { card } from '../models/card';
 
 export interface displayData {
   no: number,
   date: string,
   time: string,
   idm: string,
+  id: number,
+  name: string,
+  devName: string,
+  prevStat: string,
+  success: string
 }
 
 @Component({
@@ -25,6 +33,11 @@ export class LogComponent implements OnInit, AfterViewInit{
     'date',
     'time',
     'idm',
+    'id',
+    'name',
+    'devName',
+    'prevStat',
+    'success'
   ];
   dataSource = new MatTableDataSource<displayData>();
 
@@ -58,18 +71,66 @@ export class LogComponent implements OnInit, AfterViewInit{
         this.snackBar.open('データがありませんでした', '閉じる', {duration: 7000});
         return;
       }
-      let displaylogs: displayData[] = [];
-      logs.forEach(log => {
-        let time = new Date(log.sec * 1000);
-        displaylogs.push({
-          no: log.no,
-          date: `${time.getFullYear()}/${this.pad(time.getMonth() + 1)}/${this.pad(time.getDate())}`,
-          time: `${this.pad(time.getHours())}:${this.pad(time.getMinutes())}:${this.pad(time.getSeconds())}`,
-          idm: log.idm,
+      this.dbService.getAll<device>('devices')
+      .subscribe(devices => {
+        this.dbService.getAll<card>('cards')
+        .subscribe(cards => {
+          this.dbService.getAll<member>('members')
+          .subscribe(members => {      
+            let displaylogs: displayData[] = [];
+            logs.forEach(log => {
+              let time = new Date(log.sec * 1000);
+              let devName: string = '';
+              let id: number = 0;
+              let name: string = '';
+              let prevStat: string = '';
+              let success: string = '';
+              let device = devices.find(el => el.id === log.devid );
+              if(device !== undefined) devName = device.name;
+              let card = cards.find(el => el.idm === log.idm)
+              let member = members.find(el => el.id === card?.id);
+              if(member !== undefined){
+                id = member.id;
+                name = member.name;
+              }
+              switch(log.prevStat){
+                case 1:
+                  prevStat = '在室';
+                  break;
+                case 2:
+                  prevStat = '外室';
+                  break;
+                case 3:
+                  prevStat = 'アンチパスバック'
+                  break;
+                default:
+                  prevStat = '初期状態';
+                  break;
+              }
+              if(log.success){
+                success = '通常タッチOK';
+              }
+              else{
+                success = 'アンチパスバックエラー'
+              }
+
+              displaylogs.push({
+                no: log.no,
+                date: `${time.getFullYear()}/${this.pad(time.getMonth() + 1)}/${this.pad(time.getDate())}`,
+                time: `${this.pad(time.getHours())}:${this.pad(time.getMinutes())}:${this.pad(time.getSeconds())}`,
+                idm: log.idm,
+                id: id,
+                name: name,
+                devName: devName,
+                prevStat: prevStat,
+                success: success
+              });
+            });
+            this.dataSource.data = displaylogs;
+          });
         });
       });
-      this.dataSource.data = displaylogs;
-    })
+    });
   }
 
   onRefresh(): void {

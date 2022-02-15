@@ -3,4 +3,6 @@ export interface log {
     sec: number,
     idm: string,
     devid: number,
+    prevStat: number,
+    success: boolean
 }

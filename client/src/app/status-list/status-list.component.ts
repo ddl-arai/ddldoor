@@ -52,25 +52,33 @@ export class StatusListComponent implements OnInit {
       let displayedMembersAtt: displayData[] = [];
       let displayedMembersAbs: displayData[] = [];
       members.forEach(member => {
-        if(member.initial){
-          displayedMembersIni.push({
-            id: member.id,
-            content: `${member.name}さんは初期状態となっています`
-          });
-        }
-        else{
-          if(member.attendance){
+        switch(member.status){
+          case 0:
+            displayedMembersIni.push({
+              id: member.id,
+              content: `${member.name}さんは初期状態となっています`
+            });
+            break;
+          case 1:
             displayedMembersAtt.push({
               id: member.id,
               content: member.name
             });
-          }
-          else{
+            break;
+          case 2:
             displayedMembersAbs.push({
               id: member.id,
               content: member.name
             });
-          }
+            break;
+          case 3:
+            displayedMembersIni.push({
+              id: member.id,
+              content: `${member.name}さんはアンチパスバックとなっています`
+            });
+            break;
+          default:
+            break;
         }
       });
       this.dataSourceIni.data = displayedMembersIni;

@@ -5,8 +5,7 @@ let mongoose = require("mongoose"),
     lastname: String,
     firstname: String,
     company: String,
-    attendance: Boolean,
-    initial: Boolean
+    status: Number
   });
 
 module.exports = mongoose.model("Member", memberSchema, 'member');

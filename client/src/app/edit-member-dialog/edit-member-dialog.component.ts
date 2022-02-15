@@ -17,8 +17,7 @@ export class EditMemberDialogComponent implements OnInit {
     lastname: '',
     firstname: '',
     company: '',
-    attendance: false,
-    initial: true
+    status: 0
   }
   form!: FormGroup;
   idControl = new FormControl(null, Validators.required);

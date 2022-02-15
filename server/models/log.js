@@ -5,7 +5,9 @@ let logSchema = new Schema({
     no: Number,
     sec: Number,
     idm: String,
-    devid: Number
+    devid: Number,
+    prevStat: Number,
+    success: Boolean
 });
 logSchema.plugin(autoIncrement, {inc_field: 'no'});
 module.exports = mongoose.model("Log", logSchema, 'log');

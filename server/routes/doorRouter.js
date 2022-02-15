@@ -6,7 +6,7 @@ let Log = require('../models/log');
 let Device = require('../models/device');
 
 /* GET /door?request=(string)&devid=(number)&idm=(string)&sec=(number) */
-doorRouter.get('/' , (req, res, next) => {
+doorRouter.get('/' , async (req, res, next) => {
     if(!req.query.devid || !req.query.idm || !req.query.sec || !req.query.request){
         res.json({
             result: 2,
@@ -15,43 +15,38 @@ doorRouter.get('/' , (req, res, next) => {
         return;
     }
 
-    switch (req.query.request) {
+    switch(req.query.request){
         case 'stamp':
-            /* First save log */
-            Log.create({
-                sec: req.query.sec,
-                idm: req.query.idm,
-                devid: req.query.devid
-            }, async (error) => {
-                if(error) next(error);
-                
-                /* Manage status */
-                try {
-                    let card = await Card.findOne({idm: req.query.idm}).exec();
-                    if(!card){
-                        res.json({
-                            result: 2,
-                            message: 'Not registered idm'
-                        });
-                        return;
-                    }
-                    let device = await Device.findOne({id: req.query.devid}).exec();
-                    if(!device){
-                        res.json({
-                            result: 2,
-                            message: 'Not registered device'
-                        });
-                        return;
-                    }
-                    let member = await Member.findOne({id: card.id}).exec();
-                    if(member.initial){
-                        member.initial = false;
+            /* Processing status logic */
+            try {
+                let card = await Card.findOne({idm: req.query.idm}).exec();
+                if(!card){
+                    res.json({
+                        result: 2,
+                        message: 'Not registered idm'
+                    });
+                    return;
+                }
+                let device = await Device.findOne({id: req.query.devid}).exec();
+                if(!device){
+                    res.json({
+                        result: 2,
+                        message: 'Not registered device'
+                    });
+                    return;
+                }
+                let member = await Member.findOne({id: card.id}).exec();
+                const prevStat = member.status;
+                let success = true;
+                switch(member.status){
+                    /* Initial */
+                    case 0:
                         switch(device.func){
                             case 'enter':
-                                member.attendance = true;
+                                member.status = 1;
                                 break;
                             case 'exit':
-                                member.attendance = false;
+                                member.status = 2;
                                 break;
                             default:
                                 break;
@@ -61,51 +56,76 @@ doorRouter.get('/' , (req, res, next) => {
                             result: 0,
                             message: 'Success'
                         });
-                    }
-                    else{
+                        break;
+                    /* Attendance */
+                    case 1:
                         switch(device.func){
                             case 'enter':
-                                if(member.attendance){
-                                    res.json({
-                                        result: 1,
-                                        message: 'APB Error'
-                                    });
-                                }
-                                else{
-                                    member.attendance = true;
-                                    await member.save();
-                                    res.json({
-                                        result: 0,
-                                        message: 'Success'
-                                    });
-                                }
+                                member.status = 3;
+                                success = false
+                                res.json({
+                                    result: 1,
+                                    message: 'APB Error'
+                                });
                                 break;
                             case 'exit':
-                                if(!member.attendance){
-                                    res.json({
-                                        result: 1,
-                                        message: 'APB Error'
-                                    });
-                                }
-                                else{
-                                    member.attendance = false;
-                                    await member.save();
-                                    res.json({
-                                        result: 0,
-                                        message: 'Success'
-                                    });
-                                }
+                                member.status = 2;
+                                res.json({
+                                    result: 0,
+                                    message: 'Success'
+                                });
                                 break;
                             default:
                                 break;
                         }
-                    }
+                        await member.save();
+                        break;
+                    /* Absence */
+                    case 2:
+                        switch(device.func){
+                            case 'enter':
+                                member.status = 1;
+                                res.json({
+                                    result: 0,
+                                    message: 'Success'
+                                });
+                                break;
+                            case 'exit':
+                                member.status = 3;
+                                success = false;
+                                res.json({
+                                    result: 1,
+                                    message: 'APB Error'
+                                });
+                                break;
+                            default:
+                                break;
+                        }
+                        await member.save();
+                        break;
+                    /* APB */
+                    case 3:
+                        success = false;
+                        res.json({
+                            result: 1,
+                            message: 'APB Error'
+                        });
+                        break;
+                    default:
+                        break;
                 }
-                catch(error){
-                    next(error);
-                } 
+                await Log.create({
+                    sec: req.query.sec,
+                    idm: req.query.idm,
+                    devid: req.query.devid,
+                    prevStat: prevStat,
+                    success: success
+                });
 
-            });
+            }
+            catch(error){
+                next(error);
+            } 
             break;
         case 'open':
             break;
@@ -115,7 +135,8 @@ doorRouter.get('/' , (req, res, next) => {
             res.json({
                 result: 2,
                 message: 'Not found reqeust'
-            })
+            });
+            break;
     } 
 });
 
