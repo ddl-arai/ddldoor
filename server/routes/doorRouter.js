@@ -6,7 +6,7 @@ let Log = require('../models/log');
 let Device = require('../models/device');
 
 /* GET /door?request=(string)&devid=(number)&idm=(string)&sec=(number) */
-doorRouter.get('/' , (req, res, next) => {
+doorRouter.get('/' , async (req, res, next) => {
     if(!req.query.devid || !req.query.idm || !req.query.sec || !req.query.request){
         res.json({
             result: 2,
