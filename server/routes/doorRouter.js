@@ -8,10 +8,10 @@ let Log = require('../models/log');
 /* GET /door?request=(string)&devid=(number)&idm=(string)&sec=(number) */
 doorRouter.get('/' , (req, res, next) => {
     if(!req.query.devid || !req.query.idm || !req.query.sec || !req.query.request){
-        res.json(JSON.stringify({
+        res.json({
             status: 2,
             message: 'Invalid parameters'
-        }));
+        });
         return;
     }
 
@@ -23,10 +23,10 @@ doorRouter.get('/' , (req, res, next) => {
                 devid: req.query.devid
             }, error => {
                 if(error) next(error);
-                res.json(JSON.stringify({
+                res.json({
                     status: 0,
                     message: 'Success'
-                }));
+                });
                 console.log('After res!');
             });
             break;
@@ -35,10 +35,10 @@ doorRouter.get('/' , (req, res, next) => {
         case 'something':
             break;
         default:
-            res.json(JSON.stringify({
+            res.json({
                 status: 2,
                 message: 'Not found the reqeust'
-            }))
+            })
     } 
 });
 
