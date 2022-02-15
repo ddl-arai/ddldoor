@@ -27,7 +27,7 @@ let User = require('./models/user');
 
 let authRouter = require('./routes/authRouter');
 let dbRouter = require('./routes/dbRouter');
-let stampRouter = require('./routes/stampRouter');
+let doorRouter = require('./routes/doorRouter');
 
 let app = express();
 
@@ -90,7 +90,7 @@ function passwordValidator(reqPassword, dbPassword) {
 
 app.use('/auth', authRouter);
 app.use('/db', dbRouter);
-app.use('/stamp', stampRouter);
+app.use('/door', doorRouter);
 
 app.use(express.static(path.join(__dirname, '../client/dist/client')));
 app.use('/*', express.static(path.join(__dirname, '../client/dist/client/index.html')));
@@ -100,7 +100,10 @@ app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
+    
+    // For debug
     console.log(res.locals.message);
+    
     // render the error page
     res.status(err.status || 500);
     res.json('Something error happened!');
