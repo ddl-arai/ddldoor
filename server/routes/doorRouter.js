@@ -9,7 +9,7 @@ let Log = require('../models/log');
 doorRouter.get('/' , (req, res, next) => {
     if(!req.query.devid || !req.query.idm || !req.query.sec || !req.query.request){
         res.json({
-            status: 2,
+            result: 2,
             message: 'Invalid parameters'
         });
         return;
@@ -24,7 +24,7 @@ doorRouter.get('/' , (req, res, next) => {
             }, error => {
                 if(error) next(error);
                 res.json({
-                    status: 0,
+                    result: 0,
                     message: 'Success'
                 });
                 console.log('After res!');
@@ -36,7 +36,7 @@ doorRouter.get('/' , (req, res, next) => {
             break;
         default:
             res.json({
-                status: 2,
+                result: 2,
                 message: 'Not found the reqeust'
             })
     } 
