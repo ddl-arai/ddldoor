@@ -1,6 +1,6 @@
 export interface log {
     no: number,
-    ms: number,
+    sec: number,
     idm: string,
-    devno: number,
+    devid: number,
 }

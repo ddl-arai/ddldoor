@@ -3,9 +3,9 @@ const autoIncrement = require('mongoose-sequence')(mongoose);
 let Schema = mongoose.Schema;
 let logSchema = new Schema({
     no: Number,
-    ms: Number,
+    sec: Number,
     idm: String,
-    devno: String
+    devid: String
 });
 logSchema.plugin(autoIncrement, {inc_field: 'no'});
 module.exports = mongoose.model("Log", logSchema, 'log');

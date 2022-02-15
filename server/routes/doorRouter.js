@@ -15,9 +15,9 @@ doorRouter.get('/' , (req, res, next) => {
     switch (req.query.request) {
         case 'stamp':
             Log.create({
-                ms: req.query.ms,
+                sec: req.query.sec,
                 idm: req.query.idm,
-                devno: req.query.devno
+                devid: req.query.devid
             }, error => {
                 if(error) next(error);
                 res.json(true);
