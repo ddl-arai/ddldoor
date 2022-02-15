@@ -60,7 +60,7 @@ export class LogComponent implements OnInit, AfterViewInit{
       }
       let displaylogs: displayData[] = [];
       logs.forEach(log => {
-        let time = new Date(log.sec);
+        let time = new Date(log.sec * 1000);
         displaylogs.push({
           no: log.no,
           date: `${time.getFullYear()}/${this.pad(time.getMonth() + 1)}/${this.pad(time.getDate())}`,
