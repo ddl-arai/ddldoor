@@ -108,4 +108,21 @@ export class MemberComponent implements OnInit {
   onRefresh(): void {
     this.ngOnInit();
   }
+
+  onReset(id: number): void {
+    this.dbService.get<member>('member', id)
+    .subscribe(member => {
+      member.status = 0;
+      this.dbService.update<member>('member', member)
+      .subscribe(result => {
+        if(result){
+          this.snackBar.open('APB解除しました', '閉じる', {duration: 5000});
+          this.ngOnInit();
+        }
+        else{
+          this.snackBar.open('APB解除できませんでした', '閉じる', {duration: 7000});
+        }
+      });
+    });
+  }
 }
