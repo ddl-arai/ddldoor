@@ -33,7 +33,7 @@ doorRouter.get('/' , (req, res, next) => {
                             result: 2,
                             message: 'Not registered idm'
                         });
-                        break;
+                        return;
                     }
                     let device = await Device.findOne({id: req.query.devid}).exec();
                     if(!device){
@@ -41,7 +41,7 @@ doorRouter.get('/' , (req, res, next) => {
                             result: 2,
                             message: 'Not registered device'
                         });
-                        break;
+                        return;
                     }
                     let member = await Member.findOne({id: card.id}).exec();
                     if(member.initial){
