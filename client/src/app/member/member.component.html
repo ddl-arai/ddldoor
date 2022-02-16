@@ -46,8 +46,8 @@
             <ng-container matColumnDef="enable">
                 <th mat-header-cell *matHeaderCellDef>有効/無効</th>
                 <td mat-cell *matCellDef="let element">
-                  <span *ngIf="element.enable=='有効'">{{element.enable}}</span>
-                  <span *ngIf="element.enable=='無効'" color="accent">{{element.enable}}</span>
+                  <span class="table-safe" *ngIf="element.enable=='有効'">{{element.enable}}</span>
+                  <span class="table-accent" *ngIf="element.enable=='無効'">{{element.enable}}</span>
                 </td>
             </ng-container>
 
@@ -57,9 +57,9 @@
                 <td mat-cell *matCellDef="let element">
                     <div [ngSwitch]="element.status">
                         <span class="table-primary" *ngSwitchCase="'外室'">{{element.status}}</span>
-                        <span *ngSwitchCase="'在室'">{{element.status}}</span>
-                        <span color="accent" *ngSwitchCase="'初期状態'">{{element.status}}</span>
-                        <span color="warn" *ngSwitchCase="'アンチパスバック'">
+                        <span class="table-safe" *ngSwitchCase="'在室'">{{element.status}}</span>
+                        <span class="table-accent" *ngSwitchCase="'初期状態'">{{element.status}}</span>
+                        <span class="table-warn" *ngSwitchCase="'アンチパスバック'">
                             {{element.status}}
                             <button mat-icon-button (click)="onReset(element.id)">
                                 <mat-icon>new_releases</mat-icon>
