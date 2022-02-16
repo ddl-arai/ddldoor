@@ -31,7 +31,7 @@ export class DeleteDeviceDialogComponent implements OnInit {
   }
 
   onDelete(): void {
-    this.dbService.delete<device>('member', this.data.id)
+    this.dbService.delete<device>('device', this.data.id)
     .subscribe(result => {
       if(result){
         this.snackBar.open('削除しました', '閉じる', {duration: 5000});

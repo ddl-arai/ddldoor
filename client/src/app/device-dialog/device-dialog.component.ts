@@ -25,7 +25,7 @@ export class DeviceDialogComponent implements OnInit {
   form!: FormGroup;
   idControl = new FormControl(null, Validators.required);
   nameControl = new FormControl(null, Validators.required);
-  funcControl = new FormControl(null);
+  funcControl = new FormControl(null, Validators.required);
   funcList: viewFunc[] = [
     {view: '入口', value: 'enter'},
     {view: '出口', value: 'exit'}
@@ -52,21 +52,16 @@ export class DeviceDialogComponent implements OnInit {
     this.device.id = this.form.get('id')?.value;
     this.device.name = this.form.get('name')?.value;
     this.device.func = this.form.get('func')?.value;
-    if(this.device.func === ''){
-      this.snackBar.open('役割を選択してください', '閉じる', {duration: 7000});
-    }
-    else{
-      this.dbService.add<device>('device', this.device)
-      .subscribe(result => {
-        if(result){
-          this.snackBar.open('登録しました', '閉じる', {duration: 5000});
-          this.dialogRef.close();
-        }
-        else{
-          this.snackBar.open('登録できませんでした', '閉じる', {duration: 7000});
-        }
-      })
-    }
+    this.dbService.add<device>('device', this.device)
+    .subscribe(result => {
+      if(result){
+        this.snackBar.open('登録しました', '閉じる', {duration: 5000});
+        this.dialogRef.close();
+      }
+      else{
+        this.snackBar.open('登録できませんでした', '閉じる', {duration: 7000});
+      }
+    });
   }
 
   onCancel(): void {
