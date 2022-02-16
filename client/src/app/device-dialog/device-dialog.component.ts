@@ -25,7 +25,7 @@ export class DeviceDialogComponent implements OnInit {
   form!: FormGroup;
   idControl = new FormControl(null, Validators.required);
   nameControl = new FormControl(null, Validators.required);
-  selectedFunc: string = '';
+  funcControl = new FormControl(null);
   funcList: viewFunc[] = [
     {view: '入口', value: 'enter'},
     {view: '出口', value: 'exit'}
@@ -43,14 +43,15 @@ export class DeviceDialogComponent implements OnInit {
     this.idOptions = this.idOptions.filter(i => this.usedIds.indexOf(i) === -1);
     this.form = this.fb.group({
       id: this.idControl,
-      name: this.nameControl
+      name: this.nameControl,
+      func: this.funcControl
     });
   }
 
   onSubmit(): void {
     this.device.id = this.form.get('id')?.value;
     this.device.name = this.form.get('name')?.value;
-    this.device.func = this.selectedFunc;
+    this.device.func = this.form.get('func')?.value;
     if(this.device.func === ''){
       this.snackBar.open('役割を選択してください', '閉じる', {duration: 7000});
     }
