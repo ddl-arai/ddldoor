@@ -16,9 +16,12 @@
           </mat-error>
         </mat-form-field>
 
-        <label>役割</label>
-        <mat-radio-group [(ngModel)]="device.func">
+        <mat-label>役割</mat-label>
+        <mat-radio-group formControlName="func">
             <mat-radio-button *ngFor="let func of funcList" [value]="func.value">{{func.view}}</mat-radio-button>
+            <mat-error *ngIf="funcControl.hasError('required')">
+                <strong>役割を選択してください</strong>
+            </mat-error>
         </mat-radio-group>
         
       </div>

@@ -24,6 +24,7 @@ export class EditDeviceDialogComponent implements OnInit {
   form!: FormGroup;
   idControl = new FormControl(null, Validators.required);
   nameControl = new FormControl(null, Validators.required);
+  funcControl = new FormControl(null, Validators.required);
   funcList: viewFunc[] = [
     {view: '入口', value: 'enter'},
     {view: '出口', value: 'exit'}
@@ -41,16 +42,21 @@ export class EditDeviceDialogComponent implements OnInit {
     this.getDevice(this.id);
     this.form = this.fb.group({
       id: this.idControl,
-      name: this.nameControl
+      name: this.nameControl,
+      func: this.funcControl
     });
   }
 
   getDevice(id: number): void {
     this.dbService.get<device>('device', id)
-    .subscribe(device => this.device = device);
+    .subscribe(device => {
+      this.device = device;
+      this.funcControl.setValue(this.device.func);
+    });
   }
 
   onSave(): void {
+    this.device.func = this.form.get('func')?.value;
     this.dbService.update<device>('device', this.device)
     .subscribe(result => {
       if(result){
