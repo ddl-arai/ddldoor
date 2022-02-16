@@ -24,7 +24,7 @@
         </mat-form-field>
 
         <label>役割</label>
-        <mat-radio-group [(ngModel)]="device.func">
+        <mat-radio-group [(ngModel)]="selectedFunc">
             <mat-radio-button *ngFor="let func of funcList" [value]="func.value">{{func.view}}</mat-radio-button>
         </mat-radio-group>
         
