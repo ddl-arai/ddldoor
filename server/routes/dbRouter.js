@@ -20,9 +20,9 @@ dbRouter.post('/user', (req, res, next) => {
   });
 });
 
-/* POST db/user/exist */
-dbRouter.post('/user/exist', (req, res, next) => {
-  User.findOne({email: req.body['email']}, (error, user) => {
+/* POST db/user/exist/:email */
+dbRouter.get('/user/exist/:email', (req, res, next) => {
+  User.findOne({email: req.params.email}, (error, user) => {
       if(error) next(error);
       if(!user){
           res.json(false);

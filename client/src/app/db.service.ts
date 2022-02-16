@@ -24,6 +24,7 @@ export class DbService {
     );
   }
 
+  /*
   userExist(email: string): Observable<boolean> {
     return this.http.post<boolean>('db/user/exist', JSON.stringify({"email": email}), this.httpOptions)
     .pipe(
@@ -41,6 +42,22 @@ export class DbService {
 
   cardExist(idm: string): Observable<boolean> {
     return this.http.get<boolean>(`db/card/exist/${idm}`, this.httpOptions)
+    .pipe(
+      map(result => {
+        if(result){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }),
+      catchError(this.handleError<boolean>(false))
+    );
+  }*/
+
+  exist(kind: string, id: string): Observable<boolean> {
+    const url = `db/${kind}/exist/${id}`;
+    return this.http.get<boolean>(url, this.httpOptions)
     .pipe(
       map(result => {
         if(result){

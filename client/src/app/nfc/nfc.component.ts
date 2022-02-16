@@ -112,7 +112,7 @@ export class NfcComponent implements OnInit {
 		});
 	}
 
-	onDelete(idm: number, name: string): void {
+	onDelete(idm: number): void {
 		let dialogRef = this.dialog.open(DeleteCardDialogComponent, {
 		  width: '400px',
 		  data: idm

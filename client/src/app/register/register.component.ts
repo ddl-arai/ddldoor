@@ -51,10 +51,10 @@ export class RegisterComponent implements OnInit {
       return;
     }
     else{
-      this.dbService.userExist(this.user.email)
+      this.dbService.exist('user', this.user.email)
       .subscribe(exist => {
         if(exist){
-          this.snackBar.open('同アドレスは既に登録済みです', '閉じる', { duration: 5000 });
+          this.snackBar.open('このアドレスは既に登録済みです', '閉じる', { duration: 5000 });
           //this.router.navigate(['login']);
         }
         else{

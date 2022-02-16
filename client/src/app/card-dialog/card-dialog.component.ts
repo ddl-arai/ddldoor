@@ -64,7 +64,7 @@ export class CardDialogComponent implements OnInit {
      /* Expired after 5 yeas */
     let now = new Date();
     this.card.expire = new Date(now.setFullYear(now.getFullYear() + 5)).toString();
-    this.dbService.cardExist(this.card.idm)
+    this.dbService.exist('card', this.card.idm)
     .subscribe(result => {
       if(result){
         this.snackBar.open('このIDmは既に登録されいます', '閉じる', {duration: 7000});
