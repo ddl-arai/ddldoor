@@ -65,6 +65,14 @@ dbRouter.put('/member', (req, res, next) => {
   });
 });
 
+/* DELETE db/member/:id */
+dbRouter.delete('/member/:id', (req, res, next) => {
+  Member.deleteOne({id: req.params.id}, error => {
+    if(error) next(error);
+    res.json(true);
+  });
+});
+
 /* GET db/card/:idm */
 dbRouter.get('/card/:idm', (req, res, next) => {
   Card.findOne({idm: req.params.idm}, (error, card) => {

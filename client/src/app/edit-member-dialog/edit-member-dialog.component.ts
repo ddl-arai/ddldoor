@@ -61,6 +61,7 @@ export class EditMemberDialogComponent implements OnInit {
     this.dbService.update<member>('member', this.member)
     .subscribe(result => {
       if(result){
+        this.snackBar.open('更新しました', '閉じる', {duration: 5000});
         this.dialogRef.close();
       }
       else{

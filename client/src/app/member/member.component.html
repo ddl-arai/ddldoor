@@ -46,8 +46,8 @@
             <ng-container matColumnDef="enable">
                 <th mat-header-cell *matHeaderCellDef>有効/無効</th>
                 <td mat-cell *matCellDef="let element">
-                  <span *ngIf="element.enable=='有効'" style="color: green;">{{element.enable}}</span>
-                  <span *ngIf="element.enable=='無効'" style="color: red;">{{element.enable}}</span>
+                  <span *ngIf="element.enable=='有効'">{{element.enable}}</span>
+                  <span *ngIf="element.enable=='無効'" color="accent">{{element.enable}}</span>
                 </td>
             </ng-container>
 
@@ -55,12 +55,12 @@
             <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef>状況</th>
                 <td mat-cell *matCellDef="let element">
-                    <span *ngIf="element.status=='外室'" style="color: blue;">{{element.status}}</span>
-                    <span *ngIf="element.status=='在室'" style="color: green;">{{element.status}}</span>
-                    <span *ngIf="element.status=='初期状態'" style="color: orange;">{{element.status}}</span>
-                    <span *ngIf="element.status=='アンチパスバック'" style="color: red;">
+                    <span *ngIf="element.status=='外室'" color="primary">{{element.status}}</span>
+                    <span *ngIf="element.status=='在室'">{{element.status}}</span>
+                    <span *ngIf="element.status=='初期状態'" color="accent">{{element.status}}</span>
+                    <span *ngIf="element.status=='アンチパスバック'" color="warn">
                         {{element.status}}
-                        <button mat-icon-button color="accent" (click)="onReset(element.id)">
+                        <button mat-icon-button color="warn" (click)="onReset(element.id)">
                             <mat-icon>new_releases</mat-icon>
                         </button>
                     </span>
@@ -68,11 +68,14 @@
             </ng-container>
 
             <!-- edit Column -->
-            <ng-container matColumnDef="edit">
-                <th mat-header-cell *matHeaderCellDef>編集</th>
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef>アクション</th>
                 <td mat-cell *matCellDef="let element">
                     <button mat-icon-button color="primary" (click)="onEdit(element.id)">
                         <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="onDelete(element.id, element.name)">
+                        <mat-icon>delete</mat-icon>
                     </button> 
                 </td>
             </ng-container>

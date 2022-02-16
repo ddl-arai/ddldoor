@@ -86,6 +86,22 @@ export class DbService {
       catchError(this.handleError<boolean>(false))
     );
   }
+
+  delete<T>(kind: string, id: number | string): Observable<boolean>{
+    const url = `db/${kind}/${id}`;
+    return this.http.delete<T>(url, this.httpOptions)
+    .pipe(
+      map(result => {
+        if(result){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }),
+      catchError(this.handleError<boolean>(false))
+    );
+  }
   
 
   private handleError<T>(result?: T) {

@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { MemberDialogComponent } from '../member-dialog/member-dialog.component';
 import { EditMemberDialogComponent } from '../edit-member-dialog/edit-member-dialog.component';
+import { DeleteMemberDialogComponent } from '../delete-member-dialog/delete-member-dialog.component';
 
 
 export interface displayData {
@@ -34,7 +35,7 @@ export class MemberComponent implements OnInit {
     'company',
     'enable',
     'status',
-    'edit'
+    'action'
   ];
   dataSource = new MatTableDataSource<displayData>();
   usedIds: number[] = [];
@@ -133,6 +134,19 @@ export class MemberComponent implements OnInit {
           this.snackBar.open('APB解除できませんでした', '閉じる', {duration: 7000});
         }
       });
+    });
+  }
+
+  onDelete(id: number, name: string): void {
+    let dialogRef = this.dialog.open(DeleteMemberDialogComponent, {
+      width: '400px',
+      data: {
+        id: id, 
+        name: name
+      }
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.ngOnInit();
     });
   }
 }

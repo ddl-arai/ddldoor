@@ -62,6 +62,7 @@ export class EditCardDialogComponent implements OnInit {
     this.dbService.update<card>('card', this.card)
     .subscribe(result => {
       if(result){
+        this.snackBar.open('更新しました', '閉じる', {duration: 5000});
         this.dialogRef.close();
       }
       else{

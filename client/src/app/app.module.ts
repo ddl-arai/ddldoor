@@ -47,6 +47,7 @@ import { StatusListComponent } from './status-list/status-list.component';
 import { LogComponent } from './log/log.component';
 import { CardDialogComponent } from './card-dialog/card-dialog.component';
 import { EditCardDialogComponent } from './edit-card-dialog/edit-card-dialog.component';
+import { DeleteMemberDialogComponent } from './delete-member-dialog/delete-member-dialog.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { EditCardDialogComponent } from './edit-card-dialog/edit-card-dialog.com
     StatusListComponent,
     LogComponent,
     CardDialogComponent,
-    EditCardDialogComponent
+    EditCardDialogComponent,
+    DeleteMemberDialogComponent
   ],
   imports: [
     BrowserModule,

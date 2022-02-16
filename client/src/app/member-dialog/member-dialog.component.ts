@@ -64,6 +64,7 @@ export class MemberDialogComponent implements OnInit {
     this.dbService.add<member>('member', this.member)
     .subscribe(result => {
       if(result){
+        this.snackBar.open('登録しました', '閉じる', {duration: 5000});
         this.dialogRef.close();
       }
       else{
