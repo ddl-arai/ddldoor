@@ -51,9 +51,18 @@ dbRouter.get('/members', (req, res, next) => {
 
 /* POST db/member */
 dbRouter.post('/member', (req, res, next) => {
-  Member.create(req.body, error => {
+  Member.find({}, (error, members) => {
     if(error) next(error);
-    res.json(true);
+    let dupMember = members.find(el => el.id === req.body.id);
+    if(dupMember){
+      res.json(false);
+    }
+    else{
+      Member.create(req.body, error => {
+        if(error) next(error);
+        res.json(true);
+      });
+    }
   });
 });
 
@@ -67,10 +76,13 @@ dbRouter.put('/member', (req, res, next) => {
 
 /* DELETE db/member/:id */
 dbRouter.delete('/member/:id', (req, res, next) => {
-  Member.deleteOne({id: req.params.id}, error => {
+  Card.deleteMany({id: req.params.id}, error => {
     if(error) next(error);
-    res.json(true);
-  });
+    Member.deleteOne({id: req.params.id}, error => {
+      if(error) next(error);
+      res.json(true);
+    });
+  })
 });
 
 /* GET db/card/:idm */
@@ -80,6 +92,20 @@ dbRouter.get('/card/:idm', (req, res, next) => {
       res.json(card);
   })
 });
+
+/* GET db/card/exist/:idm */
+dbRouter.get('/card/exist/:idm', (req, res, next) => {
+  Card.findOne({idm:req.params.idm}, (error, card) => {
+    if(error) next(error);
+      if(!card){
+          res.json(false);
+      }
+      else{
+          res.json(true);
+      }
+  });
+});
+
 
 /* GET db/cards */
 dbRouter.get('/cards', (req, res, next) => {
@@ -108,6 +134,14 @@ dbRouter.put('/card', (req, res, next) => {
   Card.updateOne({idm: req.body.idm}, req.body, error => {
       if(error) next(error);
       res.json(true);
+  });
+});
+
+/* DELETE db/card/:id */
+dbRouter.delete('/card/:idm', (req, res, next) => {
+  Card.deleteOne({idm: req.params.idm}, error => {
+    if(error) next(error);
+    res.json(true);
   });
 });
 

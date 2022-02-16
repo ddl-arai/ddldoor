@@ -7,6 +7,7 @@ import { card } from '../models/card';
 import { member } from '../models/member';
 import { CardDialogComponent } from '../card-dialog/card-dialog.component';
 import { EditCardDialogComponent } from '../edit-card-dialog/edit-card-dialog.component';
+import { DeleteCardDialogComponent } from '../delete-card-dialog/delete-card-dialog.component';
 
 
 export interface displayData {
@@ -31,7 +32,7 @@ export class NfcComponent implements OnInit {
 		'enable',
 		'expire',
 		'remark',
-		'edit'
+		'action'
 	];
 	dataSource = new MatTableDataSource<displayData>();
 
@@ -110,4 +111,14 @@ export class NfcComponent implements OnInit {
 			this.ngOnInit();
 		});
 	}
+
+	onDelete(idm: number, name: string): void {
+		let dialogRef = this.dialog.open(DeleteCardDialogComponent, {
+		  width: '400px',
+		  data: idm
+		});
+		dialogRef.afterClosed().subscribe(() => {
+		  this.ngOnInit();
+		});
+	  }
 }

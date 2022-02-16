@@ -39,6 +39,21 @@ export class DbService {
     );
   }
 
+  cardExist(idm: string): Observable<boolean> {
+    return this.http.get<boolean>(`db/card/exist/${idm}`, this.httpOptions)
+    .pipe(
+      map(result => {
+        if(result){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }),
+      catchError(this.handleError<boolean>(false))
+    );
+  }
+
   get<T>(kind: string, id: number | string): Observable<T> {
     const url = `db/${kind}/${id}`;
     return this.http.get<T>(url, this.httpOptions)

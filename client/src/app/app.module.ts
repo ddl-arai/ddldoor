@@ -48,6 +48,7 @@ import { LogComponent } from './log/log.component';
 import { CardDialogComponent } from './card-dialog/card-dialog.component';
 import { EditCardDialogComponent } from './edit-card-dialog/edit-card-dialog.component';
 import { DeleteMemberDialogComponent } from './delete-member-dialog/delete-member-dialog.component';
+import { DeleteCardDialogComponent } from './delete-card-dialog/delete-card-dialog.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { DeleteMemberDialogComponent } from './delete-member-dialog/delete-membe
     LogComponent,
     CardDialogComponent,
     EditCardDialogComponent,
-    DeleteMemberDialogComponent
+    DeleteMemberDialogComponent,
+    DeleteCardDialogComponent
   ],
   imports: [
     BrowserModule,

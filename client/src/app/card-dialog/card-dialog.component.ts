@@ -64,17 +64,26 @@ export class CardDialogComponent implements OnInit {
      /* Expired after 5 yeas */
     let now = new Date();
     this.card.expire = new Date(now.setFullYear(now.getFullYear() + 5)).toString();
-    this.dbService.add<card>('card', this.card)
+    this.dbService.cardExist(this.card.idm)
     .subscribe(result => {
       if(result){
-        this.snackBar.open('登録しました', '閉じる', {duration: 5000});
-        this.dialogRef.close();
+        this.snackBar.open('このIDmは既に登録されいます', '閉じる', {duration: 7000});
+        this.idmControl.setValue('');
+        this.scanStatus = 0;
       }
       else{
-        this.snackBar.open('登録できませんでした', '閉じる', {duration: 7000});
+        this.dbService.add<card>('card', this.card)
+        .subscribe(result => {
+          if(result){
+            this.snackBar.open('登録しました', '閉じる', {duration: 5000});
+            this.dialogRef.close();
+          }
+          else{
+            this.snackBar.open('登録できませんでした', '閉じる', {duration: 7000});
+          }
+        });
       }
     });
-
   }
 
   onScan(): void {
