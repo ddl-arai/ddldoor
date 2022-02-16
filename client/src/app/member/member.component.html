@@ -42,6 +42,15 @@
                 <td mat-cell *matCellDef="let element"> {{element.company}} </td>
             </ng-container>
 
+            <!-- enable Column -->
+            <ng-container matColumnDef="enable">
+                <th mat-header-cell *matHeaderCellDef>有効/無効</th>
+                <td mat-cell *matCellDef="let element">
+                  <span *ngIf="element.enable=='有効'" style="color: green;">{{element.enable}}</span>
+                  <span *ngIf="element.enable=='無効'" style="color: red;">{{element.enable}}</span>
+                </td>
+            </ng-container>
+
             <!-- status Column -->
             <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef>状況</th>

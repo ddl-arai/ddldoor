@@ -11,5 +11,6 @@ export interface member {
     lastname: string,
     firstname: string,
     company: string,
+    enable: boolean,
     status: number
 }

@@ -17,6 +17,7 @@ export class EditMemberDialogComponent implements OnInit {
     lastname: '',
     firstname: '',
     company: '',
+    enable: true,
     status: 0
   }
   form!: FormGroup;
@@ -25,6 +26,7 @@ export class EditMemberDialogComponent implements OnInit {
   lastnameControl = new FormControl(null);
   firstnameControl = new FormControl(null);
   companyControl = new FormControl(null);
+  enableControl = new FormControl(true);
 
   constructor(
     public dialogRef: MatDialogRef<EditMemberDialogComponent>,
@@ -41,16 +43,21 @@ export class EditMemberDialogComponent implements OnInit {
       name: this.nameControl,
       lastname: this.lastnameControl,
       firstname: this.firstnameControl,
-      company: this.companyControl
+      company: this.companyControl,
+      enable: this.enableControl
     });
   }
 
   getMember(id: number): void {
     this.dbService.get<member>('member', id)
-    .subscribe(member => this.member = member)
+    .subscribe(member => {
+      this.member = member;
+      this.enableControl.setValue(this.member.enable);
+    })
   }
 
   onSave(): void {
+    this.member.enable = this.form.get('enable')?.value;
     this.dbService.update<member>('member', this.member)
     .subscribe(result => {
       if(result){

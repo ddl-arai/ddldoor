@@ -17,6 +17,7 @@ export class MemberDialogComponent implements OnInit {
     lastname: '',
     firstname: '',
     company: '',
+    enable: true,
     status: 0
   }
   idOptions: number[] = [...Array(100).keys()].map(i => ++i);
@@ -27,6 +28,7 @@ export class MemberDialogComponent implements OnInit {
   lastnameControl = new FormControl(null);
   firstnameControl = new FormControl(null);
   companyControl = new FormControl(null);
+  enableControl = new FormControl(true);
 
   constructor(
     public dialogRef: MatDialogRef<MemberDialogComponent>,
@@ -43,7 +45,8 @@ export class MemberDialogComponent implements OnInit {
       name: this.nameControl,
       lastname: this.lastnameControl,
       firstname: this.firstnameControl,
-      company: this.companyControl
+      company: this.companyControl,
+      enable: this.enableControl
     });
   }
 
@@ -57,6 +60,7 @@ export class MemberDialogComponent implements OnInit {
     this.member.lastname = this.form.get('lastname')?.value;
     this.member.firstname = this.form.get('firstname')?.value;
     this.member.company = this.form.get('company')?.value;
+    this.member.enable = this.form.get('enable')?.value;
     this.dbService.add<member>('member', this.member)
     .subscribe(result => {
       if(result){

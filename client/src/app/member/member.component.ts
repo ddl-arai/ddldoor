@@ -13,7 +13,8 @@ export interface displayData {
   name: string,
   lastname: string,
   firstname: string,
-  company: string
+  company: string,
+  enable: string, // 有効 or 無効
   status: string  // 在室, 外室, 初期状態 or アンチパスバック
 }
 
@@ -31,6 +32,7 @@ export class MemberComponent implements OnInit {
     'lastname',
     'firstname',
     'company',
+    'enable',
     'status',
     'edit'
   ];
@@ -56,7 +58,14 @@ export class MemberComponent implements OnInit {
       }
       let displayMembers: displayData[] = [];
       members.forEach(member => {
+        let enable: string;
         let status: string;
+        if(member.enable){
+          enable = '有効';
+        }
+        else{
+          enable = '無効';
+        }
         switch(member.status){
           case 1:
             status = '在室';
@@ -77,6 +86,7 @@ export class MemberComponent implements OnInit {
           lastname: member.lastname,
           firstname: member.firstname,
           company: member.company,
+          enable: enable,
           status: status
         });
         this.usedIds.push(member.id);

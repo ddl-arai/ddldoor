@@ -5,6 +5,7 @@ let mongoose = require("mongoose"),
     lastname: String,
     firstname: String,
     company: String,
+    enable: Boolean,
     status: Number
   });
 
