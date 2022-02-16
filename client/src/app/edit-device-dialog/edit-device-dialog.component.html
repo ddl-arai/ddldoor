@@ -1,0 +1,33 @@
+
+<h2 mat-dialog-title>デバイス編集</h2>
+<div mat-dialog-content>
+  <form class="example-form" [formGroup]="form" novalidate (ngSubmit)="onSave()">
+    <mat-card-content>
+      <div fxLayout="column" fxLayoutAlign="space-around">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="ID" name="id" type="number" [(ngModel)]="device.id" formControlName="id" readonly>
+            <mat-hint>IDは編集できません</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="名前" name="name" [(ngModel)]="device.name" formControlName="name">
+          <mat-error *ngIf="nameControl.hasError('required')">
+              <strong>名前を入力してください</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <label>役割</label>
+        <mat-radio-group [(ngModel)]="device.func">
+            <mat-radio-button *ngFor="let func of funcList" [value]="func.value">{{func.view}}</mat-radio-button>
+        </mat-radio-group>
+        
+      </div>
+    </mat-card-content>
+    <span fxLayout="row" fxLayoutAlign="space-between center">
+      <button mat-button type="button" (click)="onCancel()">キャンセル</button>
+      <button mat-raised-button class="btn-block" color="accent" type="submit" [disabled]="form.invalid">更新</button>
+    </span>
+  </form>
+
+
+</div>

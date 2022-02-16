@@ -154,4 +154,36 @@ dbRouter.get('/devices', (req, res, next) => {
   });
 });
 
+/* GET db/device/:idm */
+dbRouter.get('/device/:id', (req, res, next) => {
+  Device.findOne({id: req.params.id}, (error, device) => {
+      if(error) next(error);
+      res.json(device);
+  })
+});
+
+/* PUT db/device */
+dbRouter.put('/device', (req, res, next) => {
+  Device.updateOne({id: req.body.id}, req.body, error => {
+      if(error) next(error);
+      res.json(true);
+  });
+});
+
+/* POST db/device */
+dbRouter.post('/device', (req, res, next) => {
+  Device.create(req.body, error => {
+    if(error) next(error);
+    res.json(true);
+  });
+});
+
+/* DELETE db/device/:id */
+dbRouter.delete('/device/:id', (req, res, next) => {
+  Device.deleteOne({id: req.params.id}, error => {
+    if(error) next(error);
+    res.json(true);
+  });
+});
+
 module.exports = dbRouter;

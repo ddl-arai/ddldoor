@@ -4,6 +4,9 @@ import { device } from '../models/device';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
+import { DeviceDialogComponent } from '../device-dialog/device-dialog.component';
+import { EditDeviceDialogComponent } from '../edit-device-dialog/edit-device-dialog.component';
+import { DeleteDeviceDialogComponent } from '../delete-device-dialog/delete-device-dialog.component';
 
 export interface displayData {
   id: number,
@@ -29,7 +32,8 @@ export class DeviceListComponent implements OnInit {
 
   constructor(
     private dbService: DbService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -73,15 +77,38 @@ export class DeviceListComponent implements OnInit {
   }
 
   onRegister(): void {
+    let dialogRef = this.dialog.open(DeviceDialogComponent, {
+      width: '400px',
+      data: this.usedIds
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.ngOnInit();
+    });
 
   }
 
   onEdit(id: number): void {
+    let dialogRef = this.dialog.open(EditDeviceDialogComponent, {
+      width: '400px',
+      data: id
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.ngOnInit();
+    });
 
   }
 
   onDelete(id: number, name: string): void {
-    
+    let dialogRef = this.dialog.open(DeleteDeviceDialogComponent, {
+      width: '400px',
+      data: {
+        id: id, 
+        name: name
+      }
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.ngOnInit();
+    });
   }
 
 }
