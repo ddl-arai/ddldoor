@@ -8,6 +8,7 @@ import { MemberComponent } from './member/member.component';
 import { AuthGuard } from './auth.guard';
 import { StatusListComponent } from './status-list/status-list.component';
 import { LogComponent } from './log/log.component';
+import { DeviceListComponent } from './device-list/device-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -19,10 +20,12 @@ const routes: Routes = [
     children:[
       { path: 'member', component: MemberComponent },
       { path: 'statusList', component: StatusListComponent },
-      { path: 'log', component: LogComponent }
+      { path: 'log', component: LogComponent },
+      { path: 'deviceList', component: DeviceListComponent }
     ]
   },
-  { path: 'nfc', component: NfcComponent }
+  { path: 'nfc', component: NfcComponent },
+  { path: "**", redirectTo: "home" }
 ];
 
 @NgModule({

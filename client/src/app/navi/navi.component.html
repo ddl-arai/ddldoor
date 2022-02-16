@@ -3,12 +3,13 @@
         [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
         [mode]="(isHandset$ | async) ? 'over' : 'side'"
         [opened]="(isHandset$ | async) === false">
-      <mat-toolbar>DDLDoor</mat-toolbar>
+      <mat-toolbar>メニュー</mat-toolbar>
       <mat-nav-list>
         <a mat-list-item [routerLink]="['/home/member']">メンバー情報</a>
         <a mat-list-item [routerLink]="['/home/statusList']">在外室一覧</a>
         <a mat-list-item [routerLink]="['/home/log']">ログ</a>
         <a mat-list-item [routerLink]="['/nfc']">カードID</a>
+        <a mat-list-item [routerLink]="['/home/deviceList']">デバイス一覧</a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
@@ -17,11 +18,10 @@
           type="button"
           aria-label="Toggle sidenav"
           mat-icon-button
-          (click)="drawer.toggle()"
-          *ngIf="isHandset$ | async">
+          (click)="drawer.toggle()">
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
-        <span></span>
+        <span class="mat-headline">DDLDoor</span>
         <span fxFlexOffset="auto">
           <button
             type="button"

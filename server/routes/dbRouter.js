@@ -106,7 +106,6 @@ dbRouter.get('/card/exist/:idm', (req, res, next) => {
   });
 });
 
-
 /* GET db/cards */
 dbRouter.get('/cards', (req, res, next) => {
   Card.find({}, (error, cards) => {
@@ -114,12 +113,6 @@ dbRouter.get('/cards', (req, res, next) => {
     res.json(cards);
   });
 });
-
-/**
- * TODO:
- * Prohibit the duplicated idm!
- * Make the process in server or client
- */
 
 /* POST db/card */
 dbRouter.post('/card', (req, res, next) => {

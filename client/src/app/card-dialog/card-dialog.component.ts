@@ -67,7 +67,7 @@ export class CardDialogComponent implements OnInit {
     this.dbService.exist('card', this.card.idm)
     .subscribe(result => {
       if(result){
-        this.snackBar.open('このIDmは既に登録されいます', '閉じる', {duration: 7000});
+        this.snackBar.open('このIDmは既に登録されています', '閉じる', {duration: 7000});
         this.idmControl.setValue('');
         this.scanStatus = 0;
       }
