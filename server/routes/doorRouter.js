@@ -27,6 +27,13 @@ doorRouter.get('/' , async (req, res, next) => {
                     });
                     return;
                 }
+                if(!card.enable){
+                    res.json({
+                        result: 2,
+                        message: 'Disable idm'
+                    });
+                    return;
+                }
                 let device = await Device.findOne({id: req.query.devid}).exec();
                 if(!device){
                     res.json({
@@ -36,6 +43,13 @@ doorRouter.get('/' , async (req, res, next) => {
                     return;
                 }
                 let member = await Member.findOne({id: card.id}).exec();
+                if(!member.enable){
+                    res.json({
+                        result: 2,
+                        message: 'Disable member'
+                    });
+                    return;
+                }
                 const prevStat = member.status;
                 let success = true;
                 switch(member.status){
