@@ -56,7 +56,7 @@
                 <th mat-header-cell *matHeaderCellDef>状況</th>
                 <td mat-cell *matCellDef="let element">
                     <div [ngSwitch]="element.status">
-                        <span *ngSwitchCase="'外室'"><span color="primary">{{element.status}}</span></span>
+                        <span class="table-primary" *ngSwitchCase="'外室'">{{element.status}}</span>
                         <span *ngSwitchCase="'在室'">{{element.status}}</span>
                         <span color="accent" *ngSwitchCase="'初期状態'">{{element.status}}</span>
                         <span color="warn" *ngSwitchCase="'アンチパスバック'">
