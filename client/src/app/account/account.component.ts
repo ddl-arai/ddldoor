@@ -5,6 +5,7 @@ import { DbService } from '../db.service';
 import { user } from '../models/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account',
@@ -28,7 +29,8 @@ export class AccountComponent implements OnInit {
     private authService: AuthService,
     private dbService: DbService,
     private snackBar: MatSnackBar,
-    private clipboard: Clipboard
+    private clipboard: Clipboard,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -38,7 +40,13 @@ export class AccountComponent implements OnInit {
   }
 
   onResetPW(): void {
-
+    this.authService.resetPW()
+    .subscribe(token => {
+      this.authService.logout()
+      .subscribe(() => {
+        this.router.navigate([`/reset/${token}`]);
+      });
+    });
   }
 
   onGenAccount(): void {

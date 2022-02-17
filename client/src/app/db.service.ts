@@ -48,6 +48,29 @@ export class DbService {
     );
   }
 
+  tokenCheck(token: string): Observable<any> {
+    return this.http.get(`db/token/${token}`, this.httpOptions)
+    .pipe(
+      catchError(this.handleError<any>(null))
+    );
+  }
+
+  changePW(user: user): Observable<boolean>{
+    return this.http.post('db/change', user, this.httpOptions)
+    .pipe(
+      map(result => {
+        if(result){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }),
+      catchError(this.handleError<boolean>(false)),
+      shareReplay(1)
+    );
+  }
+
   get<T>(kind: string, id: number | string): Observable<T> {
     const url = `db/${kind}/${id}`;
     return this.http.get<T>(url, this.httpOptions)

@@ -2,6 +2,7 @@ let express = require('express');
 let authRouter = express.Router();
 let passport = require('passport');
 let generator = require('generate-password');
+let crypto = require('crypto-js');
 
 /* POST auth/login. */
 authRouter.post('/login', passport.authenticate('local', { session: true }), (req, res) => {
@@ -33,5 +34,24 @@ authRouter.get('/generate', (req, res, next) => {
   });
   res.json(password);
 });
+
+/* GET auth/reset */
+authRouter.get('/reset', (req, res, next) => {
+    crypto.randomBytes(32, (error, buf) => {
+      if(error) next(error);
+      const now = new Date(Date.now() + ((new Date().getTimezoneOffset() + (9 * 60)) * 60 * 1000));
+      const token = buf.toString('hex');
+      const expire = now.setMinutes(now.getMinutes() + 5);  // 5 minitue for expire 
+      User.updateOne({email: req.user['email']}, {
+        pw_reset_token: token,
+        pw_reset_token_expire: expire
+      }, error => {
+        if(error) next(error);
+        res.json(token);
+      });
+    });
+  }  
+);
+
 
 module.exports = authRouter;

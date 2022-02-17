@@ -10,11 +10,12 @@ import { StatusListComponent } from './status-list/status-list.component';
 import { LogComponent } from './log/log.component';
 import { DeviceListComponent } from './device-list/device-list.component';
 import { AccountComponent } from './account/account.component';
+import { ResetComponent } from './reset/reset.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: "reset/:token", component: ResetComponent },
   { path: 'home', 
     component: HomeComponent,
     canActivate: [AuthGuard],

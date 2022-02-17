@@ -57,6 +57,7 @@ import { DeviceDialogComponent } from './device-dialog/device-dialog.component';
 import { EditDeviceDialogComponent } from './edit-device-dialog/edit-device-dialog.component';
 import { DeleteDeviceDialogComponent } from './delete-device-dialog/delete-device-dialog.component';
 import { AccountComponent } from './account/account.component';
+import { ResetComponent } from './reset/reset.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { AccountComponent } from './account/account.component';
     DeviceDialogComponent,
     EditDeviceDialogComponent,
     DeleteDeviceDialogComponent,
-    AccountComponent
+    AccountComponent,
+    ResetComponent
   ],
   imports: [
     BrowserModule,
