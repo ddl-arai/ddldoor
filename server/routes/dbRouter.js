@@ -15,7 +15,7 @@ dbRouter.post('/user', (req, res, next) => {
       req.body['password'] = hash;
       User.create(req.body, error => {
           if(error) next(error);
-          res.json({result: 'success'});
+          res.json(true);
       });
   });
 });

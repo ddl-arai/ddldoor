@@ -16,9 +16,17 @@ export class DbService {
     private http: HttpClient
   ) { }
 
-  createUser(user: user): Observable<any>{
+  createUser(user: user): Observable<boolean>{
     return this.http.post('db/user', user, this.httpOptions)
     .pipe(
+      map(result => {
+        if(result){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }),
       catchError(this.handleError<any>(null)),
       shareReplay(1)
     );

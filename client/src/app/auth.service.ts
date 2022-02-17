@@ -59,7 +59,7 @@ export class AuthService {
   genPW(): Observable<string>{
     return this.http.get<string>('/auth/generate', this.httpOptions)
     .pipe(
-      catchError(this.handleError<string>('Generate failed'))
+      catchError(this.handleError<string>(''))
     );
   }
 
