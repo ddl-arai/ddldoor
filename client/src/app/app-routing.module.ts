@@ -23,10 +23,10 @@ const routes: Routes = [
       { path: 'statusList', component: StatusListComponent },
       { path: 'log', component: LogComponent },
       { path: 'deviceList', component: DeviceListComponent },
-      { path: 'account', component: AccountComponent }
+      //{ path: 'account', component: AccountComponent }
     ]
   },
-  //{ path: 'account', component: AccountComponent },
+  { path: 'account', component: AccountComponent },
   { path: 'nfc', component: NfcComponent },
   { path: "**", redirectTo: "home" }
 ];
