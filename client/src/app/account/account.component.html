@@ -3,30 +3,31 @@
         <mat-card-title class="mat-title">アカウント</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <form [formGroup]="form" novalidate (ngSubmit)="onGenAccount()">
-            <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
-                <span>
-                    <mat-label>アカウント発行</mat-label>
-                    <mat-form-field class="example-full-width">
-                        <input matInput type="email" placeholder="登録するメールアドレス" formControlName="email">
-                        <mat-error *ngIf="emailControl.hasError('required') || emailControl.hasError('email')">
-                            <strong>メールアドレスを入力してください</strong>
-                        </mat-error>
-                    </mat-form-field>
-                </span>
-                <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">発行</button>
+        <div fxLayout="column">
+            <form [formGroup]="form" novalidate (ngSubmit)="onGenAccount()">
+                <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+                    <span>
+                        <mat-label>アカウント発行</mat-label>
+                        <mat-form-field class="example-full-width">
+                            <input matInput type="email" placeholder="登録するメールアドレス" formControlName="email">
+                            <mat-error *ngIf="emailControl.hasError('required') || emailControl.hasError('email')">
+                                <strong>メールアドレスを入力してください</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </span>
+                    <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">発行</button>
+                </div>
+            </form>
+            <div fxLayout="row" fxLayoutAlign=" center" fxFlexOffset="auto">
+                <button mat-raised-button type="button" color="warn" (click)="onResetPW()">パスワードリセット</button>
             </div>
-        </form>
-        <div fxLayout="row" fxLayoutAlign=" center" fxFlexOffset="auto">
-            <button mat-raised-button type="button" color="warn" (click)="onResetPW()">パスワードリセット</button>
+            <span class="password" *ngIf="success">
+                パスワード: <span>{{user.password}}</span>
+                <button mat-icon-button type="button" (click)="onCopy()">
+                    <mat-icon>file_copy</mat-icon>
+                </button>
+            </span>
         </div>
-        <br>
-        <span class=".mat-subheading-1" *ngIf="success">
-            パスワード: <span>{{user.password}}</span>
-            <button mat-icon-button type="button" (click)="onCopy()">
-                <mat-icon>file_copy</mat-icon>
-            </button>
-        </span>
     </mat-card-content>
 </mat-card>
  
