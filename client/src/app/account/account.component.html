@@ -3,33 +3,34 @@
         <mat-card-title class="mat-title">アカウント</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <mat-card fxLayout="row" fxFlexOffset="auto">
-            <table class="example-full-width" cellspacing="0">
-                <tr>
-                    <td>
+        <div fxLayout="row">
+            <div fxFlex="40"></div>
+            <mat-card class="account-card" fxFlex>
+                <mat-list>
+                    <mat-list-item>
                         <mat-form-field class="example-full-width">
                             <mat-label>アカウント名</mat-label>
                             <input matInput>
                             <button mat-raised-button (click)="onSave()">更新</button>
                         </mat-form-field>
-                    </td>
-                    <td>
+            
                         <mat-form-field class="example-full-width">
                             <mat-label>メールアドレス</mat-label>
                             <input matInput>
                         </mat-form-field>
-                    </td>
-                </tr>
-            </table>
-            <mat-divider></mat-divider>
-            <p>
-                <mat-form-field class="example-full-width">
-                    <mat-label>登録するメールアドレス</mat-label>
-                    <input matInput>
-                    <button mat-raised-button color="accent" (click)="onChangePW()">アカウント発行</button>
-                </mat-form-field>
-            </p>
-        </mat-card>
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item>
+                        <mat-form-field class="example-full-width">
+                            <mat-label>登録するメールアドレス</mat-label>
+                            <input matInput>
+                            <button mat-raised-button color="accent" (click)="onChangePW()">アカウント発行</button>
+                        </mat-form-field>
+                    </mat-list-item>
+                </mat-list>
+            </mat-card>
+
+        </div>
     </mat-card-content>
 </mat-card>
   
