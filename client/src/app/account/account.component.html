@@ -1,29 +1,27 @@
 <mat-card>
-    <mat-card-header>
-        <mat-card-title class="mat-title">アカウント設定</mat-card-title>
-    </mat-card-header>
+    <mat-card-title>アカウント設定</mat-card-title>
     <mat-card-content>
-        <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="24px">
-            <mat-form-field class="example-full-width">
-                <mat-label>アカウント名</mat-label>
-                <input matInput>
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <mat-label>メールアドレス</mat-label>
-                <input matInput>
-            </mat-form-field>
-        </span>
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="24px">
+                <mat-form-field class="example-full-width">
+                    <mat-label>アカウント名</mat-label>
+                    <input matInput>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>メールアドレス</mat-label>
+                    <input matInput>
+                </mat-form-field>
+            </span>
 
-        <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="24px">
-            <button mat-raised-button color="primary" (click)="onSave()">更新</button>
-            <button mat-raised-button color="warn" (click)="onChangePW()">パスワードリセット</button>
-        </span>
+            <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="24px">
+                <button mat-raised-button color="primary" (click)="onSave()">更新</button>
+                <button mat-raised-button color="warn" (click)="onChangePW()">パスワードリセット</button>
+            </span>
+        </div>
     </mat-card-content>
   </mat-card>
   <mat-card>
-    <mat-card-header>
-        <mat-card-title class="mat-title">アカウント発行</mat-card-title>
-    </mat-card-header>
+    <mat-card-title>アカウント発行</mat-card-title>
     <mat-card-content>
         <mat-form-field class="example-full-width">
             <mat-label>発行するメールアドレス</mat-label>

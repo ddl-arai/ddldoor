@@ -26,6 +26,7 @@ const routes: Routes = [
       { path: 'account', component: AccountComponent }
     ]
   },
+  //{ path: 'account', component: AccountComponent },
   { path: 'nfc', component: NfcComponent },
   { path: "**", redirectTo: "home" }
 ];
