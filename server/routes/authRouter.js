@@ -2,7 +2,7 @@ let express = require('express');
 let authRouter = express.Router();
 let passport = require('passport');
 let generator = require('generate-password');
-let crypto = require('crypto-js');
+let crypto = require('crypto');
 
 /* POST auth/login. */
 authRouter.post('/login', passport.authenticate('local', { session: true }), (req, res) => {
