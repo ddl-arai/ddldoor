@@ -5,7 +5,10 @@ let logSchema = new Schema({
     no: Number,
     sec: Number,
     idm: String,
+    id: Number,
+    name: String,
     devid: Number,
+    devName: String,
     prevStat: Number,
     success: Boolean
 });

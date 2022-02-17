@@ -131,7 +131,10 @@ doorRouter.get('/' , async (req, res, next) => {
                 await Log.create({
                     sec: req.query.sec,
                     idm: req.query.idm,
+                    id: member.id,
+                    name: member.name,
                     devid: req.query.devid,
+                    devName: device.name,
                     prevStat: prevStat,
                     success: success
                 });
