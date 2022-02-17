@@ -7,20 +7,19 @@
             <div fxFlex="30"></div>
             <mat-card class="account-card" fxFlex>
                 <mat-list>
-                    <mat-list-item>
+                    <mat-list-item fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="16px">
                         <mat-form-field class="example-full-width">
                             <mat-label>アカウント名</mat-label>
                             <input matInput>
                         </mat-form-field>
-                        <button mat-raised-button (click)="onSave()">更新</button>
-            
                         <mat-form-field class="example-full-width">
                             <mat-label>メールアドレス</mat-label>
                             <input matInput>
                         </mat-form-field>
+                        <button mat-raised-button (click)="onSave()">更新</button>
                     </mat-list-item>
                     <mat-divider></mat-divider>
-                    <mat-list-item>
+                    <mat-list-item fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="16px">
                         <mat-form-field class="example-full-width">
                             <mat-label>登録するメールアドレス</mat-label>
                             <input matInput>
