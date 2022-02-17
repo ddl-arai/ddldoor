@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { DbService } from '../db.service';
 import { user } from '../models/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-account',
@@ -26,7 +27,8 @@ export class AccountComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private dbService: DbService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private clipboard: Clipboard
   ) { }
 
   ngOnInit(): void {
@@ -64,6 +66,11 @@ export class AccountComponent implements OnInit {
         });
       }
     });
+  }
+
+  onCopy(): void {
+    this.clipboard.copy(this.user.password);
+    this.snackBar.open('コピーしました', '閉じる', { duration: 4000 });
   }
 
 }

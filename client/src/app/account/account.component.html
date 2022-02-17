@@ -20,6 +20,12 @@
         <div fxLayout="row" fxLayoutAlign=" center" fxFlexOffset="auto">
             <button mat-raised-button type="button" color="warn" (click)="onResetPW()">パスワードリセット</button>
         </div>
+        <p *ngIf="success">
+            {{user.password}}
+            <button mat-icon-button type="button" (click)="onCopy()">
+                <mat-icon>file_copy</mat-icon>
+            </button>
+        </p>
     </mat-card-content>
 </mat-card>
  

@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 /* Material */
 import { MatButtonModule } from '@angular/material/button';
@@ -111,7 +112,8 @@ import { AccountComponent } from './account/account.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatRadioModule,
-    MatDividerModule
+    MatDividerModule,
+    ClipboardModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },
