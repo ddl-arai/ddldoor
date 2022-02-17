@@ -5,16 +5,21 @@
     <mat-card-content>
 
                 <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
-                    <span>
-                        <mat-label>アカウント発行</mat-label>
-                        <mat-form-field class="example-full-width">
-                            <input matInput type="email" [(ngModel)]="email" placeholder="登録するメールアドレス"> 
-                        </mat-form-field>
-                    </span>
-                    <button mat-raised-button color="accent" (click)="onGenAccount()">発行</button>
+                    <form [formGroup]="form" novalidate (ngSubmit)="onGenAccount()">
+                        <span>
+                            <mat-label>アカウント発行</mat-label>
+                            <mat-form-field class="example-full-width">
+                                <input matInput type="email" placeholder="登録するメールアドレス" formControlName="email">
+                                <mat-error *ngIf="emailControl.hasError('required') || emailControl.hasError('email')">
+                                    <strong>メールアドレスを入力してください</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </span>
+                        <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">発行</button>
+                    </form>
                 </div>
                 <div fxLayout="row" fxLayoutAlign=" center" fxFlexOffset="auto">
-                    <button mat-raised-button color="warn" (click)="onChangePW()">パスワードリセット</button>
+                    <button mat-raised-button type="button" color="warn" (click)="onResetPW()">パスワードリセット</button>
                 </div>
 
     </mat-card-content>
