@@ -60,6 +60,7 @@ export class AccountComponent implements OnInit {
               }
               else{
                 this.success = true;
+                this.snackBar.open('アカウントを発行しました', '閉じる', { duration: 5000 });
               }
             });
           }
