@@ -32,6 +32,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 /* Component */
@@ -54,6 +55,7 @@ import { DeviceListComponent } from './device-list/device-list.component';
 import { DeviceDialogComponent } from './device-dialog/device-dialog.component';
 import { EditDeviceDialogComponent } from './edit-device-dialog/edit-device-dialog.component';
 import { DeleteDeviceDialogComponent } from './delete-device-dialog/delete-device-dialog.component';
+import { AccountComponent } from './account/account.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +77,8 @@ import { DeleteDeviceDialogComponent } from './delete-device-dialog/delete-devic
     DeviceListComponent,
     DeviceDialogComponent,
     EditDeviceDialogComponent,
-    DeleteDeviceDialogComponent
+    DeleteDeviceDialogComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
@@ -107,7 +110,8 @@ import { DeleteDeviceDialogComponent } from './delete-device-dialog/delete-devic
     MatTableExporterModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatRadioModule
+    MatRadioModule,
+    MatDividerModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },

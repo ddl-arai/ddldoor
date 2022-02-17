@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { DbService } from '../db.service';
 import { member } from '../models/member';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MemberDialogComponent } from '../member-dialog/member-dialog.component';
 import { EditMemberDialogComponent } from '../edit-member-dialog/edit-member-dialog.component';
 import { DeleteMemberDialogComponent } from '../delete-member-dialog/delete-member-dialog.component';
+import { MatSort } from '@angular/material/sort';
 
 
 export interface displayData {
@@ -25,7 +26,7 @@ export interface displayData {
   templateUrl: './member.component.html',
   styleUrls: ['./member.component.scss']
 })
-export class MemberComponent implements OnInit {
+export class MemberComponent implements OnInit, AfterViewInit{
   //members: member[] = [];
   displayedColumns: string[] = [
     'id',
@@ -40,6 +41,8 @@ export class MemberComponent implements OnInit {
   dataSource = new MatTableDataSource<displayData>();
   usedIds: number[] = [];
 
+  @ViewChild(MatSort) sort!: MatSort;
+
   constructor(
     private dbService: DbService,
     private snackBar: MatSnackBar,
@@ -48,6 +51,10 @@ export class MemberComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMembers();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
   }
 
   getMembers(): void {

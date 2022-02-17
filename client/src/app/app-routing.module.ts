@@ -9,6 +9,7 @@ import { AuthGuard } from './auth.guard';
 import { StatusListComponent } from './status-list/status-list.component';
 import { LogComponent } from './log/log.component';
 import { DeviceListComponent } from './device-list/device-list.component';
+import { AccountComponent } from './account/account.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -21,7 +22,8 @@ const routes: Routes = [
       { path: 'member', component: MemberComponent },
       { path: 'statusList', component: StatusListComponent },
       { path: 'log', component: LogComponent },
-      { path: 'deviceList', component: DeviceListComponent }
+      { path: 'deviceList', component: DeviceListComponent },
+      { path: 'account', component: AccountComponent }
     ]
   },
   { path: 'nfc', component: NfcComponent },
