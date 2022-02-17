@@ -1,36 +1,34 @@
-<mat-card class="data-card">
-    <mat-card-header class="header">
-        <mat-card-title class="mat-title">アカウント</mat-card-title>
-    </mat-card-header>
+<mat-card>
+    <mat-card-title class="mat-title">アカウント設定</mat-card-title>
     <mat-card-content>
-        <div fxLayout="row">
-            <div fxFlex="30"></div>
-            <mat-card class="account-card" fxFlex>
-                <mat-list>
-                    <mat-list-item fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="16px">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>アカウント名</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width">
-                            <mat-label>メールアドレス</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                        <button mat-raised-button (click)="onSave()">更新</button>
-                    </mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="16px">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>登録するメールアドレス</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                        <button mat-raised-button color="accent" (click)="onChangePW()">アカウント発行</button>
-                    </mat-list-item>
-                </mat-list>
-            </mat-card>
+        <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="24px">
+            <mat-form-field class="example-full-width">
+                <mat-label>アカウント名</mat-label>
+                <input matInput>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label>メールアドレス</mat-label>
+                <input matInput>
+            </mat-form-field>
+        </span>
 
-        </div>
+        <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="24px">
+            <button mat-raised-button color="primary" (click)="onSave()">更新</button>
+            <button mat-raised-button color="warn" (click)="onChangePW()">パスワードリセット</button>
+        </span>
     </mat-card-content>
-</mat-card>
+  </mat-card>
+  <mat-card>
+    <mat-card-title class="mat-title">アカウント発行</mat-card-title>
+    <mat-card-content>
+        <mat-form-field class="example-full-width">
+            <mat-label>発行するメールアドレス</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" (click)="onGenAccount()">発行</button>
+        </span>
+    </mat-card-content>
+  </mat-card>
   
 

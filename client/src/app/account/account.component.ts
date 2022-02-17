@@ -17,7 +17,11 @@ export class AccountComponent implements OnInit {
   }
 
   onChangePW(): void {
-    
+
+  }
+
+  onGenAccount(): void {
+
   }
 
 }
