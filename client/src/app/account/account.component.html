@@ -3,27 +3,33 @@
         <mat-card-title class="mat-title">アカウント</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <div fxLayout="column">
-            <div fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="24px">
-                <span>
-                    <mat-label>アカウント名</mat-label>
-                    <input matInput>
-                    <button mat-raised-button (click)="onSave()">更新</button>
-                </span>
-                <span>
-                    <mat-label>メールアドレス</mat-label>
-                    <input matInput>
-                </span>
-            </div>
+        <mat-card fxLayout="row" fxFlexOffset="auto">
+            <table class="example-full-width" cellspacing="0">
+                <tr>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                            <mat-label>アカウント名</mat-label>
+                            <input matInput>
+                            <button mat-raised-button (click)="onSave()">更新</button>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                            <mat-label>メールアドレス</mat-label>
+                            <input matInput>
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
             <mat-divider></mat-divider>
-            <div fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="24px">
-                <span>
+            <p>
+                <mat-form-field class="example-full-width">
                     <mat-label>登録するメールアドレス</mat-label>
                     <input matInput>
-                    <button mat-raised-button color="accent" (click)="onChangePW()">アカウント生成</button>
-                </span>
-            </div>
-        </div>
+                    <button mat-raised-button color="accent" (click)="onChangePW()">アカウント発行</button>
+                </mat-form-field>
+            </p>
+        </mat-card>
     </mat-card-content>
 </mat-card>
   
