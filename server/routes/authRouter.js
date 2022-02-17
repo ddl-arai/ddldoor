@@ -3,6 +3,7 @@ let authRouter = express.Router();
 let passport = require('passport');
 let generator = require('generate-password');
 let crypto = require('crypto');
+let User = require('../models/user');
 
 /* POST auth/login. */
 authRouter.post('/login', passport.authenticate('local', { session: true }), (req, res) => {
