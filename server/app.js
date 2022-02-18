@@ -95,6 +95,7 @@ function isLogined(req, res, next){
   }
   else{
     res.status(401);
+    res.json({message: 'Unauthorized'})
   }
 }
 

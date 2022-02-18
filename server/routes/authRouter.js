@@ -45,6 +45,7 @@ authRouter.get('/reset', (req, res, next) => {
       const expire = now.setMinutes(now.getMinutes() + 5);  // 5 minitue for expire
       if(!('email' in req.user)){
         res.status(401);
+        res.json({message: 'Unauthorized'});
         return;
       }
       User.updateOne({email: req.user['email']}, {
