@@ -6,9 +6,10 @@
         <div fxLayout="column">
             <div>
                 <form [formGroup]="form" novalidate (ngSubmit)="onGenAccount()">
+                    <mat-label>アカウント発行</mat-label>
                     <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
                         <div>
-                            <mat-label>アカウント発行</mat-label>
+        
                             <mat-form-field class="example-full-width">
                                 <input matInput type="email" placeholder="登録するメールアドレス" formControlName="email">
                                 <mat-error *ngIf="emailControl.hasError('required') || emailControl.hasError('email')">

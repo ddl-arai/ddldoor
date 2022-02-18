@@ -16,12 +16,12 @@
           </mat-error>
         </mat-form-field>
 
-        <div fxLayout="row" fxLayoutAlign=" center" fxLayOutGap="8px">
-          <mat-form-field class="example-full-width">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayOutGap="8px">
+          <mat-form-field>
             <input matInput placeholder="姓(全角カナ)" name="lastname" [(ngModel)]="member.lastname" formControlName="lastname">
           </mat-form-field>
 
-          <mat-form-field class="example-full-width">
+          <mat-form-field>
             <input matInput placeholder="名(全角カナ)" name="firstname" [(ngModel)]="member.firstname" formControlName="firstname">
           </mat-form-field>
         </div>
