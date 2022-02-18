@@ -35,7 +35,7 @@ dbRouter.get('/user/exist/:email', (req, res, next) => {
 
 /* GET db/token/:token */
 dbRouter.get('/token/:token', (req, res, next) => {
-  const now = new Date(Date.now() + ((new Date().getTimezoneOffset() + (9 * 60)) * 60 * 1000));
+  const now = new Date(new Date().toLocaleString());
     User.findOne({pw_reset_token: req.body['token'], pw_reset_token_expire: {$gt: now }}, (error, user) => {
         if(error) next(error)
         if(!user){
@@ -54,8 +54,8 @@ dbRouter.post('/change', (req, res, next) => {
       if(error) next(error);
       User.updateOne({email: req.body['email']}, {
           password: hash,
-          pw_reset_token: null,
-          pw_reset_token_expire: null
+          pw_reset_token: '',
+          pw_reset_token_expire: ''
       }, error => {
           if(error) next(error);
           res.json(true);
