@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { DbService } from '../db.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { user } from '../models/user';
@@ -13,6 +12,7 @@ import { AuthService } from '../auth.service';
 })
 export class ResetComponent implements OnInit {
   display : boolean = false;
+  token: string = ''
   user: user = {
     email: '',
     password: ''
@@ -23,7 +23,6 @@ export class ResetComponent implements OnInit {
   password2Control = new FormControl(null, Validators.required);
 
   constructor(
-    private dbService: DbService,
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
@@ -32,6 +31,7 @@ export class ResetComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.token = String(this.route.snapshot.paramMap.get('token'));
     this.checkToken();
     this.form = this.fb.group({
       email: this.emailControl,
@@ -41,8 +41,7 @@ export class ResetComponent implements OnInit {
   }
 
   checkToken(): void {
-    const token = String(this.route.snapshot.paramMap.get('token'));
-    this.dbService.tokenCheck(token)
+    this.authService.tokenCheck(this.token)
     .subscribe(result => {
       if(result['code'] === 0){
         this.display = true;
@@ -65,7 +64,7 @@ export class ResetComponent implements OnInit {
       return;
     }
     else{
-      this.dbService.changePW(this.user)
+      this.authService.changePW(this.user, this.token)
       .subscribe(result => {
         if(result){
           this.authService.login(this.user)

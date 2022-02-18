@@ -19,7 +19,7 @@ export class AuthService {
   ) { }
 
   login(user: user): Observable<boolean>{
-    return this.http.post<user>('/auth/login', user, this.httpOptions)
+    return this.http.post<user>('auth/login', user, this.httpOptions)
     .pipe(
       map(result =>{
         if(result){
@@ -35,7 +35,7 @@ export class AuthService {
   }
 
   isAuthenticated(): Observable<boolean> {
-    return this.http.get<boolean>('/auth/check', this.httpOptions)
+    return this.http.get<boolean>('auth/check', this.httpOptions)
     .pipe(
       map(result => {
         if(result){
@@ -50,26 +50,42 @@ export class AuthService {
   }
 
   logout(): Observable<string>{
-    return this.http.get<string>('/auth/logout', this.httpOptions)
+    return this.http.get<string>('auth/logout', this.httpOptions)
     .pipe(
       catchError(this.handleError<string>('logout failed'))
     );
   }
 
   genPW(): Observable<string>{
-    return this.http.get<string>('/auth/generate', this.httpOptions)
+    return this.http.get<string>('auth/generate', this.httpOptions)
     .pipe(
       catchError(this.handleError<string>(''))
     );
   }
 
-  resetPW(): Observable<string> {
-    return this.http.get<string>('auth/reset', this.httpOptions)
+  tokenCheck(token: string): Observable<any> {
+    return this.http.get(`auth/token/${token}`, this.httpOptions)
     .pipe(
-      catchError(this.handleError<string>('')),
+      catchError(this.handleError<any>(null))
+    );
+  }
+
+  changePW(user: user, token: string): Observable<boolean>{
+    return this.http.post(`auth/change/${token}`, user, this.httpOptions)
+    .pipe(
+      map(result => {
+        if(result){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }),
+      catchError(this.handleError<boolean>(false)),
       shareReplay(1)
     );
   }
+
 
   handleError<T>(result?: T) {
     return (error: any): Observable<T> => {

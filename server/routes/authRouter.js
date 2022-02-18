@@ -2,8 +2,9 @@ let express = require('express');
 let authRouter = express.Router();
 let passport = require('passport');
 let generator = require('generate-password');
-let crypto = require('crypto');
+let bcrypt = require('bcrypt');
 let User = require('../models/user');
+const saltRounds = 10;
 
 /* POST auth/login. */
 authRouter.post('/login', passport.authenticate('local', { session: true }), (req, res) => {
@@ -36,28 +37,45 @@ authRouter.get('/generate', (req, res, next) => {
   res.json(password);
 });
 
-/* GET auth/reset */
-authRouter.get('/reset', (req, res, next) => {
-    crypto.randomBytes(32, (error, buf) => {
+/* GET auth/token/:token */
+authRouter.get('/token/:token', (req, res, next) => {
+  const now = new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000));
+  User.findOne({pw_reset_token: req.params.token, pw_reset_token_expire: {$gt: now }}, (error, user) => {
       if(error) next(error);
-      const now = new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000));
-      const token = buf.toString('hex');
-      const expire = now.setMinutes(now.getMinutes() + 5);  // 5 minitue for expire
-      if(!req.user){
-        res.status(401);
-        res.json({message: 'Unauthorized'});
-        return;
+      if(!user){
+          /* Invalid token or expired */
+          res.json({code: 1});
       }
-      User.updateOne({email: req.user['email']}, {
-        pw_reset_token: token,
-        pw_reset_token_expire: expire
-      }, error => {
+      else{
+          res.json({code: 0, email: user.email});
+      }
+  });
+});
+
+/* POST auth/change/:token */
+authRouter.post('/change/:token', (req, res, next) => {
+  const now = new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000));
+  User.findOne({pw_reset_token: req.params.token, pw_reset_token_expire: {$gt: now }}, (error, user) => {
+    if(error) next(error);
+    if(!user){
+      res.json(false);
+      return;
+    }
+    else{
+      bcrypt.hash(req.body.password, saltRounds, (error, hash) => {
         if(error) next(error);
-        res.json(token);
+        User.updateOne({email: req.body.email}, {
+            password: hash,
+            pw_reset_token: null,
+            pw_reset_token_expire: null
+        }, error => {
+            if(error) next(error);
+            res.json(true);
+        });
       });
-    });
-  }  
-);
+    }
+  });
+});
 
 
 module.exports = authRouter;

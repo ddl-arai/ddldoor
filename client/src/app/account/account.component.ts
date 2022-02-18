@@ -40,7 +40,7 @@ export class AccountComponent implements OnInit {
   }
 
   onResetPW(): void {
-    this.authService.resetPW()
+    this.dbService.resetPW()
     .subscribe(token => {
       this.authService.logout()
       .subscribe(() => {

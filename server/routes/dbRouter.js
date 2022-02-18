@@ -6,6 +6,7 @@ let Card = require('../models/card');
 let Log = require('../models/log');
 let Device = require('../models/device');
 let bcrypt = require('bcrypt');
+let crypto = require('crypto');
 const saltRounds = 10;
 
 /* POST db/user */
@@ -33,33 +34,20 @@ dbRouter.get('/user/exist/:email', (req, res, next) => {
   });
 });
 
-/* GET db/token/:token */
-dbRouter.get('/token/:token', (req, res, next) => {
-  const now = new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000));
-    User.findOne({pw_reset_token: req.params.token, pw_reset_token_expire: {$gt: now }}, (error, user) => {
-        if(error) next(error);
-        if(!user){
-            /* Invalid token or expired */
-            res.json({code: 1});
-        }
-        else{
-            res.json({code: 0, email: user.email});
-        }
-    });
-});
-
-/* POST db/change */
-dbRouter.post('/change', (req, res, next) => {
-  bcrypt.hash(req.body.password, saltRounds, (error, hash) => {
+/* GET db/reset */
+dbRouter.get('/reset', (req, res, next) => {
+  crypto.randomBytes(32, (error, buf) => {
+    if(error) next(error);
+    const now = new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000));
+    const token = buf.toString('hex');
+    const expire = now.setMinutes(now.getMinutes() + 5);  // 5 minitue for expire
+    User.updateOne({email: req.user['email']}, {
+      pw_reset_token: token,
+      pw_reset_token_expire: expire
+    }, error => {
       if(error) next(error);
-      User.updateOne({email: req.body.email}, {
-          password: hash,
-          pw_reset_token: null,
-          pw_reset_token_expire: null
-      }, error => {
-          if(error) next(error);
-          res.json(true);
-      });
+      res.json(token);
+    });
   });
 });
 

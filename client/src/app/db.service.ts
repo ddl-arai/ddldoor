@@ -48,25 +48,10 @@ export class DbService {
     );
   }
 
-  tokenCheck(token: string): Observable<any> {
-    return this.http.get(`db/token/${token}`, this.httpOptions)
+  resetPW(): Observable<string> {
+    return this.http.get<string>('db/reset', this.httpOptions)
     .pipe(
-      catchError(this.handleError<any>(null))
-    );
-  }
-
-  changePW(user: user): Observable<boolean>{
-    return this.http.post('db/change', user, this.httpOptions)
-    .pipe(
-      map(result => {
-        if(result){
-          return true;
-        }
-        else{
-          return false;
-        }
-      }),
-      catchError(this.handleError<boolean>(false)),
+      catchError(this.handleError<string>('')),
       shareReplay(1)
     );
   }
