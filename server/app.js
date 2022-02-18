@@ -2,6 +2,7 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
+let compression = require('compression');
 let mongoose = require('mongoose');
 require('dotenv').config();
 
@@ -30,7 +31,7 @@ let dbRouter = require('./routes/dbRouter');
 let doorRouter = require('./routes/doorRouter');
 
 let app = express();
-
+app.use(compression());
 app.enable('trust proxy');
 app.use(logger('dev'));
 app.use(express.json());
@@ -41,7 +42,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24,
+      maxAge: 1000 * 60 * 60 * 24,  // 1 day
       secure: false // https => true
     },
     proxy: true
@@ -88,8 +89,17 @@ function passwordValidator(reqPassword, dbPassword) {
     return bcrypt.compareSync(reqPassword, dbPassword);
 }
 
+function isLogined(req, res, next){
+  if(req.isAuthenticated()){
+    next();
+  }
+  else{
+    res.status(401);
+  }
+}
+
 app.use('/auth', authRouter);
-app.use('/db', dbRouter);
+app.use('/db', isLogined, dbRouter);
 app.use('/door', doorRouter);
 
 app.use(express.static(path.join(__dirname, '../client/dist/client')));

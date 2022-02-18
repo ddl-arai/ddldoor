@@ -43,6 +43,10 @@ authRouter.get('/reset', (req, res, next) => {
       const now = new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000));
       const token = buf.toString('hex');
       const expire = now.setMinutes(now.getMinutes() + 5);  // 5 minitue for expire
+      if(!('email' in req.user)){
+        res.status(401);
+        return;
+      }
       User.updateOne({email: req.user['email']}, {
         pw_reset_token: token,
         pw_reset_token_expire: expire
