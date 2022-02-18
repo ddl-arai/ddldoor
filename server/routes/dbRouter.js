@@ -36,7 +36,7 @@ dbRouter.get('/user/exist/:email', (req, res, next) => {
 /* GET db/token/:token */
 dbRouter.get('/token/:token', (req, res, next) => {
   const now = new Date(new Date().toLocaleString());
-    User.findOne({pw_reset_token: req.body['token'], pw_reset_token_expire: {$gt: now }}, (error, user) => {
+    User.findOne({pw_reset_token: req.body.token, pw_reset_token_expire: {$gt: now }}, (error, user) => {
         if(error) next(error)
         if(!user){
             /* Invalid token or expired */
@@ -50,12 +50,12 @@ dbRouter.get('/token/:token', (req, res, next) => {
 
 /* POST db/change */
 dbRouter.post('/change', (req, res, next) => {
-  bcrypt.hash(req.body['password'], saltRounds, (error, hash) => {
+  bcrypt.hash(req.body.password, saltRounds, (error, hash) => {
       if(error) next(error);
-      User.updateOne({email: req.body['email']}, {
+      User.updateOne({email: req.body.email}, {
           password: hash,
-          pw_reset_token: '',
-          pw_reset_token_expire: ''
+          pw_reset_token: null,
+          pw_reset_token_expire: null
       }, error => {
           if(error) next(error);
           res.json(true);
@@ -146,6 +146,8 @@ dbRouter.get('/cards', (req, res, next) => {
 
 /* POST db/card */
 dbRouter.post('/card', (req, res, next) => {
+  console.log(req.body.expire);
+  req.body.expire = new Date(req.body.expire);
   Card.create(req.body, error => {
     if(error) next(error);
     res.json(true);
