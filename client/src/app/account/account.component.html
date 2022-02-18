@@ -7,7 +7,7 @@
             <div>
                 <form [formGroup]="form" novalidate (ngSubmit)="onGenAccount()">
                     <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
-                        <span>
+                        <div>
                             <mat-label>アカウント発行</mat-label>
                             <mat-form-field class="example-full-width">
                                 <input matInput type="email" placeholder="登録するメールアドレス" formControlName="email">
@@ -15,7 +15,7 @@
                                     <strong>メールアドレスを入力してください</strong>
                                 </mat-error>
                             </mat-form-field>
-                        </span>
+                        </div>
                         <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">発行</button>
                     </div>
                 </form>
