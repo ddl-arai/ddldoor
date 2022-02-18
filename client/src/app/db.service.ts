@@ -56,6 +56,13 @@ export class DbService {
     );
   }
 
+  getEmail(): Observable<string> {
+    return this.http.get<string>('db/email', this.httpOptions)
+    .pipe(
+      catchError(this.handleError<string>(''))
+    );
+  }
+
   get<T>(kind: string, id: number | string): Observable<T> {
     const url = `db/${kind}/${id}`;
     return this.http.get<T>(url, this.httpOptions)

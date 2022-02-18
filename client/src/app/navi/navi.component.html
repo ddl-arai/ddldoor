@@ -24,11 +24,12 @@
         </button>
         <span class="mat-headline">DDLDoor</span>
         <span fxFlexOffset="auto">
+          {{email}}
           <button
             type="button"
-            mat-raised-button
+            mat-icon-button
             (click)="onLogout()">
-            ログアウト
+            <mat-icon>logout</mat-icon>
           </button>
         </span>
       </mat-toolbar>

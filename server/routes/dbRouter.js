@@ -51,6 +51,10 @@ dbRouter.get('/reset', (req, res, next) => {
   });
 });
 
+dbRouter.get('/email', (req, res, next) => {
+  res.json(req.user['email']);
+})
+
 /* GET db/members/:id */
 dbRouter.get('/member/:id', (req, res, next) => {
   Member.findOne({id: req.params.id}, (error, member) => {
