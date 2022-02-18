@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NfcComponent } from './nfc/nfc.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { MemberComponent } from './member/member.component';
 import { AuthGuard } from './auth.guard';
@@ -23,12 +22,11 @@ const routes: Routes = [
       { path: 'member', component: MemberComponent },
       { path: 'statusList', component: StatusListComponent },
       { path: 'log', component: LogComponent },
+      { path: 'nfc', component: NfcComponent },
       { path: 'deviceList', component: DeviceListComponent },
       { path: 'account', component: AccountComponent }
     ]
   },
-  //{ path: 'account', component: AccountComponent },
-  { path: 'nfc', component: NfcComponent },
   { path: "**", redirectTo: "home" }
 ];
 

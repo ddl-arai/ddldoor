@@ -40,7 +40,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { AppComponent } from './app.component';
 import { NfcComponent } from './nfc/nfc.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { MemberComponent } from './member/member.component';
 import { NaviComponent } from './navi/navi.component';
@@ -64,7 +63,6 @@ import { ResetComponent } from './reset/reset.component';
     AppComponent,
     NfcComponent,
     LoginComponent,
-    RegisterComponent,
     HomeComponent,
     MemberComponent,
     NaviComponent,
