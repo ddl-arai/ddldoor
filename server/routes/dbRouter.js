@@ -35,7 +35,7 @@ dbRouter.get('/user/exist/:email', (req, res, next) => {
 
 /* GET db/token/:token */
 dbRouter.get('/token/:token', (req, res, next) => {
-  const now = new Date(new Date().toLocaleString());
+  const now = new Date(new Date().toLocaleString({ timeZone: 'Asia/Tokyo' }));
     User.findOne({pw_reset_token: req.body.token, pw_reset_token_expire: {$gt: now }}, (error, user) => {
         if(error) next(error)
         if(!user){
@@ -146,8 +146,7 @@ dbRouter.get('/cards', (req, res, next) => {
 
 /* POST db/card */
 dbRouter.post('/card', (req, res, next) => {
-  console.log(req.body.expire);
-  req.body.expire = new Date(new Date().toLocaleString());
+  req.body.expire = new Date(new Date().toLocaleString({ timeZone: 'Asia/Tokyo' }));
   Card.create(req.body, error => {
     if(error) next(error);
     res.json(true);
