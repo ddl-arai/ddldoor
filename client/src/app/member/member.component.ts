@@ -105,7 +105,7 @@ export class MemberComponent implements OnInit, AfterViewInit{
 
   onRegister(): void {
     let dialogRef = this.dialog.open(MemberDialogComponent, {
-      width: '432px',
+      width: '424px',
       data: this.usedIds
     });
     dialogRef.afterClosed().subscribe(() => {
@@ -115,7 +115,7 @@ export class MemberComponent implements OnInit, AfterViewInit{
 
   onEdit(id: number): void {
     let dialogRef = this.dialog.open(EditMemberDialogComponent, {
-      width: '432px',
+      width: '424px',
       data: id
     });
     dialogRef.afterClosed().subscribe(() => {
