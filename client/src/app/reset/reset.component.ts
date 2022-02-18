@@ -44,7 +44,7 @@ export class ResetComponent implements OnInit {
     const token = String(this.route.snapshot.paramMap.get('token'));
     this.dbService.tokenCheck(token)
     .subscribe(result => {
-      if(result['result'] === 0){
+      if(result['code'] === 0){
         this.display = true;
         this.user.email = result['email'];
         this.emailControl.setValue(this.user.email);
