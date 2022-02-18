@@ -41,6 +41,8 @@ authRouter.get('/reset', (req, res, next) => {
     crypto.randomBytes(32, (error, buf) => {
       if(error) next(error);
       const now = new Date(new Date().toLocaleString());
+      console.log(new Date());
+      console.log(new Date().getTimezoneOffset());
       console.log(now);
       const token = buf.toString('hex');
       const expire = now.setMinutes(now.getMinutes() + 5);  // 5 minitue for expire
