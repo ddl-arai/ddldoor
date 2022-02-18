@@ -36,8 +36,8 @@ dbRouter.get('/user/exist/:email', (req, res, next) => {
 /* GET db/token/:token */
 dbRouter.get('/token/:token', (req, res, next) => {
   const now = new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000));
-    User.findOne({pw_reset_token: req.body.token, pw_reset_token_expire: {$gt: now }}, (error, user) => {
-        if(error) next(error)
+    User.findOne({pw_reset_token: req.params.token, pw_reset_token_expire: {$gt: now }}, (error, user) => {
+        if(error) next(error);
         if(!user){
             /* Invalid token or expired */
             res.json({code: 1});
