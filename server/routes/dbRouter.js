@@ -147,7 +147,7 @@ dbRouter.get('/cards', (req, res, next) => {
 /* POST db/card */
 dbRouter.post('/card', (req, res, next) => {
   console.log(req.body.expire);
-  req.body.expire = new Date(req.body.expire);
+  req.body.expire = new Date(new Date().toLocaleString());
   Card.create(req.body, error => {
     if(error) next(error);
     res.json(true);
