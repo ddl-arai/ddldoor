@@ -43,7 +43,7 @@ authRouter.get('/reset', (req, res, next) => {
       const now = new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000));
       const token = buf.toString('hex');
       const expire = now.setMinutes(now.getMinutes() + 5);  // 5 minitue for expire
-      if(!('email' in req.user)){
+      if(!req.user){
         res.status(401);
         res.json({message: 'Unauthorized'});
         return;
