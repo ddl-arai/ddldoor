@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { DbService } from '../db.service';
 import { member } from '../models/member';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
 
 export interface displayData {
   id: number,
@@ -14,7 +15,7 @@ export interface displayData {
   templateUrl: './status-list.component.html',
   styleUrls: ['./status-list.component.scss']
 })
-export class StatusListComponent implements OnInit {
+export class StatusListComponent implements OnInit, AfterViewInit {
   displayedColumnsIni: string[] = [
     'id',
     'content'
@@ -31,6 +32,8 @@ export class StatusListComponent implements OnInit {
   ];
   dataSourceAbs = new MatTableDataSource<displayData>();
 
+  @ViewChild(MatSort) sortAtt!: MatSort;
+  @ViewChild(MatSort) sortAbs!: MatSort;
 
   constructor(
     private dbService: DbService,
@@ -39,6 +42,11 @@ export class StatusListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMembers();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSourceAtt.sort = this.sortAtt;
+    this.dataSourceAbs.sort = this.sortAbs;
   }
 
   getMembers(): void {
