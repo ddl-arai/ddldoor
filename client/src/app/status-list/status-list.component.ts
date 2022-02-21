@@ -32,8 +32,8 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   ];
   dataSourceAbs = new MatTableDataSource<displayData>();
 
-  @ViewChild('attMatSort') sortAtt!: MatSort;
-  @ViewChild('absMatSort') sortAbs!: MatSort;
+  @ViewChild('attTable', {read: MatSort, static: true}) sortAtt!: MatSort;
+  @ViewChild('absTable', {read: MatSort, static: true}) sortAbs!: MatSort;
 
   constructor(
     private dbService: DbService,

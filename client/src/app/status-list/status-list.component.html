@@ -31,7 +31,7 @@
             </div>
 
             <div class="full-width">
-            <table mat-table [dataSource]="dataSourceAtt" #attMatSort="matSort" matSort matSortActive="id" matSortDirection="asc" class="mat-elevation-z8">
+            <table #attTable mat-table [dataSource]="dataSourceAtt" matSort matSortActive="id" matSortDirection="asc" class="mat-elevation-z8">
 
                 <!--- Note that these columns can be defined in any order.
                     The actual rendered columns are set as a property on the row definition" -->
@@ -54,7 +54,7 @@
             </div>
 
             <div class="full-width">
-            <table mat-table [dataSource]="dataSourceAbs" #absMatSort="matSort" matSort matSortActive="id" matSortDirection="asc" class="mat-elevation-z8">
+            <table #absTable mat-table [dataSource]="dataSourceAbs" matSort matSortActive="id" matSortDirection="asc" class="mat-elevation-z8">
 
                 <!--- Note that these columns can be defined in any order.
                     The actual rendered columns are set as a property on the row definition" -->
