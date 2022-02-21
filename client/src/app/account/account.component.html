@@ -37,20 +37,21 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
-            <div fxLayout="row" fxLayoutAlign="center none" fxFlex>
+            <div fxFlex="4"></div>
+
+            <div fxFlex>
                 <div fxLayout="column">
                     <form [formGroup]="form" novalidate (ngSubmit)="onGenAccount()">
                         <mat-label>アカウント発行</mat-label>
                         <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
-                            <div>
-            
+ 
                                 <mat-form-field class="example-full-width">
                                     <input matInput type="email" placeholder="登録するメールアドレス" formControlName="email">
                                     <mat-error *ngIf="emailControl.hasError('required') || emailControl.hasError('email')">
                                         <strong>メールアドレスを入力してください</strong>
                                     </mat-error>
                                 </mat-form-field>
-                            </div>
+
                             <mat-checkbox [(ngModel)]="user.admin" formControlName="admin">管理者</mat-checkbox>
                             <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">発行</button>
                         </div>
