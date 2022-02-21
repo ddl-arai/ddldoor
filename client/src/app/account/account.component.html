@@ -37,8 +37,8 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
-            <div fxLayout="row" fxLayoutAlign="center none">
-                <div fxLayout="column" fxFlex>
+            <div fxLayout="row" fxLayoutAlign="center none" fxFlex>
+                <div fxLayout="column">
                     <form [formGroup]="form" novalidate (ngSubmit)="onGenAccount()">
                         <mat-label>アカウント発行</mat-label>
                         <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
