@@ -30,6 +30,7 @@ export class AccountComponent implements OnInit {
     Validators.required,
     Validators.email
   ]);
+  adminControl = new FormControl(null);
   success: boolean = false;
   checked: boolean = false;
 
@@ -52,7 +53,8 @@ export class AccountComponent implements OnInit {
   ngOnInit(): void {
     this.getUsers();
     this.form = this.fb.group({
-      email: this.emailControl
+      email: this.emailControl,
+      admin: this.adminControl
     });
   }
 
