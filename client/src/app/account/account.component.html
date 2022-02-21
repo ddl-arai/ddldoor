@@ -37,8 +37,6 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
-            <div fxFlex="10"></div>
-
             <div fxLayout="row" fxLayoutAlign="center none">
                 <div fxLayout="column" fxFlex>
                     <form [formGroup]="form" novalidate (ngSubmit)="onGenAccount()">
