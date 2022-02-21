@@ -19,6 +19,10 @@ export interface displayData {
   success: string
 }
 
+export interface options {
+  fileName: string
+}
+
 @Component({
   selector: 'app-log',
   templateUrl: './log.component.html',
@@ -43,6 +47,10 @@ export class LogComponent implements OnInit, AfterViewInit{
     end: new FormControl(),
   });
 
+  options: options = {
+    fileName: ''
+  }
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -54,6 +62,7 @@ export class LogComponent implements OnInit, AfterViewInit{
   ngOnInit(): void {
     this.getLogs();
     this.range.reset();
+    this.options.fileName = 'ddldoor_log';
   }
 
   ngAfterViewInit(): void {
@@ -121,6 +130,7 @@ export class LogComponent implements OnInit, AfterViewInit{
 
   onFilter(): void {
     this.dataSource.data = this.dataSource.data.filter(element => new Date(element.date) >= this.range.value['start'] && new Date(element.date) <= this.range.value['end']);
+    this.options.fileName += `${this.range.value['start']}_${this.range.value['end']}`;
   }
 
 }
