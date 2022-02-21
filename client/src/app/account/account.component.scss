@@ -4,6 +4,7 @@
 
 .mat-card-title {
     margin: 0;
+    padding-bottom: 8px;
 }
 
 .header {
@@ -14,18 +15,10 @@
     font-size: 16px;
 }
 
-.mat-card-title {
-    margin: 0;
-}
-
 table {
     width: 100%;
 }
 
 .mat-card {
     max-width: 960px;
-}
-
-.dialog-buttons {
-    padding-bottom: 24px;
 }
