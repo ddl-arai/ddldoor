@@ -5,6 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { DbService } from '../db.service';
+import { user } from '../models/user';
 
 @Component({
   selector: 'app-navi',
@@ -12,7 +13,11 @@ import { DbService } from '../db.service';
   styleUrls: ['./navi.component.scss']
 })
 export class NaviComponent implements OnInit {
-  email: string = '';
+  user: user = {
+    email: '',
+    password: '',
+    admin: false
+  }
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -28,7 +33,7 @@ export class NaviComponent implements OnInit {
     ) {}
   
   ngOnInit(): void {
-      this.getEmail();
+      this.getUser();
   }
 
   onLogout(): void {
@@ -37,9 +42,19 @@ export class NaviComponent implements OnInit {
     });
   }
 
-  getEmail(): void {
-    this.dbService.getEmail()
-    .subscribe(email => this.email = email);
+  onResetPW(): void {
+    this.dbService.resetPW()
+    .subscribe(token => {
+      this.authService.logout()
+      .subscribe(() => {
+        this.router.navigate([`/reset/${token}`]);
+      });
+    });
+  }
+
+  getUser(): void {
+    this.dbService.getUser()
+    .subscribe(user => this.user = user);
   }
 }
 

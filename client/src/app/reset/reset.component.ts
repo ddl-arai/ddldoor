@@ -15,7 +15,8 @@ export class ResetComponent implements OnInit {
   token: string = ''
   user: user = {
     email: '',
-    password: ''
+    password: '',
+    admin: false
   }
   form!: FormGroup;
   emailControl = new FormControl(null);

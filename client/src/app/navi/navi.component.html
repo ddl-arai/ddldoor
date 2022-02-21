@@ -10,7 +10,7 @@
         <a mat-list-item [routerLink]="['/home/log']"><mat-icon class="list-icon">description</mat-icon>ログ</a>
         <a mat-list-item [routerLink]="['/home/nfc']"><mat-icon class="list-icon">nfc</mat-icon>カードID</a>
         <a mat-list-item [routerLink]="['/home/deviceList']"><mat-icon class="list-icon">device_hub</mat-icon>デバイス一覧</a>
-        <a mat-list-item [routerLink]="['/home/account']"><mat-icon class="list-icon">account_circle</mat-icon>アカウント</a>
+        <a *ngIf="user.admin" mat-list-item [routerLink]="['/home/account']"><mat-icon class="list-icon">account_circle</mat-icon>アカウント</a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
@@ -24,7 +24,7 @@
         </button>
         <span class="mat-headline">DDLDoor</span>
         <span class="navi-email" fxFlexOffset="auto">
-          {{email}}
+          {{user.email}}
           <button
             type="button"
             mat-icon-button
@@ -32,11 +32,11 @@
             <mat-icon>keyboard_arrow_down</mat-icon>
           </button>
           <mat-menu #userMenu="matMenu" class="user-profile">
-                <button mat-menu-item color="primary" (click)="onLogout()">
+                <button mat-menu-item (click)="onLogout()">
                     <mat-icon>logout</mat-icon>
                     ログアウト
                 </button>
-                <button mat-menu-item>
+                <button mat-menu-item (click)="onResetPW()">
                   <mat-icon>security</mat-icon>
                     パスワードリセット
                 </button>

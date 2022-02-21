@@ -51,17 +51,33 @@ dbRouter.get('/reset', (req, res, next) => {
   });
 });
 
-dbRouter.get('/email', (req, res, next) => {
-  res.json(req.user['email']);
-})
+/* GET db/user */
+dbRouter.get('/user', (req, res, next) => {
+  User.findOne({email: req.user['email']}, (error, user) => {
+    if(error) next(error);
+    user.password = '';
+    res.json(user);
+  });
+});
+
+/* GET db/users */
+dbRouter.get('/users', (req, res, next) => {
+  User.find({}, (error, users) => {
+    if(error) next(error);
+    users.forEach(user => {
+      user.password = '';
+    });
+    res.json(users);
+  });
+});
 
 /* GET db/members/:id */
 dbRouter.get('/member/:id', (req, res, next) => {
   Member.findOne({id: req.params.id}, (error, member) => {
       if(error) next(error);
       res.json(member);
-  })
-})
+  });
+});
 
 /* GET db/members */
 dbRouter.get('/members', (req, res, next) => {

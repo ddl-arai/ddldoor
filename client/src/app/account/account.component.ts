@@ -6,6 +6,13 @@ import { user } from '../models/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+
+export interface displayData {
+  email: string,
+  admin: boolean
+}
+
 
 @Component({
   selector: 'app-account',
@@ -15,7 +22,8 @@ import { Router } from '@angular/router';
 export class AccountComponent implements OnInit {
   user: user = {
     email: '',
-    password: ''
+    password: '',
+    admin: false
   }
   form!: FormGroup;
   emailControl = new FormControl(null, [
@@ -23,6 +31,14 @@ export class AccountComponent implements OnInit {
     Validators.email
   ]);
   success: boolean = false;
+  checked: boolean = false;
+
+  displayedColumns: string[] = [
+    'email',
+    'admin',
+    'action'
+  ];
+  dataSource = new MatTableDataSource<displayData>();
 
   constructor(
     private fb: FormBuilder,
@@ -34,6 +50,7 @@ export class AccountComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getUsers();
     this.form = this.fb.group({
       email: this.emailControl
     });
@@ -80,6 +97,28 @@ export class AccountComponent implements OnInit {
   onCopy(): void {
     this.clipboard.copy(this.user.password);
     this.snackBar.open('コピーしました', '閉じる', { duration: 4000 });
+  }
+
+  getUsers(): void {
+    this.dbService.getAll<user>('users')
+    .subscribe(users => {
+      let displayUsers: displayData[] = [];
+      users.forEach(user => {
+        displayUsers.push({
+          email: user.email,
+          admin: user.admin
+        });
+      });
+      this.dataSource.data = displayUsers;
+    });
+  }
+
+  onEdit(email: string): void {
+
+  }
+
+  onDelete(email: string): void {
+
   }
 
 }

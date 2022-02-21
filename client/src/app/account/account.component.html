@@ -3,38 +3,68 @@
         <mat-card-title class="mat-title">アカウント</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <div fxLayout="row" fxFlexOffset="auto">
-            <div fxLayout="column" fxLayoutGap="40px">
+        <div fxLayout="row" fxLayoutAlign="space-between none">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-                <div fxLayout="row" fxLayoutAlign="end center" fxFlexOffset="auto">
-                    <button mat-raised-button type="button" color="warn" (click)="onResetPW()">パスワードリセット</button>
-                </div>
+                <!-- email Column -->
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef>メールアドレス</th>
+                    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                </ng-container>
 
-                <div fxLayout="column">
-                    <form [formGroup]="form" novalidate (ngSubmit)="onGenAccount()">
-                        <mat-label>アカウント発行</mat-label>
-                        <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
-                            <div>
-            
-                                <mat-form-field class="example-full-width">
-                                    <input matInput type="email" placeholder="登録するメールアドレス" formControlName="email">
-                                    <mat-error *ngIf="emailControl.hasError('required') || emailControl.hasError('email')">
-                                        <strong>メールアドレスを入力してください</strong>
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>
-                            <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">発行</button>
-                        </div>
-                    </form>
-
-                    <span class="password" *ngIf="success">
-                        パスワード: <span>{{user.password}}</span>
-                        <button mat-icon-button type="button" (click)="onCopy()">
-                            <mat-icon>file_copy</mat-icon>
+                <ng-container matColumnDef="admin">
+                    <th mat-header-cell *matHeaderCellDef>管理者</th>
+                    <td mat-cell *matCellDef="let element">
+                        <span *ngIf="element.admin" color="accent"><mat-icon>star</mat-icon></span>
+                    </td>
+                </ng-container>
+    
+                <!-- action Column -->
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>アクション</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button color="primary" (click)="onEdit(element.email)">
+                            <mat-icon>edit</mat-icon>
                         </button>
-                    </span>
-                </div>
+                        <button mat-icon-button color="warn" (click)="onDelete(element.email)">
+                            <mat-icon>delete</mat-icon>
+                        </button> 
+                    </td>
+                </ng-container>
+    
+            
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+      
+
+            <div fxLayout="column">
+                <form [formGroup]="form" novalidate (ngSubmit)="onGenAccount()">
+                    <mat-label>アカウント発行</mat-label>
+                    <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+                        <div>
+        
+                            <mat-form-field class="example-full-width">
+                                <input matInput type="email" placeholder="登録するメールアドレス" formControlName="email">
+                                <mat-error *ngIf="emailControl.hasError('required') || emailControl.hasError('email')">
+                                    <strong>メールアドレスを入力してください</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <mat-checkbox [(ngModel)]="user.admin">管理者</mat-checkbox>
+                        <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">発行</button>
+                    </div>
+                </form>
+
+                <span class="password" *ngIf="success">
+                    パスワード: <span>{{user.password}}</span>
+                    <button mat-icon-button type="button" (click)="onCopy()">
+                        <mat-icon>file_copy</mat-icon>
+                    </button>
+                </span>
             </div>
+            
         </div>
     </mat-card-content>
 </mat-card>

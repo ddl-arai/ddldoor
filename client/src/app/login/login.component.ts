@@ -13,7 +13,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class LoginComponent implements OnInit {
   user: user = {
     email: '',
-    password: ''
+    password: '',
+    admin: false
   }
 
   form!: FormGroup;

@@ -56,10 +56,10 @@ export class DbService {
     );
   }
 
-  getEmail(): Observable<string> {
-    return this.http.get<string>('db/email', this.httpOptions)
+  getUser(): Observable<user> {
+    return this.http.get<user>('db/user', this.httpOptions)
     .pipe(
-      catchError(this.handleError<string>(''))
+      catchError(this.handleError<user>())
     );
   }
 
