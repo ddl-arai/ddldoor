@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { DbService } from '../db.service';
 import { device } from '../models/device';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeviceDialogComponent } from '../device-dialog/device-dialog.component';
 import { EditDeviceDialogComponent } from '../edit-device-dialog/edit-device-dialog.component';
 import { DeleteDeviceDialogComponent } from '../delete-device-dialog/delete-device-dialog.component';
+import { MatSort } from '@angular/material/sort';
 
 export interface displayData {
   id: number,
@@ -20,7 +21,7 @@ export interface displayData {
   templateUrl: './device-list.component.html',
   styleUrls: ['./device-list.component.scss']
 })
-export class DeviceListComponent implements OnInit {
+export class DeviceListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [
     'id',
     'name',
@@ -30,6 +31,8 @@ export class DeviceListComponent implements OnInit {
   dataSource = new MatTableDataSource<displayData>();
   usedIds: number[] = [];
 
+  @ViewChild(MatSort) sort!: MatSort;
+
   constructor(
     private dbService: DbService,
     private snackBar: MatSnackBar,
@@ -38,6 +41,10 @@ export class DeviceListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDevices();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
   }
 
   getDevices(): void {

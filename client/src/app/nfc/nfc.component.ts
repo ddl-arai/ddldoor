@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import { member } from '../models/member';
 import { CardDialogComponent } from '../card-dialog/card-dialog.component';
 import { EditCardDialogComponent } from '../edit-card-dialog/edit-card-dialog.component';
 import { DeleteCardDialogComponent } from '../delete-card-dialog/delete-card-dialog.component';
+import { MatSort } from '@angular/material/sort';
 
 
 export interface displayData {
@@ -24,7 +25,7 @@ export interface displayData {
   templateUrl: './nfc.component.html',
   styleUrls: ['./nfc.component.scss']
 })
-export class NfcComponent implements OnInit {
+export class NfcComponent implements OnInit, AfterViewInit{
 	displayedColumns: string[] = [
 		'id',
 		'name',
@@ -36,6 +37,8 @@ export class NfcComponent implements OnInit {
 	];
 	dataSource = new MatTableDataSource<displayData>();
 
+	@ViewChild(MatSort) sort!: MatSort;
+
 	constructor(
 		private dbService: DbService,
     	private snackBar: MatSnackBar,
@@ -45,6 +48,10 @@ export class NfcComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.getCards();
+	}
+
+	ngAfterViewInit(): void {
+		this.dataSource.sort = this.sort;
 	}
 
 	getCards(): void {
