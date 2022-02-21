@@ -7,6 +7,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
+import { DeleteAccountDialogComponent } from '../delete-account-dialog/delete-account-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface displayData {
   email: string,
@@ -25,6 +27,8 @@ export class AccountComponent implements OnInit {
     password: '',
     admin: false
   }
+  email: string = '';
+
   form!: FormGroup;
   emailControl = new FormControl(null, [
     Validators.required,
@@ -48,9 +52,11 @@ export class AccountComponent implements OnInit {
     private snackBar: MatSnackBar,
     private clipboard: Clipboard,
     private router: Router,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
+    this.getUser();
     this.getUsers();
     this.form = this.fb.group({
       email: this.emailControl,
@@ -115,12 +121,19 @@ export class AccountComponent implements OnInit {
     });
   }
 
-  onEdit(email: string): void {
-
+  getUser(): void {
+    this.dbService.getUser()
+    .subscribe(user => this.email = user.email);
   }
 
   onDelete(email: string): void {
-
-  }
+		let dialogRef = this.dialog.open(DeleteAccountDialogComponent, {
+		  width: '400px',
+		  data: email
+		});
+		dialogRef.afterClosed().subscribe(() => {
+		  this.ngOnInit();
+		});
+	}
 
 }

@@ -127,5 +127,5 @@ export class NfcComponent implements OnInit, AfterViewInit{
 		dialogRef.afterClosed().subscribe(() => {
 		  this.ngOnInit();
 		});
-	  }
+	}
 }

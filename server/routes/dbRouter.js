@@ -71,6 +71,14 @@ dbRouter.get('/users', (req, res, next) => {
   });
 });
 
+/* DELETE db/user/:email */
+dbRouter.delete('/user/:email', (req, res, next) => {
+  User.deleteOne({email: req.params.email}, error => {
+    if(error) next(error);
+      res.json(true);
+  });
+});
+
 /* GET db/members/:id */
 dbRouter.get('/member/:id', (req, res, next) => {
   Member.findOne({id: req.params.id}, (error, member) => {
