@@ -129,8 +129,13 @@ export class LogComponent implements OnInit, AfterViewInit{
   }
 
   onFilter(): void {
-    this.dataSource.data = this.dataSource.data.filter(element => new Date(element.date) >= this.range.value['start'] && new Date(element.date) <= this.range.value['end']);
-    this.options.fileName += `${this.range.value['start']}_${this.range.value['end']}`;
+    const start = new Date(this.range.value['start']);
+    const end = new Date(this.range.value['end']);
+    this.dataSource.data = this.dataSource.data.filter(element => new Date(element.date) >= start && new Date(element.date) <= end);
+    const start_str = `${start.getFullYear()}/${('0' + (start.getMonth() + 1)).slice(-2)}/${('0' + start.getDate()).slice(-2)}`;
+    const end_str = `${end.getFullYear()}/${('0' + (end.getMonth() + 1)).slice(-2)}/${('0' + end.getDate()).slice(-2)}`
+    this.options.fileName += `(${start_str}_${end_str})`;
+    this.snackBar.open(`${start_str}から${end_str}でフィルターしました`, '閉じる', {duration: 6000});
   }
 
 }
