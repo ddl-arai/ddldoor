@@ -3,7 +3,7 @@
         <mat-card-title class="mat-title">ログ</mat-card-title>
             <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="24px">
                 <mat-form-field class="example-full-width">
-                    <mat-label>日付フィルター</mat-label>
+                    <mat-label><mat-icon>filter_list</mat-icon>日付フィルター</mat-label>
                     <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
                         <input matStartDate formControlName="start" placeholder="開始日" readonly>
                         <input matEndDate formControlName="end" placeholder="終了日" readonly>
