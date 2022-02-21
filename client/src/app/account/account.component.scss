@@ -15,10 +15,15 @@
 }
 
 .mat-card {
-    max-width: 680px;
+    //max-width: 680px;
+    width: 100%;
     padding-bottom: 8px;
 }
 
 .mat-card-title {
     margin: 0;
+}
+
+table {
+    width: 100%;
 }
