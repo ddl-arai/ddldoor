@@ -73,6 +73,10 @@ dbRouter.get('/users', (req, res, next) => {
 
 /* DELETE db/user/:email */
 dbRouter.delete('/user/:email', (req, res, next) => {
+  if(req.params.email === req.user['email']){
+    res.json(false);
+    return;
+  }
   User.deleteOne({email: req.params.email}, error => {
     if(error) next(error);
       res.json(true);
