@@ -28,9 +28,19 @@
           <button
             type="button"
             mat-icon-button
-            (click)="onLogout()">
-            <mat-icon>logout</mat-icon>
+            [matMenuTriggerFor]="userMenu">
+            <mat-icon>keyboard_arrow_down</mat-icon>
           </button>
+          <mat-menu #userMenu="matMenu" class="user-profile">
+                <button mat-menu-item color="primary" (click)="onLogout()">
+                    <mat-icon>logout</mat-icon>
+                    ログアウト
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>security</mat-icon>
+                    パスワードリセット
+                </button>
+        </mat-menu>
         </span>
       </mat-toolbar>
       <ng-content></ng-content>
