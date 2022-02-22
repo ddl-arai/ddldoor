@@ -39,6 +39,7 @@ export class CardDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getUser();
     this.getMembers();
     this.form = this.fb.group({
       idm: this.idmControl,
@@ -51,6 +52,11 @@ export class CardDialogComponent implements OnInit {
   getMembers(): void {
     this.dbService.getAll<member>('members')
     .subscribe(members => this.members = members);
+  }
+
+  getUser(): void {
+    this.dbService.getUser()
+    .subscribe(user => this.admin = user.admin);
   }
 
   onCancel(): void {
