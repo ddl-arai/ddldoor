@@ -12,7 +12,7 @@
         <div fxLayout="column" fxLayoutAlign="space-around">
 
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="IDm" name="idm" [(ngModel)]="card.idm" formControlName="idm" readonly="!admin">
+                <input matInput placeholder="IDm" name="idm" [(ngModel)]="card.idm" formControlName="idm">
                 <mat-error *ngIf="idmControl.hasError('required')">
                     <strong>カードをスキャンしてください</strong>
                 </mat-error>

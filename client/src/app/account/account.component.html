@@ -41,7 +41,7 @@
 
             <div fxFlex>
                 <div fxLayout="column">
-                    <form [formGroup]="form" novalidate (ngSubmit)="onGenAccount()">
+                    <form [formGroup]="form" novalidate (ngSubmit)="onGenAccount()" fxFlex="20">
                         <mat-label>アカウント発行</mat-label>
                         <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
  
@@ -57,18 +57,16 @@
                         </div>
                     </form>
 
-                    <span class="password" *ngIf="success">
+                    <span class="password" *ngIf="success" fxFlex="20">
                         パスワード: <span>{{user.password}}</span>
                         <button mat-icon-button type="button" (click)="onCopy()">
                             <mat-icon>file_copy</mat-icon>
                         </button>
                     </span>
 
-                    <div fxLayout="column" fxLayoutAlign="end none">
-                        <span>
-                            <div fxLayout="row" fxFlexOffset="auto">
-                                <button mat-raised-button color="warn" type="button" (click)="onZaru()">状態管理なしモード</button>
-                            </div>
+                    <div fxLayout="column" fxLayoutAlign="end none" fxFlex>
+                        <span fxLayout="row" fxFlexOffset="auto">
+                            <button mat-raised-button color="warn" type="button" (click)="onZaru()">状態管理なしモード</button>
                         </span>
                     </div>
                 </div>

@@ -24,9 +24,10 @@ const routes: Routes = [
       { path: 'log', component: LogComponent },
       { path: 'nfc', component: NfcComponent },
       { path: 'deviceList', component: DeviceListComponent },
-      { path: 'account', component: AccountComponent }
+      //{ path: 'account', component: AccountComponent }
     ]
   },
+  { path: 'account', component: AccountComponent },
   { path: "**", redirectTo: "home" }
 ];
 
