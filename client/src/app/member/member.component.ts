@@ -50,6 +50,7 @@ export class MemberComponent implements OnInit, AfterViewInit{
   ) { }
 
   ngOnInit(): void {
+    this.usedIds = [];
     this.getMembers();
   }
 

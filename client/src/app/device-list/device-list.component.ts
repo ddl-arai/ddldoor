@@ -40,6 +40,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    this.usedIds = [];
     this.getDevices();
   }
 
