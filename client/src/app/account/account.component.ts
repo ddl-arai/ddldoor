@@ -83,12 +83,14 @@ export class AccountComponent implements OnInit {
         this.dbService.exist('user', this.user.email)
         .subscribe(exist => {
           if(exist){
+            this.success = false;
             this.snackBar.open('このアドレスは既に登録済みです', '閉じる', { duration: 7000 });
           }
           else{
             this.dbService.createUser(this.user)
             .subscribe(result => {
               if(!result){
+                this.success = false;
                 this.snackBar.open('アカウントを発行できませんでした', '閉じる', { duration: 7000 });
               }
               else{
