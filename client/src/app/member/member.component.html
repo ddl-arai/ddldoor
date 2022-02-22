@@ -62,6 +62,9 @@
                         <span class="table-warn" *ngSwitchCase="'アンチパスバック'">
                             {{element.status}}<button mat-icon-button (click)="onReset(element.id)"><mat-icon>new_releases</mat-icon></button>
                         </span>
+                        <span *ngSwitchCase="'状態管理なし'">
+                            {{element.status}}<button mat-icon-button (click)="onReset(element.id)"><mat-icon>new_releases</mat-icon></button>
+                        </span>
                     </div>
                 </td>
             </ng-container>

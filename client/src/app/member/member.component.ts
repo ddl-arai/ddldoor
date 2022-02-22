@@ -82,7 +82,10 @@ export class MemberComponent implements OnInit, AfterViewInit{
             status = '外室';
             break;
           case 3:
-            status = 'アンチパスバック'
+            status = 'アンチパスバック';
+            break;
+          case 4:
+            status = '状態管理なし';
             break;
           default:
             status = '初期状態';

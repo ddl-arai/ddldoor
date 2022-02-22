@@ -76,6 +76,12 @@ export class StatusListComponent implements OnInit {
               content: `${member.name}さんはアンチパスバックとなっています`
             });
             break;
+          case 4:
+            displayedMembersIni.push({
+              id: member.id,
+              content: `${member.name}さんは状態管理なしとなっています`
+            });
+            break
           default:
             break;
         }

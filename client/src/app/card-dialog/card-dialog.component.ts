@@ -20,6 +20,7 @@ export class CardDialogComponent implements OnInit {
     expire: '',
     remark: ''
   }
+  admin: boolean = false;
   scanStatus: number = 0;
   terminate: boolean = false;
   members: member[] = [];
@@ -50,6 +51,11 @@ export class CardDialogComponent implements OnInit {
   getMembers(): void {
     this.dbService.getAll<member>('members')
     .subscribe(members => this.members = members);
+  }
+
+  getUser(): void {
+    this.dbService.getUser()
+    .subscribe(user => this.admin = user.admin);
   }
 
   onCancel(): void {

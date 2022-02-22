@@ -127,6 +127,20 @@ export class DbService {
     );
   }
   
+  modeChange(kind: string): Observable<boolean> {
+    return this.http.get(`db/mode/${kind}`, this.httpOptions)
+    .pipe(
+      map(result => {
+        if(result){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }),
+      catchError(this.handleError<boolean>(false))
+    );
+  }
 
   private handleError<T>(result?: T) {
     return (error: any): Observable<T> => {

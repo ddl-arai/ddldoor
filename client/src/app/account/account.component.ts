@@ -137,4 +137,15 @@ export class AccountComponent implements OnInit {
 		});
 	}
 
+  onZaru(): void {
+    this.dbService.modeChange('zaru')
+    .subscribe(result => {
+      if(result){
+        this.snackBar.open('状態管理なしモードにしました', '閉じる', { duration: 5000 });
+      }
+      else{
+        this.snackBar.open('モード変更できませんでした', '閉じる', { duration: 7000 });
+      }
+    });
+  }
 }

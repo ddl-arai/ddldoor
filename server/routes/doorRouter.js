@@ -50,6 +50,8 @@ doorRouter.get('/' , async (req, res, next) => {
                     });
                     return;
                 }
+
+                /* Status check logic */
                 const prevStat = member.status;
                 let success = true;
                 switch(member.status){
@@ -123,6 +125,16 @@ doorRouter.get('/' , async (req, res, next) => {
                         res.json({
                             result: 1,
                             message: 'APB Error'
+                        });
+                        break;
+                    /** 
+                     * 2022/02/22 [TEMP] Respond success without status check process
+                     *  => Add open mode by member.status = 4
+                     */
+                    case 4:
+                        res.json({
+                            result: 0,
+                            message: 'Success'
                         });
                         break;
                     default:

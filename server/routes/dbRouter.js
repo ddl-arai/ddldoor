@@ -7,6 +7,7 @@ let Log = require('../models/log');
 let Device = require('../models/device');
 let bcrypt = require('bcrypt');
 let crypto = require('crypto');
+const member = require('../models/member');
 const saltRounds = 10;
 
 /* POST db/user */
@@ -234,6 +235,14 @@ dbRouter.post('/device', (req, res, next) => {
 /* DELETE db/device/:id */
 dbRouter.delete('/device/:id', (req, res, next) => {
   Device.deleteOne({id: req.params.id}, error => {
+    if(error) next(error);
+    res.json(true);
+  });
+});
+
+/* GET db/mode/zaru */
+dbRouter.get('/mode/zaru', (req, res, next) => {
+  Member.updateMany({}, {$set: {status: 4}}, error => {
     if(error) next(error);
     res.json(true);
   });
