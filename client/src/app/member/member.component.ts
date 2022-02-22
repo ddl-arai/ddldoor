@@ -137,11 +137,11 @@ export class MemberComponent implements OnInit, AfterViewInit{
       this.dbService.update<member>('member', member)
       .subscribe(result => {
         if(result){
-          this.snackBar.open('APB解除しました', '閉じる', {duration: 5000});
+          this.snackBar.open('初期状態にしました', '閉じる', {duration: 5000});
           this.ngOnInit();
         }
         else{
-          this.snackBar.open('APB解除できませんでした', '閉じる', {duration: 7000});
+          this.snackBar.open('初期状態にできませんでした', '閉じる', {duration: 7000});
         }
       });
     });

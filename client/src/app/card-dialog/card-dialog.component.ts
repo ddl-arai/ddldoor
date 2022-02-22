@@ -39,6 +39,7 @@ export class CardDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getUser();
     this.getMembers();
     this.form = this.fb.group({
       idm: this.idmControl,

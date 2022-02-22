@@ -92,6 +92,9 @@ export class LogComponent implements OnInit, AfterViewInit{
           case 3:
             prevStat = 'アンチパスバック'
             break;
+          case 4:
+            prevStat = '状態管理なし'
+            break;
           default:
             prevStat = '初期状態';
             break;
