@@ -133,7 +133,7 @@ doorRouter.get('/' , async (req, res, next) => {
                         switch(device.func){
                             case 'enter':
                                 member.status = 3;
-                                success = 1;
+                                result = 1;
                                 res.json({
                                     result: 1,
                                     message: 'APB Error'
@@ -163,7 +163,7 @@ doorRouter.get('/' , async (req, res, next) => {
                                 break;
                             case 'exit':
                                 member.status = 3;
-                                success = 1;
+                                result = 1;
                                 res.json({
                                     result: 1,
                                     message: 'APB Error'
@@ -176,7 +176,7 @@ doorRouter.get('/' , async (req, res, next) => {
                         break;
                     /* APB */
                     case 3:
-                        success = 1;
+                        result = 1;
                         res.json({
                             result: 1,
                             message: 'APB Error'
