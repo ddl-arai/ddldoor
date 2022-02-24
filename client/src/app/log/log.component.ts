@@ -110,9 +110,6 @@ export class LogComponent implements OnInit, AfterViewInit{
             break;
           case 2:
             result = '未登録IDm';
-                    /* DEBUG */
-            console.log(log.id);
-            console.log(typeof log.id);
             break;
           case 3:
             result = '未登録デバイス';
