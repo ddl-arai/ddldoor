@@ -20,6 +20,9 @@ doorRouter.get('/' , async (req, res, next) => {
             /* Processing status logic */
             try {
                 let card = await Card.findOne({idm: req.query.idm}).exec();
+                let device = await Device.findOne({id: req.query.devid}).exec();
+                let member = await Member.findOne({id: card.id}).exec();
+
                 if(!card){
                     res.json({
                         result: 2,
@@ -50,7 +53,7 @@ doorRouter.get('/' , async (req, res, next) => {
                     });
                     return;
                 }
-                let device = await Device.findOne({id: req.query.devid}).exec();
+                
                 if(!device){
                     res.json({
                         result: 2,
@@ -66,7 +69,7 @@ doorRouter.get('/' , async (req, res, next) => {
                     });
                     return;
                 }
-                let member = await Member.findOne({id: card.id}).exec();
+        
                 if(!member.enable){
                     res.json({
                         result: 2,
