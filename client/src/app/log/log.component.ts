@@ -16,7 +16,7 @@ export interface displayData {
   name: string,
   devName: string,
   prevStat: string,
-  success: string
+  result: string
 }
 
 export interface options {
@@ -38,7 +38,7 @@ export class LogComponent implements OnInit, AfterViewInit{
     'name',
     'devName',
     'prevStat',
-    'success'
+    'result'
   ];
   dataSource = new MatTableDataSource<displayData>();
 
@@ -81,8 +81,11 @@ export class LogComponent implements OnInit, AfterViewInit{
       logs.forEach(log => {
         let time = new Date(log.sec * 1000);
         let prevStat: string = '';
-        let success: string = '';
+        let result: string = '';
         switch(log.prevStat){
+          case 0:
+            prevStat = '初期状態';
+            break;
           case 1:
             prevStat = '在室';
             break;
@@ -96,14 +99,29 @@ export class LogComponent implements OnInit, AfterViewInit{
             prevStat = '状態管理なし'
             break;
           default:
-            prevStat = '初期状態';
             break;
         }
-        if(log.success){
-          success = '通常タッチOK';
-        }
-        else{
-          success = 'アンチパスバックエラー'
+        switch(log.result){
+          case 0:
+            result = '通常タッチOK';
+            break;
+          case 1:
+            result = 'アンチパスバックエラー';
+            break;
+          case 2:
+            result = '未登録IDm';
+            break;
+          case 3:
+            result = '無効IDM';
+            break;
+          case 4:
+            result = '未登録デバイス';
+            break;
+          case 5:
+            result = '無効メンバー';
+            break;
+          default:
+            break;
         }
 
         displaylogs.push({
@@ -115,7 +133,7 @@ export class LogComponent implements OnInit, AfterViewInit{
           name: log.name,
           devName: log.devName,
           prevStat: prevStat,
-          success: success
+          result: result
         });
       });
       this.dataSource.data = displaylogs;

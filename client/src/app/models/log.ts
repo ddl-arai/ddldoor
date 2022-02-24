@@ -7,5 +7,5 @@ export interface log {
     devid: number,
     devName: string,
     prevStat: number,
-    success: boolean
+    result: number
 }

@@ -25,12 +25,28 @@ doorRouter.get('/' , async (req, res, next) => {
                         result: 2,
                         message: 'Not registered idm'
                     });
+                    await Log.create({
+                        sec: req.query.sec,
+                        idm: req.query.idm,
+                        devid: req.query.devid,
+                        devName: device.name,
+                        result: 2
+                    });
                     return;
                 }
                 if(!card.enable){
                     res.json({
                         result: 2,
                         message: 'Disable idm'
+                    });
+                    await Log.create({
+                        sec: req.query.sec,
+                        idm: req.query.idm,
+                        id: member.id,
+                        name: member.name,
+                        devid: req.query.devid,
+                        devName: device.name,
+                        result: 3
                     });
                     return;
                 }
@@ -40,6 +56,14 @@ doorRouter.get('/' , async (req, res, next) => {
                         result: 2,
                         message: 'Not registered device'
                     });
+                    await Log.create({
+                        sec: req.query.sec,
+                        idm: req.query.idm,
+                        id: member.id,
+                        name: member.name,
+                        devid: req.query.devid,
+                        result: 4
+                    });
                     return;
                 }
                 let member = await Member.findOne({id: card.id}).exec();
@@ -48,12 +72,21 @@ doorRouter.get('/' , async (req, res, next) => {
                         result: 2,
                         message: 'Disable member'
                     });
+                    await Log.create({
+                        sec: req.query.sec,
+                        idm: req.query.idm,
+                        id: member.id,
+                        name: member.name,
+                        devid: req.query.devid,
+                        devName: device.name,
+                        result: 5
+                    });
                     return;
                 }
 
                 /* Status check logic */
                 const prevStat = member.status;
-                let success = true;
+                let result = 0;
                 switch(member.status){
                     /* Initial */
                     case 0:
@@ -78,7 +111,7 @@ doorRouter.get('/' , async (req, res, next) => {
                         switch(device.func){
                             case 'enter':
                                 member.status = 3;
-                                success = false
+                                success = 1;
                                 res.json({
                                     result: 1,
                                     message: 'APB Error'
@@ -108,7 +141,7 @@ doorRouter.get('/' , async (req, res, next) => {
                                 break;
                             case 'exit':
                                 member.status = 3;
-                                success = false;
+                                success = 1;
                                 res.json({
                                     result: 1,
                                     message: 'APB Error'
@@ -121,7 +154,7 @@ doorRouter.get('/' , async (req, res, next) => {
                         break;
                     /* APB */
                     case 3:
-                        success = false;
+                        success = 1;
                         res.json({
                             result: 1,
                             message: 'APB Error'
@@ -148,7 +181,7 @@ doorRouter.get('/' , async (req, res, next) => {
                     devid: req.query.devid,
                     devName: device.name,
                     prevStat: prevStat,
-                    success: success
+                    result: result
                 });
 
             }
