@@ -21,25 +21,60 @@ doorRouter.get('/' , async (req, res, next) => {
             try {
                 let card = await Card.findOne({idm: req.query.idm}).exec();
                 let device = await Device.findOne({id: req.query.devid}).exec();
-                let member = await Member.findOne({id: card.id}).exec();
 
                 if(!card){
+                    /* No card and device */
+                    if(!device){
+                        res.json({
+                            result: 6,
+                            message: 'Not registered idm and device'
+                        });
+                        await Log.create({
+                            sec: req.query.sec,
+                            idm: req.query.idm,
+                            devid: req.query.devid,
+                            result: 6
+                        });
+                        return;
+                    }
+                    else{
+                        /* No card, exist device */
+                        res.json({
+                            result: 2,
+                            message: 'Not registered idm'
+                        });
+                        await Log.create({
+                            sec: req.query.sec,
+                            idm: req.query.idm,
+                            devid: req.query.devid,
+                            devName: device.name,
+                            result: 2
+                        });
+                        return;
+                    }
+                }
+                
+                /* Card exist and no device */
+                let member = await Member.findOne({id: card.id}).exec();
+                if(!device){
                     res.json({
-                        result: 2,
-                        message: 'Not registered idm'
+                        result: 3,
+                        message: 'Not registered device'
                     });
                     await Log.create({
                         sec: req.query.sec,
                         idm: req.query.idm,
+                        id: member.id,
+                        name: member.name,
                         devid: req.query.devid,
-                        devName: device.name,
-                        result: 2
+                        result: 3
                     });
                     return;
                 }
+
                 if(!card.enable){
                     res.json({
-                        result: 2,
+                        result: 4,
                         message: 'Disable idm'
                     });
                     await Log.create({
@@ -49,30 +84,14 @@ doorRouter.get('/' , async (req, res, next) => {
                         name: member.name,
                         devid: req.query.devid,
                         devName: device.name,
-                        result: 3
-                    });
-                    return;
-                }
-                
-                if(!device){
-                    res.json({
-                        result: 2,
-                        message: 'Not registered device'
-                    });
-                    await Log.create({
-                        sec: req.query.sec,
-                        idm: req.query.idm,
-                        id: member.id,
-                        name: member.name,
-                        devid: req.query.devid,
                         result: 4
                     });
                     return;
                 }
-        
+
                 if(!member.enable){
                     res.json({
-                        result: 2,
+                        result: 5,
                         message: 'Disable member'
                     });
                     await Log.create({

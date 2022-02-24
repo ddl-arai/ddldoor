@@ -112,13 +112,16 @@ export class LogComponent implements OnInit, AfterViewInit{
             result = '未登録IDm';
             break;
           case 3:
-            result = '無効IDM';
-            break;
-          case 4:
             result = '未登録デバイス';
             break;
+          case 4:
+            result = '無効なIDM';
+            break;
           case 5:
-            result = '無効メンバー';
+            result = '無効なメンバー';
+            break;
+          case 6:
+            result = '未登録IDm&デバイス';
             break;
           default:
             break;
