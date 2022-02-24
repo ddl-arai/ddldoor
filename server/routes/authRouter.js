@@ -77,5 +77,10 @@ authRouter.post('/change/:token', (req, res, next) => {
   });
 });
 
+/* GET auth/dummy */
+authRouter.get('/dummy', (req, res, next) =>{
+  res.json(true);
+})
+
 
 module.exports = authRouter;
