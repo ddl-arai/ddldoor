@@ -84,7 +84,7 @@ doorRouter.get('/' , async (req, res, next) => {
                         name: member.name,
                         devid: req.query.devid,
                         devName: device.name,
-                        result: 6
+                        result: 5
                     });
                     return;
                 }
