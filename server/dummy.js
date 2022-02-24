@@ -1,16 +1,15 @@
 let schedule = require('node-schedule'); 
 let axios = require('axios'); 
 
+console.log('Wait...');
 schedule.scheduleJob('*/3 * * * *', function(){
-    console.log('Wait...');
     dummyWork();
 });
 
 async function dummyWork(){
-    console.log('Active dummyWork')
     try { 
-        const res = await axios.get('http://35.77.127.4/auth/dummy');
-        console.log(res);
+        const response = await axios.get('http://35.77.127.4/auth/dummy');
+        console.log(response.data);
     } catch (error) { 
         console.log('Error!');
     } 
