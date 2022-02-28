@@ -19,7 +19,8 @@ export class EditDeviceDialogComponent implements OnInit {
   device: device = {
     id: 0,
     name: '',
-    func: ''
+    func: '',
+    status: 0
   }
   form!: FormGroup;
   idControl = new FormControl(null, Validators.required);

@@ -200,6 +200,19 @@ dbRouter.get('/logs', (req, res, next) => {
   });
 });
 
+/* POST db/logs/delete */
+dbRouter.post('/logs/delete', async (req, res, next) => {
+  try {
+    for(let no of req.body){
+      await Log.deleteOne({no: no}).exec();
+    }
+    res.json(true);
+  }
+  catch(error){
+    next(error);
+  }
+});
+
 /* GET db/devices */
 dbRouter.get('/devices', (req, res, next) => {
   Device.find({}, (error, devices) => {

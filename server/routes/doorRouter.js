@@ -9,7 +9,7 @@ let Device = require('../models/device');
 doorRouter.get('/' , async (req, res, next) => {
     if(!req.query.devid || !req.query.idm || !req.query.sec || !req.query.request){
         res.json({
-            result: 2,
+            result: 7,
             message: 'Invalid parameter'
         });
         return;
@@ -212,8 +212,98 @@ doorRouter.get('/' , async (req, res, next) => {
             } 
             break;
         case 'open':
+            try {
+                let device = await Device.findOne({id: req.query.devid}).exec();
+                if(!device){
+                    res.json({
+                        result: 1,
+                        message: 'Not registered device'
+                    });
+                    await Log.create({
+                        sec: req.query.sec,
+                        devid: req.query.devid,
+                        result: 3
+                    });
+                    return;
+                }
+
+                let result = 7;
+                switch(device.status){
+                    case 0:
+                        device.status = 1;
+                        res.json({
+                            result: 0,
+                            message: 'Success'
+                        });
+                        break;
+                    case 1:
+                        result = 9;
+                        res.json({
+                            result: 1,
+                            message: 'Already opened'
+                        });
+                    default:
+                        break;
+                }
+                await device.save();
+                await Log.create({
+                    sec: req.query.sec,
+                    devid: req.query.devid,
+                    result: result
+                });
+            }
+            catch(error){
+                next(error);
+            }
             break;
-        case 'something':
+        case 'close':
+            try {
+                let device = await Device.findOne({id: req.query.devid}).exec();
+                if(!device){
+                    res.json({
+                        result: 1,
+                        message: 'Not registered device'
+                    });
+                    await Log.create({
+                        sec: req.query.sec,
+                        devid: req.query.devid,
+                        result: 3
+                    });
+                    return;
+                }
+
+                let result = 8;
+                switch(device.status){
+                    case 0:
+                        result = 9;
+                        res.json({
+                            result: 1,
+                            message: 'Already closed'
+                        });
+                        break;
+                    case 1:
+                        device.status = 0;
+                        res.json({
+                            result: 0,
+                            message: 'Success'
+                        });
+                        break;
+                    default:
+                        break;
+                }
+                await device.save();
+                await Log.create({
+                    sec: req.query.sec,
+                    devid: req.query.devid,
+                    result: result
+                });
+            }
+            catch(error){
+                next(error);
+            }
+            break;
+        case 'status':
+
             break;
         default:
             res.json({

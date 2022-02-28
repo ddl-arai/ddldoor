@@ -60,6 +60,7 @@ import { DeleteDeviceDialogComponent } from './delete-device-dialog/delete-devic
 import { AccountComponent } from './account/account.component';
 import { ResetComponent } from './reset/reset.component';
 import { DeleteAccountDialogComponent } from './delete-account-dialog/delete-account-dialog.component';
+import { DeleteLogDialogComponent } from './delete-log-dialog/delete-log-dialog.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { DeleteAccountDialogComponent } from './delete-account-dialog/delete-acc
     DeleteDeviceDialogComponent,
     AccountComponent,
     ResetComponent,
-    DeleteAccountDialogComponent
+    DeleteAccountDialogComponent,
+    DeleteLogDialogComponent
   ],
   imports: [
     BrowserModule,

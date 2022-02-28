@@ -19,7 +19,8 @@ export class DeviceDialogComponent implements OnInit {
   device: device = {
     id: 0,
     name: '',
-    func: ''
+    func: '',
+    status: 0
   }
   idOptions: number[] = [...Array(100).keys()].map(i => ++i);
   form!: FormGroup;

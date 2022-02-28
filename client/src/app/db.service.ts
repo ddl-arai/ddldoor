@@ -126,6 +126,13 @@ export class DbService {
       catchError(this.handleError<boolean>(false))
     );
   }
+
+  deleteLogs(ids: number[]): Observable<boolean>{
+    return this.http.post<boolean>('db/logs/delete', ids, this.httpOptions)
+    .pipe(
+      catchError(this.handleError<boolean>(false))
+    );
+  }
   
   modeChange(kind: string): Observable<boolean> {
     return this.http.get(`db/mode/${kind}`, this.httpOptions)

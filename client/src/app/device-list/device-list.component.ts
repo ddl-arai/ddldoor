@@ -12,7 +12,8 @@ import { MatSort } from '@angular/material/sort';
 export interface displayData {
   id: number,
   name: string,
-  role: string // 入口 or 出口
+  role: string, // 入口 or 出口
+  status: string
 }
 
 
@@ -26,6 +27,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
     'id',
     'name',
     'role',
+    'status',
     'action'
   ];
   dataSource = new MatTableDataSource<displayData>();
@@ -57,7 +59,8 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
       }
       let displayDevices: displayData[] = [];
       devices.forEach(device => {
-        let role: string;
+        let role: string = '';
+        let status: string = '';
         switch(device.func){
           case 'enter':
             role = '入口'
@@ -66,13 +69,23 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
             role = '出口';
             break;
           default:
-            role = '';
+            break;
+        }
+        switch(device.status){
+          case 0:
+            status = '通常';
+            break;
+          case 1:
+            status = '一時解錠中';
+            break;
+          default:
             break;
         }
         displayDevices.push({
           id: device.id,
           name: device.name,
-          role: role
+          role: role,
+          status: status
         });
         this.usedIds.push(device.id)
       });
