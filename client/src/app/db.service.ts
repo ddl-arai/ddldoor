@@ -127,10 +127,13 @@ export class DbService {
     );
   }
 
-  deleteLogs(ids: number[]): Observable<boolean>{
-    return this.http.post<boolean>('db/logs/delete', ids, this.httpOptions)
+  deleteLogs(start: number, end: number): Observable<number>{
+    return this.http.post<number>('db/logs/delete', JSON.stringify({
+      start: start,
+      end: end
+    }), this.httpOptions)
     .pipe(
-      catchError(this.handleError<boolean>(false))
+      catchError(this.handleError<number>(-1))
     );
   }
   

@@ -6,8 +6,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { FormGroup, FormControl } from '@angular/forms';
-import { DeleteLogDialogComponent } from '../delete-log-dialog/delete-log-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { SpinnerService } from '../spinner.service';
 
 export interface displayData {
   no: number,
@@ -50,7 +50,6 @@ export class LogComponent implements OnInit, AfterViewInit{
   options: options = {
     fileName: ''
   }
-  admin: boolean = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -58,11 +57,11 @@ export class LogComponent implements OnInit, AfterViewInit{
   constructor(
     private dbService: DbService,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private spinnerService: SpinnerService
   ) { }
 
   ngOnInit(): void {
-    this.getUser();
     this.getLogs();
     this.range.reset();
     this.options.fileName = 'ddldoor_log';
@@ -73,16 +72,13 @@ export class LogComponent implements OnInit, AfterViewInit{
     this.dataSource.sort = this.sort;
   }
 
-  getUser(): void {
-    this.dbService.getUser()
-    .subscribe(user => this.admin = user.admin);
-  }
-
   getLogs(): void {
+    this.spinnerService.attach();
     this.dbService.getAll<log>('logs')
     .subscribe(logs => {
       if(logs.length === 0){
         this.snackBar.open('データがありませんでした', '閉じる', {duration: 7000});
+        this.spinnerService.detach();
         return;
       }
       let displaylogs: displayData[] = [];
@@ -157,6 +153,7 @@ export class LogComponent implements OnInit, AfterViewInit{
         });
       });
       this.dataSource.data = displaylogs;
+      this.spinnerService.detach();
     });
   }
 
@@ -182,24 +179,6 @@ export class LogComponent implements OnInit, AfterViewInit{
     let end_str = `${end.getFullYear()}-${this.pad(end.getMonth() + 1)}-${this.pad(end.getDate())}`
     this.options.fileName += `(${start_str}_${end_str})`;
     this.snackBar.open('フィルタリングしました', '閉じる', {duration: 5000});
-  }
-
-  onDelete(): void {
-    let noList: number[] = [];
-    this.dataSource.data.forEach(el => {
-      noList.push(el.no);
-    });
-    let dialogRef = this.dialog.open(DeleteLogDialogComponent, {
-      width: '416px',
-      data: { 
-        start: this.range.value['start'],
-        end: this.range.value['end'],
-        noList: noList
-      }
-    });
-    dialogRef.afterClosed().subscribe(() => {
-        this.ngOnInit();
-    });
   }
 
 }

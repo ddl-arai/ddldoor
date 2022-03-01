@@ -10,7 +10,7 @@
         <a mat-list-item [routerLink]="['/home/log']"><mat-icon class="list-icon">description</mat-icon>ログ</a>
         <a mat-list-item [routerLink]="['/home/nfc']"><mat-icon class="list-icon">nfc</mat-icon>カードID</a>
         <a mat-list-item [routerLink]="['/home/deviceList']"><mat-icon class="list-icon">device_hub</mat-icon>デバイス一覧</a>
-        <a *ngIf="user.admin" mat-list-item [routerLink]="['/home/account']"><mat-icon class="list-icon">account_circle</mat-icon>アカウント</a>
+        <a *ngIf="user.admin" mat-list-item [routerLink]="['/home/maintenance']"><mat-icon class="list-icon">build</mat-icon>メンテナンス</a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>

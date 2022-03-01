@@ -203,10 +203,14 @@ dbRouter.get('/logs', (req, res, next) => {
 /* POST db/logs/delete */
 dbRouter.post('/logs/delete', async (req, res, next) => {
   try {
-    for(let no of req.body){
-      await Log.deleteOne({no: no}).exec();
+    let logs = await Log.find({}).exec();
+    logs = logs.filter(log => (log.sec * 1000) >= req.body['start'] && (log.sec * 1000) <= req.body['end']);
+    let counter = 0;
+    for(let log of logs){
+      await Log.deleteOne({no: log.no}).exec();
+      counter++;
     }
-    res.json(true);
+    res.json(counter);
   }
   catch(error){
     next(error);

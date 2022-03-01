@@ -13,7 +13,7 @@
 .mat-toolbar.mat-primary {
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 2;
 }
 
 .mat-headline {
@@ -28,4 +28,8 @@
 
 .list-icon {
     padding-right: 8px;
+}
+
+.mat-menu-item .mat-icon {
+    margin-right: 8px;
 }

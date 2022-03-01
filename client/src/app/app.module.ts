@@ -7,6 +7,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { PortalModule } from '@angular/cdk/portal';
 
 /* Material */
 import { MatButtonModule } from '@angular/material/button';
@@ -36,6 +38,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 /* Component */
@@ -61,6 +65,7 @@ import { AccountComponent } from './account/account.component';
 import { ResetComponent } from './reset/reset.component';
 import { DeleteAccountDialogComponent } from './delete-account-dialog/delete-account-dialog.component';
 import { DeleteLogDialogComponent } from './delete-log-dialog/delete-log-dialog.component';
+import { WorkHoursComponent } from './work-hours/work-hours.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +90,8 @@ import { DeleteLogDialogComponent } from './delete-log-dialog/delete-log-dialog.
     AccountComponent,
     ResetComponent,
     DeleteAccountDialogComponent,
-    DeleteLogDialogComponent
+    DeleteLogDialogComponent,
+    WorkHoursComponent
   ],
   imports: [
     BrowserModule,
@@ -121,7 +127,14 @@ import { DeleteLogDialogComponent } from './delete-log-dialog/delete-log-dialog.
     MatDividerModule,
     ClipboardModule,
     MatCheckboxModule,
-    MatTooltipModule
+    MatTooltipModule,
+    OverlayModule,
+    PortalModule,
+    MatTabsModule,
+    MatExpansionModule
+  ],
+  entryComponents: [
+    MatSpinner
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },

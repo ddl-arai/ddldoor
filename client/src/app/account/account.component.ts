@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeleteAccountDialogComponent } from '../delete-account-dialog/delete-account-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { DeleteLogDialogComponent } from '../delete-log-dialog/delete-log-dialog.component';
 
 export interface displayData {
   email: string,
@@ -37,6 +38,13 @@ export class AccountComponent implements OnInit {
   adminControl = new FormControl(null);
   success: boolean = false;
   checked: boolean = false;
+
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
+
+
 
   displayedColumns: string[] = [
     'email',
@@ -148,6 +156,24 @@ export class AccountComponent implements OnInit {
       else{
         this.snackBar.open('モード変更できませんでした', '閉じる', { duration: 7000 });
       }
+    });
+  }
+
+  onDeleteLog(): void {
+    if(!((this.range.value['start'] && this.range.value['end']) || (!this.range.value['start'] && !this.range.value['end']))){
+      
+      this.snackBar.open('正しい範囲を入力してください', '閉じる', {duration: 7000});
+      return;
+    }
+    let dialogRef = this.dialog.open(DeleteLogDialogComponent, {
+      width: '480px',
+      data: { 
+        start: this.range.value['start'],
+        end: this.range.value['end']
+      }
+    });
+    dialogRef.afterClosed().subscribe(() => {
+        this.ngOnInit();
     });
   }
 }

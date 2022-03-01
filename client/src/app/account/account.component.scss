@@ -4,11 +4,11 @@
 
 .mat-card-title {
     margin: 0;
-    padding-bottom: 8px;
+    padding-bottom: 16px;
 }
 
-.header {
-    padding-bottom: 16px;
+.mat-card-header .mat-card-title {
+    margin-bottom: 0;
 }
 
 .password {
@@ -17,5 +17,17 @@
 
 table {
     width: 100%;
+}
+
+.filter-icon {
+    padding-right: 8px;
+}
+
+.danger-zone {
+    color: #f44336;
+}
+
+.info {
+    margin: 0;
 }
 
