@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, shareReplay } from 'rxjs/operators';
 import { user } from './models/user'; 
+import { workHours } from './models/workHours';
 
 @Injectable({
   providedIn: 'root'
@@ -149,6 +150,18 @@ export class DbService {
         }
       }),
       catchError(this.handleError<boolean>(false))
+    );
+  }
+
+  getWorkHours(ids: number[], start: string, end: string, round: number): Observable<workHours[]>{
+    return this.http.post<workHours[]>('db/workHours', JSON.stringify({
+      ids: ids,
+      start: start,
+      end: end,
+      round: round
+    }),this.httpOptions)
+    .pipe(
+      catchError(this.handleError<workHours[]>([]))
     );
   }
 

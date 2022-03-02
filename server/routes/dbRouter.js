@@ -265,4 +265,37 @@ dbRouter.get('/mode/zaru', (req, res, next) => {
   });
 });
 
+/* GET db/workHours */
+dbRouter.post('/workHours', async (req, res, next) => {
+  try {
+    const start = new Date(req.body['start']);
+    const end = new Date(req.body['end']);
+    let dateList = [];
+    let number_of_date = (start.getTime() - end.getTime()) / (24 * 60 * 60 * 1000) + 1;
+    console.log(`number of date: ${number_of_date}`);
+    for(let i = 0; i < number_of_date; i++){
+      dateList.push(new Date(start.setDate(start.getDate() + i)));
+    }
+    console.log(`dateList: ${dateList}`);
+
+    let enter_devids = await Device.find({func: 'enter'}).exec();
+    let exit_devids = await Device.find({func: 'exit'}).exec();
+    for(let id of req.body['ids']){
+      let logs = await Log.find({id: id}).exec();
+      logs = logs.filter(log => (log.sec * 1000) >= start.getTime() && (log.sec * 1000) <= end.setDate(end.getDate() + 1));
+      let enter_logs = logs.filter(log => enter_devids.includes(log.devid));
+      let exit_logs = logs.filter(log => exit_devids.includes(log.devid));
+      for(let date of dateList){
+
+      }
+    }
+
+    /* DEBUG */
+    res.sendStatus(500);
+  }
+  catch(error){
+    next(error);
+  }
+})
+
 module.exports = dbRouter;

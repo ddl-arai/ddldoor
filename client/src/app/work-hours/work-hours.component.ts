@@ -6,11 +6,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { SpinnerService } from '../spinner.service';
 import { filter } from '../models/filter';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { member } from '../models/member';
-
 
 export interface displayData {
   id: number,
@@ -29,6 +27,11 @@ export interface checkbox {
 
 export interface options {
   fileName: string
+}
+
+export interface roundOption {
+  viewValue: string,
+  value: number
 }
 
 @Component({
@@ -57,6 +60,16 @@ export class WorkHoursComponent implements OnInit, AfterViewInit{
     fileName: ''
   }
   checkboxList: checkbox[] = [];
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
+  roundOptions: roundOption[] = [
+    {viewValue: 'なし', value: 0},
+    {viewValue: '15分', value: 15},
+    {viewValue: '30分', value: 30}
+  ]
+  selectedRound: number = 0;
 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -67,7 +80,6 @@ export class WorkHoursComponent implements OnInit, AfterViewInit{
     private dbService: DbService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private spinnerService: SpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -79,18 +91,43 @@ export class WorkHoursComponent implements OnInit, AfterViewInit{
       roundMin: 0
     }
     this.options.fileName = 'ddldoor_workhours';
+    this.getMembers();
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.getMembers();
+    /* Here because of panel.close() */
     this.getWorkHours();
     
   }
 
   getWorkHours(): void {
-    this.panel.close();
+    if(!((this.range.value['start'] && this.range.value['end']) || (!this.range.value['start'] && !this.range.value['end']))){
+      this.snackBar.open('正しい範囲を入力してください', '閉じる', {duration: 7000});
+      return;
+    }
+    this.checkboxList = this.checkboxList.filter(el => el.checked === true);
+    let ids: number[] = [];
+    this.checkboxList.forEach(el => {
+      ids.push(el.id);
+    });
+    this.dbService.getWorkHours(ids, String(this.range.value['start']), String(this.range.value['end']), this.selectedRound)
+    .subscribe(workHoursArr => {
+      let displaylogs: displayData[] = [];
+      workHoursArr.forEach(workHours => {
+        displaylogs.push({
+          id: workHours.id,
+          name: workHours.name,
+          date: workHours.date,
+          start: workHours.start,
+          end: workHours.end,
+          hours: workHours.hours
+        });
+      });
+      this.dataSource.data = displaylogs;
+      this.panel.close();
+    });
   }
 
   getMembers(): void {
