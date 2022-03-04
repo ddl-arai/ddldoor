@@ -382,7 +382,7 @@ dbRouter.post('/workHours', async (req, res, next) => {
           console.log(`hh:mm: ${hours}`);
 
         }
-        else if(enter_logs.length !== 0){
+        else if(extract_enter_logs.length !== 0){
           console.log(2);
           /* enter exist */
           let enter_stamp = enter_logs[(enter_logs.map(log => log.sec)).indexOf(Math.min.apply(null, enter_logs.map(log => log.sec)))];
@@ -397,7 +397,7 @@ dbRouter.post('/workHours', async (req, res, next) => {
           }
           console.log(`start: ${start}`);
         }
-        else if(exit_logs.length !== 0){
+        else if(extract_exit_logs.length !== 0){
            /* exit exist */
            let exit_stamp = exit_logs[(exit_logs.map(log => log.sec)).indexOf(Math.max.apply(null, exit_logs.map(log => log.sec)))];
            console.log(`exit stamp: ${exit_stamp}`);
