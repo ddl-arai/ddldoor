@@ -275,7 +275,7 @@ dbRouter.post('/workHours', async (req, res, next) => {
       console.log('1');
       let time = new Date();
       endpoint = new Date(`${time.getFullYear()}/${time.getMonth() + 1}/${time.getDate()}`);
-      time = new Date(endpoint.getTime() - 4 * 24 * 60 * 60 * 1000);
+      time = new Date(endpoint.getTime() - 30 * 24 * 60 * 60 * 1000);
       startpoint = new Date(`${time.getFullYear()}/${time.getMonth() + 1}/${time.getDate()}`)
     }
     else{
