@@ -5,6 +5,7 @@ let mongoose = require("mongoose"),
     enable: Boolean,
     expire: Date,
     remark: String,
+    banDevids: [Number]
   });
 
 module.exports = mongoose.model("Card", cardSchema, 'card');

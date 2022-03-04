@@ -136,6 +136,9 @@ export class LogComponent implements OnInit, AfterViewInit{
           case 9:
             result = '不正なリクエスト';
             break;
+          case 10:
+            result = '許可されていないデバイス';
+            break;
           default:
             break;
         }

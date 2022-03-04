@@ -39,6 +39,25 @@
                 <mat-label>備考</mat-label>
                 <textarea matInput name="remark" formControlName="remark"></textarea>
             </mat-form-field>
+
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            許可しないデバイス
+                            <!--<mat-icon>filter_list</mat-icon>-->
+                        </mat-panel-title>
+                        <!--<mat-panel-description>
+                        </mat-panel-description>-->
+                    </mat-expansion-panel-header>
+                    <span fxLayout="row wrap" fxLayoutGap="10px">
+                        <span *ngFor="let viewDev of viewDevs">
+                            <mat-checkbox class="example-margin" formControlName="banDevids" [(ngModel)]="viewDev.checked">{{viewDev.name}}</mat-checkbox>
+                        </span>
+                    </span>
+                </mat-expansion-panel>
+            </mat-accordion>
+
         </div>
         </mat-card-content>
         <span fxLayout="row" fxLayoutAlign="space-between center">

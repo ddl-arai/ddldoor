@@ -18,6 +18,7 @@ export interface displayData {
 	enable: string, // 有効 or 無効
 	expire: string, // yyyy/mm/dd
 	remark: string,
+	banDevids: string
 }
  
 @Component({
@@ -33,6 +34,7 @@ export class NfcComponent implements OnInit, AfterViewInit{
 		'enable',
 		'expire',
 		'remark',
+		'banDevids',
 		'action'
 	];
 	dataSource = new MatTableDataSource<displayData>();
@@ -69,12 +71,22 @@ export class NfcComponent implements OnInit, AfterViewInit{
 				cards.forEach(card => {
 					let enable: string;
 					let member: member | undefined;
+					let banDevids: string = '';
 					if(card.enable){
 						enable = '有効';
 					}
 					else{
 						enable = '無効';
 					}
+					if(card.banDevids.length !== 0){	
+						card.banDevids.forEach(id => {
+							banDevids += `${id}, `;
+						});
+					}
+					else{
+						banDevids = 'なし, '
+					}
+
 					member = members.find(m => m.id === card.id);
 					if(member !== undefined){
 						let expire = new Date(card.expire);
@@ -84,7 +96,8 @@ export class NfcComponent implements OnInit, AfterViewInit{
 							name:  member.name,
 							enable: enable,
 							expire: `${expire.getFullYear()}/${('0' + (expire.getMonth() + 1).toString()).slice(-2)}/${('0' + expire.getDate().toString()).slice(-2)}`,
-							remark: card.remark
+							remark: card.remark,
+							banDevids: banDevids.slice(0, -2)
 						});
 					}
 					else{
@@ -103,6 +116,7 @@ export class NfcComponent implements OnInit, AfterViewInit{
 	onCardRegister(): void {
 		let dialogRef = this.dialog.open(CardDialogComponent, {
 			width: '400px',
+			//minHeight: 'calc(100vh - 64px)'
 		});
 		dialogRef.afterClosed().subscribe(() => {
 			this.ngOnInit();

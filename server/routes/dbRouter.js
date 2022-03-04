@@ -268,34 +268,190 @@ dbRouter.get('/mode/zaru', (req, res, next) => {
 /* GET db/workHours */
 dbRouter.post('/workHours', async (req, res, next) => {
   try {
-    const start = new Date(req.body['start']);
-    const end = new Date(req.body['end']);
+    let startpoint;
+    let endpoint;
+    /* In case of null on both, set 30 days */
+    if(req.body['start'] === 'null' && req.body['end'] === 'null'){
+      console.log('1');
+      let time = new Date();
+      endpoint = new Date(`${time.getFullYear()}/${time.getMonth() + 1}/${time.getDate()}`);
+      time = new Date(endpoint.getTime() - 4 * 24 * 60 * 60 * 1000);
+      startpoint = new Date(`${time.getFullYear()}/${time.getMonth() + 1}/${time.getDate()}`)
+    }
+    else{
+      startpoint = new Date(req.body['start']);
+      endpoint = new Date(req.body['end']);
+    }
     let dateList = [];
-    let number_of_date = (start.getTime() - end.getTime()) / (24 * 60 * 60 * 1000) + 1;
+    let number_of_date = (endpoint.getTime() - startpoint.getTime()) / (24 * 60 * 60 * 1000) + 1;
     console.log(`number of date: ${number_of_date}`);
     for(let i = 0; i < number_of_date; i++){
-      dateList.push(new Date(start.setDate(start.getDate() + i)));
+      dateList.push(new Date(startpoint.getTime() + i * 24 * 60 * 60 * 1000));
     }
     console.log(`dateList: ${dateList}`);
 
-    let enter_devids = await Device.find({func: 'enter'}).exec();
-    let exit_devids = await Device.find({func: 'exit'}).exec();
-    for(let id of req.body['ids']){
+    /* Depend on device db. Critical problem that device is deleted from db! */
+    let enter_devids = (await Device.find({func: 'enter'}).exec()).map(device => device.id);
+    let exit_devids = (await Device.find({func: 'exit'}).exec()).map(device => device.id);
+
+    let retured_data = [];
+    let ids = [];
+    if(req.body['ids'].length !== 0){
+      ids = req.body['ids'];
+    }
+    else{
+      ids = (await Member.find({}).exec()).map(member => member.id);
+    }
+    for(let id of ids){
       let logs = await Log.find({id: id}).exec();
-      logs = logs.filter(log => (log.sec * 1000) >= start.getTime() && (log.sec * 1000) <= end.setDate(end.getDate() + 1));
+      /* First, reduce given range for performance */
+      logs = logs.filter(log => (log.sec * 1000) >= startpoint.getTime() && (log.sec * 1000) <= (endpoint.getTime() + 24 * 60 * 60 * 1000));
+      //console.log(logs);
+
+      //console.log(enter_devids);
+      //console.log(exit_devids);
       let enter_logs = logs.filter(log => enter_devids.includes(log.devid));
       let exit_logs = logs.filter(log => exit_devids.includes(log.devid));
+
       for(let date of dateList){
+        let inf = new Date(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} 6:00`);
+        let sup = new Date(new Date(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} 5:59`).getTime() + 24 * 60 * 60 * 1000);
+        console.log(`inf: ${inf}`);
+        console.log(`sup: ${sup}`);
+        
+        let extract_enter_logs = enter_logs.filter(log => (inf.getTime() <= log.sec * 1000) && (sup.getTime() >= log.sec * 1000));
+        let extract_exit_logs = exit_logs.filter(log => (inf.getTime() <= log.sec * 1000 && sup.getTime() >= log.sec * 1000));
+        console.log(`extract enter logs: ${extract_enter_logs}`);
+        console.log(`extract exit logs: ${extract_exit_logs}`);
+        
+        let start = '';
+        let end = '';
+        let hours = '';
+        if(extract_enter_logs.length !== 0 && extract_exit_logs.length !== 0){
+          console.log(1);
+          //console.log(Math.min(enter_logs.map(log => log.sec)));
+          //console.log(enter_logs.map(log => log.sec));
+          //let enter_min_index = (enter_logs.map(log => log.sec)).indexOf(Math.min(enter_logs.map(log => log.sec)));
+          //let exit_max_index = (exit_logs.map(log => log.sec)).indexOf(Math.max(exit_logs.map(log => log.sec)));
+          //console.log(`index: ${enter_min_index}  ${exit_max_index}`);
+          let enter_stamp = extract_enter_logs[(extract_enter_logs.map(log => log.sec)).indexOf(Math.min.apply(null, extract_enter_logs.map(log => log.sec)))];
+          let exit_stamp = extract_exit_logs[(extract_exit_logs.map(log => log.sec)).indexOf(Math.max.apply(null, extract_exit_logs.map(log => log.sec)))];
+          console.log(`enter stamp: ${enter_stamp}`);
+          console.log(`exit stamp: ${exit_stamp}`);
+          let rounded_enter_time = roundCeil(new Date(enter_stamp.sec * 1000), req.body['round']);
+          let rounded_exit_time = roundFloor(new Date(exit_stamp.sec * 1000), req.body['round']);
+          console.log(`rounded enter stamp: ${rounded_enter_time}`);
+          console.log(`rounded exit stamp: ${rounded_exit_time}`);
+          //let hour = Math.floor((rounded_exit_time.getTime() - rounded_enter_time.getTime()) / (60 * 60 * 1000));
+          /* Round down */
+          //let min = Math.floor(((rounded_exit_time.getTime() - rounded_enter_time.getTime()) - hour * 60 * 60 * 1000) / (60 * 1000));
+          //hours = `${pad(hour)}:${pad(min)}`;
+          let startObj = {h: rounded_enter_time.getHours(), date: 1, hour: 0};
+          let endObj = {h: rounded_exit_time.getHours(), date: 1, hour: 0};
+          if(rounded_enter_time.getHours() < 6){
+            //start = `${rounded_enter_time.getHours() + 24}:${pad(rounded_enter_time.getMinutes())}`;
+            startObj.h += 24;
+            startObj.date = 2;
+            startObj.hour = 24;
+          }
+          else{
+            //start = `${pad(rounded_enter_time.getHours())}:${pad(rounded_enter_time.getMinutes())}`;
+            
+          }
 
+          if(rounded_exit_time.getHours() < 6){
+            //end = `${rounded_exit_time.getHours() + 24}:${pad(rounded_exit_time.getMinutes())}`;
+            endObj.h += 24
+            endObj.date = 2;
+            endObj.hour = 24;
+          }
+          else{
+            //end = `${pad(rounded_exit_time.getHours())}:${pad(rounded_exit_time.getMinutes())}`;
+          }
+          start = `${pad(startObj.h)}:${pad(rounded_enter_time.getMinutes())}`;
+          end = `${pad(endObj.h)}:${pad(rounded_exit_time.getMinutes())}`;
+          console.log(`start - end: ${start} - ${end}`);
+          let diff = new Date(`1970/1/${endObj.date} ${pad(endObj.h - endObj.hour)}:${pad(rounded_exit_time.getMinutes())}`).getTime() - new Date(`1970/1/${startObj.date} ${pad(startObj.h - startObj.hour)}:${pad(rounded_enter_time.getMinutes())}`).getTime();
+          let hour = Math.floor(diff / (60 * 60 * 1000));
+          let min = (diff - hour * 60 * 60 * 1000) / (60 * 1000);
+          if(hour < 0 || min < 0){
+            hour = 0;
+            min = 0;
+          }
+          hours = `${pad(hour)}:${pad(min)}`;
+          console.log(`hh:mm: ${hours}`);
+
+        }
+        else if(enter_logs.length !== 0){
+          console.log(2);
+          /* enter exist */
+          let enter_stamp = enter_logs[(enter_logs.map(log => log.sec)).indexOf(Math.min.apply(null, enter_logs.map(log => log.sec)))];
+          console.log(`enter stamp: ${enter_stamp}`);
+          let rounded_enter_time = roundCeil(new Date(enter_stamp.sec * 1000), req.body['round']);
+          console.log(`rounded enter stamp: ${rounded_enter_time}`);
+          if(rounded_enter_time.getHours() < 6){
+            start = `${rounded_enter_time.getHours() + 24}:${pad(rounded_enter_time.getMinutes())}`;
+          }
+          else{
+            start = `${pad(rounded_enter_time.getHours())}:${pad(rounded_enter_time.getMinutes())}`;
+          }
+          console.log(`start: ${start}`);
+        }
+        else if(exit_logs.length !== 0){
+           /* exit exist */
+           let exit_stamp = exit_logs[(exit_logs.map(log => log.sec)).indexOf(Math.max.apply(null, exit_logs.map(log => log.sec)))];
+           console.log(`exit stamp: ${exit_stamp}`);
+           let rounded_exit_time = roundFloor(new Date(exit_stamp.sec * 1000), req.body['round']);
+           console.log(`rounded exit stamp: ${rounded_exit_time}`);
+           if(rounded_exit_time.getHours() < 6){
+             end = `${rounded_exit_time.getHours() + 24}:${pad(rounded_exit_time.getMinutes())}`;
+           }
+           else{
+             end = `${pad(rounded_exit_time.getHours())}:${pad(rounded_exit_time.getMinutes())}`;
+           }
+           console.log(`end: ${end}`);
+        }
+        else{
+          // 
+        }
+        if(start !== '' || end !== '' || hours !== ''){
+          let member = await Member.findOne({id: id}).exec();
+          retured_data.push({
+            id: id,
+            name: member.name,
+            date: date.toString(),
+            start: start,
+            end: end,
+            hours: hours
+          });
+        }
       }
+      
     }
-
-    /* DEBUG */
-    res.sendStatus(500);
+    res.json(retured_data);
   }
   catch(error){
     next(error);
   }
 })
+
+function roundCeil(date, round){
+  if(round !== 0){
+    date = new Date(date.setMinutes(Math.ceil(date.getMinutes() / round) * round));
+  }
+  return date;
+}
+
+function roundFloor(date, round){
+  if(round !== 0){
+    date = new Date(date.setMinutes(Math.floor(date.getMinutes() / round) * round));
+  }
+  return date;
+}
+
+function pad(number){
+  let str = `${('0' + String(number)).slice(-2)}`;
+  return str;
+}
 
 module.exports = dbRouter;

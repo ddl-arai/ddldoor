@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { filter } from '../models/filter';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { member } from '../models/member';
+import { SpinnerService } from '../spinner.service';
 
 export interface displayData {
   id: number,
@@ -80,6 +81,7 @@ export class WorkHoursComponent implements OnInit, AfterViewInit{
     private dbService: DbService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
+    private spinnerService: SpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -98,28 +100,31 @@ export class WorkHoursComponent implements OnInit, AfterViewInit{
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     /* Here because of panel.close() */
-    this.getWorkHours();
+    this.getInitWorkHours();
     
   }
 
   getWorkHours(): void {
+    this.spinnerService.attach();
     if(!((this.range.value['start'] && this.range.value['end']) || (!this.range.value['start'] && !this.range.value['end']))){
       this.snackBar.open('正しい範囲を入力してください', '閉じる', {duration: 7000});
+      this.spinnerService.detach();
       return;
     }
-    this.checkboxList = this.checkboxList.filter(el => el.checked === true);
+    let checkedList = this.checkboxList.filter(el => el.checked === true);
     let ids: number[] = [];
-    this.checkboxList.forEach(el => {
+    checkedList.forEach(el => {
       ids.push(el.id);
     });
     this.dbService.getWorkHours(ids, String(this.range.value['start']), String(this.range.value['end']), this.selectedRound)
     .subscribe(workHoursArr => {
       let displaylogs: displayData[] = [];
       workHoursArr.forEach(workHours => {
+        let date = new Date(workHours.date);
         displaylogs.push({
           id: workHours.id,
           name: workHours.name,
-          date: workHours.date,
+          date:`${date.getFullYear()}/${this.pad(date.getMonth() + 1)}/${this.pad(date.getDate())}`,
           start: workHours.start,
           end: workHours.end,
           hours: workHours.hours
@@ -127,7 +132,13 @@ export class WorkHoursComponent implements OnInit, AfterViewInit{
       });
       this.dataSource.data = displaylogs;
       this.panel.close();
+      this.spinnerService.detach();
     });
+  }
+
+  pad(number: number): string {
+    let str: string = `${('0' + String(number)).slice(-2)}`;
+    return str;
   }
 
   getMembers(): void {
@@ -145,6 +156,30 @@ export class WorkHoursComponent implements OnInit, AfterViewInit{
 
   onRefresh(): void {
     this.ngOnInit();
+  }
+
+  getInitWorkHours(): void {
+    let checkedList = this.checkboxList.filter(el => el.checked === true);
+    let ids: number[] = [];
+    checkedList.forEach(el => {
+      ids.push(el.id);
+    });
+    this.dbService.getWorkHours(ids, String(this.range.value['start']), String(this.range.value['end']), this.selectedRound)
+    .subscribe(workHoursArr => {
+      let displaylogs: displayData[] = [];
+      workHoursArr.forEach(workHours => {
+        let date = new Date(workHours.date);
+        displaylogs.push({
+          id: workHours.id,
+          name: workHours.name,
+          date:`${date.getFullYear()}/${this.pad(date.getMonth() + 1)}/${this.pad(date.getDate())}`,
+          start: workHours.start,
+          end: workHours.end,
+          hours: workHours.hours
+        });
+      });
+      this.dataSource.data = displaylogs;
+    });
   }
 
 }

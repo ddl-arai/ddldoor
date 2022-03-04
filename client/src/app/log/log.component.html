@@ -1,8 +1,8 @@
 <mat-tab-group>
     <mat-tab label="ログ">
-        <mat-card class="data-card">
-            <mat-card-header class="header">
-                <mat-card-title class="mat-title">ログ</mat-card-title>
+        <div class="container" fxLayout="column" fxLayoutGap="16px">
+            
+                <div>
                     <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="16px">
                         <mat-form-field class="example-full-width">
                             <mat-label><mat-icon class="filter-icon">filter_list</mat-icon>日付指定</mat-label>
@@ -25,8 +25,8 @@
                         <button mat-icon-button color="primary" (click)="onRefresh()"><mat-icon class="refresh-icon">refresh</mat-icon></button>
                         <button mat-raised-button color="accent" (click)="exporter.exportTable('csv', options)">CSV出力</button>
                     </span>
-            </mat-card-header>
-            <mat-card-content>
+                </div>
+
                 <div class="mat-elevation-z8">
                     <table mat-table matTableExporter [dataSource]="dataSource" matSort matSortActive="no" matSortDirection="desc" #exporter="matTableExporter">
 
@@ -95,8 +95,7 @@
                     </table>
                     <mat-paginator [pageSizeOptions]="[50, 200, 1000]"></mat-paginator>
                 </div>
-            </mat-card-content>
-        </mat-card>
+        </div>
     </mat-tab>
     <mat-tab label="勤務時間">
         <app-work-hours></app-work-hours>

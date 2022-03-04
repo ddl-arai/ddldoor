@@ -106,6 +106,23 @@ doorRouter.get('/' , async (req, res, next) => {
                     return;
                 }
 
+                if(card.banDevids.includes(req.query.devid)){
+                    res.json({
+                        result: 6,
+                        message: 'Disable member'
+                    });
+                    await Log.create({
+                        sec: req.query.sec,
+                        idm: req.query.idm,
+                        id: member.id,
+                        name: member.name,
+                        devid: req.query.devid,
+                        devName: device.name,
+                        result: 10
+                    });
+                    return;
+                }
+
                 /* Status check logic */
                 const prevStat = member.status;
                 let result = 0;

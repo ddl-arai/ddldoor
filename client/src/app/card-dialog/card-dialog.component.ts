@@ -6,6 +6,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { card } from '../models/card';
 import { member } from '../models/member';
 import { NFCPortLib, Configuration, DetectionOption } from 'nfc-module';
+import { device } from '../models/device';
+
+export interface viewDev {
+  id: number,
+  name: string,
+  checked: boolean
+}
 
 @Component({
   selector: 'app-card-dialog',
@@ -18,7 +25,8 @@ export class CardDialogComponent implements OnInit {
     id: 0,
     enable: true,
     expire: '',
-    remark: ''
+    remark: '',
+    banDevids: []
   }
   admin: boolean = false;
   scanStatus: number = 0;
@@ -29,7 +37,9 @@ export class CardDialogComponent implements OnInit {
   idControl = new FormControl(null, Validators.required);
   enableControl = new FormControl(true);
   remarkControl = new FormControl(null);
-
+  banDevidsControl = new FormControl(null);
+  viewDevs: viewDev[] = [];
+  
 
   constructor(
     public dialogRef: MatDialogRef<CardDialogComponent>,
@@ -41,11 +51,13 @@ export class CardDialogComponent implements OnInit {
   ngOnInit(): void {
     this.getUser();
     this.getMembers();
+    this.getDevices();
     this.form = this.fb.group({
       idm: this.idmControl,
       id: this.idControl,
       enable: this.enableControl,
       remark: this.remarkControl,
+      banDevids: this.banDevidsControl
     });
   }
 
@@ -59,6 +71,19 @@ export class CardDialogComponent implements OnInit {
     .subscribe(user => this.admin = user.admin);
   }
 
+  getDevices(): void {
+    this.dbService.getAll<device>('devices')
+    .subscribe(devices => {
+      devices.forEach(device => {
+        this.viewDevs.push({
+          id: device.id,
+          name: device.name,
+          checked: false
+        });
+      });
+    });
+  }
+
   onCancel(): void {
     this.terminate = true;
     this.dialogRef.close();
@@ -68,9 +93,7 @@ export class CardDialogComponent implements OnInit {
     this.card.id = this.form.get('id')?.value;
     this.card.remark = this.form.get('remark')?.value;
     this.card.enable = this.form.get('enable')?.value;
-    /* Expired after 5 yeas => Set on server */
-    //let now = new Date(new Date().toLocaleString());
-    //this.card.expire = new Date(now.setFullYear(now.getFullYear() + 5)).toString();
+    this.card.banDevids = this.viewDevs.filter(dev => dev.checked).map(el => el.id);
     this.dbService.exist('card', this.card.idm)
     .subscribe(result => {
       if(result){

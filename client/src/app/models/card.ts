@@ -4,4 +4,5 @@ export interface card {
     enable: boolean,
     expire: string,  // Use new Date()
     remark: string,
+    banDevids: number[]
 }
