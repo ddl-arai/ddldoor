@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { DbService } from '../db.service';
@@ -19,7 +19,7 @@ export interface viewDev {
   templateUrl: './card-dialog.component.html',
   styleUrls: ['./card-dialog.component.scss']
 })
-export class CardDialogComponent implements OnInit {
+export class CardDialogComponent implements OnInit, AfterViewInit {
   card: card = {
     idm: '',
     id: 0,
@@ -37,9 +37,9 @@ export class CardDialogComponent implements OnInit {
   idControl = new FormControl(null, Validators.required);
   enableControl = new FormControl(true);
   remarkControl = new FormControl(null);
-  banDevidsControl = new FormControl(null);
+  banDevidsControl = new FormControl(false);
   viewDevs: viewDev[] = [];
-  
+  disableAnimation: boolean = true;
 
   constructor(
     public dialogRef: MatDialogRef<CardDialogComponent>,
@@ -60,6 +60,11 @@ export class CardDialogComponent implements OnInit {
       banDevids: this.banDevidsControl
     });
   }
+
+  ngAfterViewInit(): void {
+    /* Prevent expanasion panel animation on init */
+    setTimeout(() => this.disableAnimation = false);
+}
 
   getMembers(): void {
     this.dbService.getAll<member>('members')

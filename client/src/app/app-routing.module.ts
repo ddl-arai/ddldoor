@@ -10,6 +10,7 @@ import { LogComponent } from './log/log.component';
 import { DeviceListComponent } from './device-list/device-list.component';
 import { AccountComponent } from './account/account.component';
 import { ResetComponent } from './reset/reset.component';
+import { WorkHoursComponent } from './work-hours/work-hours.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -24,6 +25,7 @@ const routes: Routes = [
       { path: 'log', component: LogComponent },
       { path: 'nfc', component: NfcComponent },
       { path: 'deviceList', component: DeviceListComponent },
+      { path: 'workHours', component: WorkHoursComponent },
       { path: 'maintenance', component: AccountComponent }
     ]
   },

@@ -1,0 +1,5 @@
+<mat-form-field>
+    <mat-select [(ngModel)]="selected" (selectionChange)="selectedChange()">
+        <mat-option [value]="option.date" *ngFor="let option of selector">{{option.view}}</mat-option>
+    </mat-select>
+</mat-form-field>

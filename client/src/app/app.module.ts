@@ -66,6 +66,7 @@ import { ResetComponent } from './reset/reset.component';
 import { DeleteAccountDialogComponent } from './delete-account-dialog/delete-account-dialog.component';
 import { DeleteLogDialogComponent } from './delete-log-dialog/delete-log-dialog.component';
 import { WorkHoursComponent } from './work-hours/work-hours.component';
+import { WorkHoursChartComponent } from './work-hours-chart/work-hours-chart.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { WorkHoursComponent } from './work-hours/work-hours.component';
     ResetComponent,
     DeleteAccountDialogComponent,
     DeleteLogDialogComponent,
-    WorkHoursComponent
+    WorkHoursComponent,
+    WorkHoursChartComponent
   ],
   imports: [
     BrowserModule,

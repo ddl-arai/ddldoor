@@ -92,7 +92,7 @@ export class WorkHoursComponent implements OnInit, AfterViewInit{
       end: this.yesterday,
       roundMin: 0
     }
-    this.options.fileName = 'ddldoor_workhours';
+    this.options.fileName = 'ddldoor_workHours';
     this.getMembers();
   }
 
@@ -100,7 +100,7 @@ export class WorkHoursComponent implements OnInit, AfterViewInit{
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     /* Here because of panel.close() */
-    this.getInitWorkHours();
+    this.getWorkHours();
     
   }
 
@@ -159,6 +159,7 @@ export class WorkHoursComponent implements OnInit, AfterViewInit{
   }
 
   getInitWorkHours(): void {
+    //this.spinnerService.attach();
     let checkedList = this.checkboxList.filter(el => el.checked === true);
     let ids: number[] = [];
     checkedList.forEach(el => {
@@ -179,6 +180,7 @@ export class WorkHoursComponent implements OnInit, AfterViewInit{
         });
       });
       this.dataSource.data = displaylogs;
+      this.spinnerService.detach();
     });
   }
 

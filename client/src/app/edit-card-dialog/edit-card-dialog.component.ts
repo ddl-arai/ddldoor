@@ -1,9 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DbService } from '../db.service';
 import { member } from '../models/member';
 import { card } from '../models/card';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { device } from '../models/device';
 
@@ -18,7 +18,7 @@ export interface viewDev {
   templateUrl: './edit-card-dialog.component.html',
   styleUrls: ['./edit-card-dialog.component.scss']
 })
-export class EditCardDialogComponent implements OnInit {
+export class EditCardDialogComponent implements OnInit, AfterViewInit {
   members: member[] = []; 
   card: card = {
     idm: '',
@@ -33,8 +33,8 @@ export class EditCardDialogComponent implements OnInit {
   idControl = new FormControl(null, Validators.required);
   enableControl = new FormControl(true);
   remarkControl = new FormControl(null);
-  banDevidsControl = new FormControl(null);
   viewDevs: viewDev[] = [];
+  disableAnimation: boolean = true;
 
   constructor(
     public dialogRef: MatDialogRef<EditCardDialogComponent>,
@@ -45,16 +45,19 @@ export class EditCardDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.viewDevs);
     this.getCard(this.idm);
-    //this.getBanDevids();
     this.form = this.fb.group({
       idm: this.idmControl,
       id: this.idControl,
       enable: this.enableControl,
       remark: this.remarkControl,
-      banDevids: this.banDevidsControl
+      banDevids: this.fb.array([])
     });
+  }
+
+  ngAfterViewInit(): void {
+      /* Prevent expanasion panel animation on init */
+      setTimeout(() => this.disableAnimation = false);
   }
 
   getCard(idm: string): void {
@@ -68,48 +71,30 @@ export class EditCardDialogComponent implements OnInit {
         this.dbService.getAll<device>('devices')
         .subscribe(devices => {
           devices.forEach(device => {
+            this.banDevids.push(this.banDevidForm);
+            let checked = false;
             if(this.card.banDevids.includes(device.id)){
-              this.viewDevs.push({
-                id: device.id,
-                name: device.name,
-                checked: true
-              });
+              checked = true;
             }
-            else{
-              this.viewDevs.push({
-                id: device.id,
-                name: device.name,
-                checked: false
-              });
-            }
+            this.viewDevs.push({
+              id: device.id,
+              name: device.name,
+              checked: checked
+            });
           });
-          console.log(this.viewDevs);
         });
       });
     });
   }
 
-  getBanDevids(): void {
-    this.dbService.getAll<device>('devices')
-    .subscribe(devices => {
-      for(let device of devices){
-        let checked: boolean = false;
-        console.log(this.card.banDevids);
-        if(this.card.banDevids.includes(device.id)){
-          console.log(device.id);
-          checked = true;
-        }
-        else{
-          checked = false;
-        }
-        this.viewDevs.push({
-          id: device.id,
-          name: device.name,
-          checked: checked
-        });
-      }
-      console.log(this.viewDevs);
+  get banDevidForm(): FormGroup {
+    return this.fb.group({
+      banDevidCtl: new FormControl(false)
     });
+  }
+
+  get banDevids(): FormArray {
+    return this.form.get('banDevids') as FormArray;
   }
 
   onSave(): void {

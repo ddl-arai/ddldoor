@@ -268,33 +268,29 @@ dbRouter.get('/mode/zaru', (req, res, next) => {
 /* GET db/workHours */
 dbRouter.post('/workHours', async (req, res, next) => {
   try {
-    let startpoint;
-    let endpoint;
     /* In case of null on both, set 30 days */
+    let dateObj = {};
     if(req.body['start'] === 'null' && req.body['end'] === 'null'){
-      console.log('1');
-      let time = new Date();
-      endpoint = new Date(`${time.getFullYear()}/${time.getMonth() + 1}/${time.getDate()}`);
-      time = new Date(endpoint.getTime() - 30 * 24 * 60 * 60 * 1000);
-      startpoint = new Date(`${time.getFullYear()}/${time.getMonth() + 1}/${time.getDate()}`)
+      let now = new Date();
+      dateObj.endPoint = new Date(`${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`);
+      now = new Date(dateObj.endPoint.getTime() - 30 * 24 * 60 * 60 * 1000);
+      dateObj.startPoint = new Date(`${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`);
     }
     else{
-      startpoint = new Date(req.body['start']);
-      endpoint = new Date(req.body['end']);
+      dateObj.startPoint = new Date(req.body['start']);
+      dateObj.endPoint = new Date(req.body['end']);
     }
     let dateList = [];
-    let number_of_date = (endpoint.getTime() - startpoint.getTime()) / (24 * 60 * 60 * 1000) + 1;
-    console.log(`number of date: ${number_of_date}`);
-    for(let i = 0; i < number_of_date; i++){
-      dateList.push(new Date(startpoint.getTime() + i * 24 * 60 * 60 * 1000));
+    dateObj.numberOfDate = (dateObj.endPoint.getTime() - dateObj.startPoint.getTime()) / (24 * 60 * 60 * 1000) + 1;
+    for(let i = 0; i < dateObj.numberOfDate; i++){
+      dateList.push(new Date(dateObj.startPoint.getTime() + i * 24 * 60 * 60 * 1000));
     }
-    console.log(`dateList: ${dateList}`);
 
     /* Depend on device db. Critical problem that device is deleted from db! */
-    let enter_devids = (await Device.find({func: 'enter'}).exec()).map(device => device.id);
-    let exit_devids = (await Device.find({func: 'exit'}).exec()).map(device => device.id);
+    let enterDevids = (await Device.find({func: 'enter'}).exec()).map(device => device.id);
+    let exitDevids = (await Device.find({func: 'exit'}).exec()).map(device => device.id);
 
-    let retured_data = [];
+    let response = [];
     let ids = [];
     if(req.body['ids'].length !== 0){
       ids = req.body['ids'];
@@ -304,131 +300,102 @@ dbRouter.post('/workHours', async (req, res, next) => {
     }
     for(let id of ids){
       let logs = await Log.find({id: id}).exec();
-      /* First, reduce given range for performance */
-      logs = logs.filter(log => (log.sec * 1000) >= startpoint.getTime() && (log.sec * 1000) <= (endpoint.getTime() + 24 * 60 * 60 * 1000));
-      //console.log(logs);
-
-      //console.log(enter_devids);
-      //console.log(exit_devids);
-      let enter_logs = logs.filter(log => enter_devids.includes(log.devid));
-      let exit_logs = logs.filter(log => exit_devids.includes(log.devid));
+      logs = logs.filter(log => (log.sec * 1000) >= dateObj.startPoint.getTime() && (log.sec * 1000) <= (dateObj.endPoint.getTime() + 24 * 60 * 60 * 1000)); // For performance
+      let filteredEnterLogs = logs.filter(log => enterDevids.includes(log.devid));
+      let filteredExitLogs = logs.filter(log => exitDevids.includes(log.devid));
 
       for(let date of dateList){
-        let inf = new Date(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} 6:00`);
-        let sup = new Date(new Date(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} 5:59`).getTime() + 24 * 60 * 60 * 1000);
-        console.log(`inf: ${inf}`);
-        console.log(`sup: ${sup}`);
-        
-        let extract_enter_logs = enter_logs.filter(log => (inf.getTime() <= log.sec * 1000) && (sup.getTime() >= log.sec * 1000));
-        let extract_exit_logs = exit_logs.filter(log => (inf.getTime() <= log.sec * 1000 && sup.getTime() >= log.sec * 1000));
-        console.log(`extract enter logs: ${extract_enter_logs}`);
-        console.log(`extract exit logs: ${extract_exit_logs}`);
-        
-        let start = '';
-        let end = '';
-        let hours = '';
-        if(extract_enter_logs.length !== 0 && extract_exit_logs.length !== 0){
-          console.log(1);
-          //console.log(Math.min(enter_logs.map(log => log.sec)));
-          //console.log(enter_logs.map(log => log.sec));
-          //let enter_min_index = (enter_logs.map(log => log.sec)).indexOf(Math.min(enter_logs.map(log => log.sec)));
-          //let exit_max_index = (exit_logs.map(log => log.sec)).indexOf(Math.max(exit_logs.map(log => log.sec)));
-          //console.log(`index: ${enter_min_index}  ${exit_max_index}`);
-          let enter_stamp = extract_enter_logs[(extract_enter_logs.map(log => log.sec)).indexOf(Math.min.apply(null, extract_enter_logs.map(log => log.sec)))];
-          let exit_stamp = extract_exit_logs[(extract_exit_logs.map(log => log.sec)).indexOf(Math.max.apply(null, extract_exit_logs.map(log => log.sec)))];
-          console.log(`enter stamp: ${enter_stamp}`);
-          console.log(`exit stamp: ${exit_stamp}`);
-          let rounded_enter_time = roundCeil(new Date(enter_stamp.sec * 1000), req.body['round']);
-          let rounded_exit_time = roundFloor(new Date(exit_stamp.sec * 1000), req.body['round']);
-          console.log(`rounded enter stamp: ${rounded_enter_time}`);
-          console.log(`rounded exit stamp: ${rounded_exit_time}`);
-          //let hour = Math.floor((rounded_exit_time.getTime() - rounded_enter_time.getTime()) / (60 * 60 * 1000));
-          /* Round down */
-          //let min = Math.floor(((rounded_exit_time.getTime() - rounded_enter_time.getTime()) - hour * 60 * 60 * 1000) / (60 * 1000));
-          //hours = `${pad(hour)}:${pad(min)}`;
-          let startObj = {h: rounded_enter_time.getHours(), date: 1, hour: 0};
-          let endObj = {h: rounded_exit_time.getHours(), date: 1, hour: 0};
-          if(rounded_enter_time.getHours() < 6){
-            //start = `${rounded_enter_time.getHours() + 24}:${pad(rounded_enter_time.getMinutes())}`;
-            startObj.h += 24;
-            startObj.date = 2;
-            startObj.hour = 24;
-          }
-          else{
-            //start = `${pad(rounded_enter_time.getHours())}:${pad(rounded_enter_time.getMinutes())}`;
-            
-          }
+        const inf = new Date(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} 6:00`);
+        const sup = new Date(new Date(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} 5:59`).getTime() + 24 * 60 * 60 * 1000);
+        let extractedEnterLogs = filteredEnterLogs.filter(log => (inf.getTime() <= log.sec * 1000) && (sup.getTime() >= log.sec * 1000));
+        let extractedExitLogs = filteredExitLogs.filter(log => (inf.getTime() <= log.sec * 1000 && sup.getTime() >= log.sec * 1000));
 
-          if(rounded_exit_time.getHours() < 6){
-            //end = `${rounded_exit_time.getHours() + 24}:${pad(rounded_exit_time.getMinutes())}`;
-            endObj.h += 24
-            endObj.date = 2;
-            endObj.hour = 24;
+        let resultObj = {
+          start: '',
+          end: '',
+          hours: ''
+        }
+        if(extractedEnterLogs.length !== 0 && extractedExitLogs.length !== 0){
+          let enterStamp = extractedEnterLogs[(extractedEnterLogs.map(log => log.sec)).indexOf(Math.min.apply(null, extractedEnterLogs.map(log => log.sec)))];
+          let exitStamp = extractedExitLogs[(extractedExitLogs.map(log => log.sec)).indexOf(Math.max.apply(null, extractedExitLogs.map(log => log.sec)))];
+          enterStamp = roundCeil(new Date(enterStamp.sec * 1000), req.body['round']);
+          exitStamp = roundFloor(new Date(exitStamp.sec * 1000), req.body['round']);
+
+          let startAdjObj = {
+            oriHours: enterStamp.getHours(),
+            adjDate: 1,
+            adjHours: 0
           }
-          else{
-            //end = `${pad(rounded_exit_time.getHours())}:${pad(rounded_exit_time.getMinutes())}`;
+          let endAdjObj = {
+            oriHours: exitStamp.getHours(),
+            adjDate: 1,
+            adjHours: 0
           }
-          start = `${pad(startObj.h)}:${pad(rounded_enter_time.getMinutes())}`;
-          end = `${pad(endObj.h)}:${pad(rounded_exit_time.getMinutes())}`;
-          console.log(`start - end: ${start} - ${end}`);
-          let diff = new Date(`1970/1/${endObj.date} ${pad(endObj.h - endObj.hour)}:${pad(rounded_exit_time.getMinutes())}`).getTime() - new Date(`1970/1/${startObj.date} ${pad(startObj.h - startObj.hour)}:${pad(rounded_enter_time.getMinutes())}`).getTime();
-          let hour = Math.floor(diff / (60 * 60 * 1000));
-          let min = (diff - hour * 60 * 60 * 1000) / (60 * 1000);
-          if(hour < 0 || min < 0){
-            hour = 0;
-            min = 0;
+          if(enterStamp.getHours() < 6){
+            startAdjObj.oriHours += 24;
+            startAdjObj.adjDate = 2;
+            startAdjObj.adjHours = 24;
           }
-          hours = `${pad(hour)}:${pad(min)}`;
-          console.log(`hh:mm: ${hours}`);
+          if(exitStamp.getHours() < 6){
+            endAdjObj.oriHours += 24
+            endAdjObj.adjDate = 2;
+            endAdjObj.adjHours = 24;
+          }
+          resultObj.start = `${pad(startAdjObj.oriHours)}:${pad(enterStamp.getMinutes())}`;
+          resultObj.end = `${pad(endAdjObj.oriHours)}:${pad(exitStamp.getMinutes())}`;
+
+          let calcBuf = {};
+          calcBuf.diff = new Date(`1970/1/${endAdjObj.adjDate} ${pad(endAdjObj.oriHours - endAdjObj.adjHours)}:${pad(exitStamp.getMinutes())}`).getTime() 
+            - new Date(`1970/1/${startAdjObj.adjDate} ${pad(startAdjObj.oriHours - startAdjObj.adjHours)}:${pad(enterStamp.getMinutes())}`).getTime();
+          calcBuf.hour = Math.floor(calcBuf.diff / (60 * 60 * 1000));
+          calcBuf.min = (calcBuf.diff - calcBuf.hour * 60 * 60 * 1000) / (60 * 1000);
+          if(calcBuf.hour < 0 || calcBuf.min < 0){
+            calcBuf.hour = 0;
+            calcBuf.min = 0;
+          }
+          resultObj.hours = `${pad(calcBuf.hour)}:${pad(calcBuf.min)}`;
 
         }
-        else if(extract_enter_logs.length !== 0){
-          console.log(2);
+        else if(extractedEnterLogs.length !== 0){
           /* enter exist */
-          let enter_stamp = enter_logs[(enter_logs.map(log => log.sec)).indexOf(Math.min.apply(null, enter_logs.map(log => log.sec)))];
-          console.log(`enter stamp: ${enter_stamp}`);
-          let rounded_enter_time = roundCeil(new Date(enter_stamp.sec * 1000), req.body['round']);
-          console.log(`rounded enter stamp: ${rounded_enter_time}`);
-          if(rounded_enter_time.getHours() < 6){
-            start = `${rounded_enter_time.getHours() + 24}:${pad(rounded_enter_time.getMinutes())}`;
+          let enterStamp = filteredEnterLogs[(filteredEnterLogs.map(log => log.sec)).indexOf(Math.min.apply(null, filteredEnterLogs.map(log => log.sec)))];
+          enterStamp = roundCeil(new Date(enterStamp.sec * 1000), req.body['round']);
+          if(enterStamp.getHours() < 6){
+            resultObj.start = `${enterStamp.getHours() + 24}:${pad(enterStamp.getMinutes())}`;
           }
           else{
-            start = `${pad(rounded_enter_time.getHours())}:${pad(rounded_enter_time.getMinutes())}`;
+            resultObj.start = `${pad(enterStamp.getHours())}:${pad(enterStamp.getMinutes())}`;
           }
-          console.log(`start: ${start}`);
         }
-        else if(extract_exit_logs.length !== 0){
+        else if(extractedExitLogs.length !== 0){
            /* exit exist */
-           let exit_stamp = exit_logs[(exit_logs.map(log => log.sec)).indexOf(Math.max.apply(null, exit_logs.map(log => log.sec)))];
-           console.log(`exit stamp: ${exit_stamp}`);
-           let rounded_exit_time = roundFloor(new Date(exit_stamp.sec * 1000), req.body['round']);
-           console.log(`rounded exit stamp: ${rounded_exit_time}`);
-           if(rounded_exit_time.getHours() < 6){
-             end = `${rounded_exit_time.getHours() + 24}:${pad(rounded_exit_time.getMinutes())}`;
+           let exitStamp = filteredExitLogs[(filteredExitLogs.map(log => log.sec)).indexOf(Math.max.apply(null, filteredExitLogs.map(log => log.sec)))];
+           exitStamp = roundFloor(new Date(exitStamp.sec * 1000), req.body['round']);
+           if(exitStamp.getHours() < 6){
+            resultObj.end = `${exitStamp.getHours() + 24}:${pad(exitStamp.getMinutes())}`;
            }
            else{
-             end = `${pad(rounded_exit_time.getHours())}:${pad(rounded_exit_time.getMinutes())}`;
+            resultObj.end = `${pad(exitStamp.getHours())}:${pad(exitStamp.getMinutes())}`;
            }
-           console.log(`end: ${end}`);
         }
         else{
           // 
         }
-        if(start !== '' || end !== '' || hours !== ''){
+
+        if(resultObj.start !== '' || resultObj.end !== '' || resultObj.hours !== ''){
           let member = await Member.findOne({id: id}).exec();
-          retured_data.push({
+          response.push({
             id: id,
             name: member.name,
             date: date.toString(),
-            start: start,
-            end: end,
-            hours: hours
+            start: resultObj.start,
+            end: resultObj.end,
+            hours: resultObj.hours
           });
         }
       }
-      
     }
-    res.json(retured_data);
+    res.json(response);
   }
   catch(error){
     next(error);
