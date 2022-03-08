@@ -93,7 +93,7 @@ import { WorkHoursChartComponent } from './work-hours-chart/work-hours-chart.com
     DeleteAccountDialogComponent,
     DeleteLogDialogComponent,
     WorkHoursComponent,
-    WorkHoursChartComponent
+    WorkHoursChartComponent,
   ],
   imports: [
     BrowserModule,

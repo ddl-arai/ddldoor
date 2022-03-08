@@ -1,5 +1,37 @@
-<mat-form-field>
-    <mat-select [(ngModel)]="selected" (selectionChange)="selectedChange()">
-        <mat-option [value]="option.date" *ngFor="let option of selector">{{option.view}}</mat-option>
-    </mat-select>
-</mat-form-field>
+<div class="container" fxLayout="column" fxLayoutGap="16px">
+    <div>
+        <span fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="mat-title">勤務時間</span>
+            <mat-form-field>
+                <mat-select [(ngModel)]="selected" (selectionChange)="selectedChange()">
+                    <mat-option [value]="option.date" *ngFor="let option of selector">{{option.view}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </span>
+    </div>
+
+    <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+
+            <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+        
+            <!-- id Column -->
+            <ng-container matColumnDef="date" sticky>
+                <th mat-header-cell *matHeaderCellDef>日付</th>
+                <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+            </ng-container>
+
+            <!-- names Column -->
+            <div *ngFor="let name of names; let i = index">
+                <ng-container [matColumnDef]="name">
+                    <th mat-header-cell *matHeaderCellDef>{{name}}</th>
+                    <td mat-cell *matCellDef="let element"> {{element.info[i]}} </td>
+                </ng-container>
+            </div>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+</div>

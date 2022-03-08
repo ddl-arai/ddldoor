@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { user } from '../models/user';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -23,12 +23,14 @@ export class LoginComponent implements OnInit {
     Validators.email
   ]);
   passwordControl = new FormControl(null, Validators.required);
+  redirectTo: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -36,6 +38,7 @@ export class LoginComponent implements OnInit {
       email: this.emailControl,
       password: this.passwordControl
     });
+    this.redirectTo = this.route.snapshot.queryParamMap.get('redirectTo');
   }
 
   onSubmit() {
@@ -44,7 +47,12 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.user)
     .subscribe(result => {
       if(result){
-        this.router.navigate(['/home']);
+        if(!this.redirectTo){
+          this.router.navigate(['/home']);
+        }
+        else{
+          this.router.navigate([this.redirectTo]);
+        }
       }
       else{
         this.loginFailed();

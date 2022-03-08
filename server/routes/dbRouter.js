@@ -358,7 +358,7 @@ dbRouter.post('/workHours', async (req, res, next) => {
         }
         else if(extractedEnterLogs.length !== 0){
           /* enter exist */
-          let enterStamp = filteredEnterLogs[(filteredEnterLogs.map(log => log.sec)).indexOf(Math.min.apply(null, filteredEnterLogs.map(log => log.sec)))];
+          let enterStamp = extractedEnterLogs[(extractedEnterLogs.map(log => log.sec)).indexOf(Math.min.apply(null, extractedEnterLogs.map(log => log.sec)))];
           enterStamp = roundCeil(new Date(enterStamp.sec * 1000), req.body['round']);
           if(enterStamp.getHours() < 6){
             resultObj.start = `${enterStamp.getHours() + 24}:${pad(enterStamp.getMinutes())}`;
@@ -369,7 +369,7 @@ dbRouter.post('/workHours', async (req, res, next) => {
         }
         else if(extractedExitLogs.length !== 0){
            /* exit exist */
-           let exitStamp = filteredExitLogs[(filteredExitLogs.map(log => log.sec)).indexOf(Math.max.apply(null, filteredExitLogs.map(log => log.sec)))];
+           let exitStamp = extractedExitLogs[(extractedExitLogs.map(log => log.sec)).indexOf(Math.max.apply(null, extractedExitLogs.map(log => log.sec)))];
            exitStamp = roundFloor(new Date(exitStamp.sec * 1000), req.body['round']);
            if(exitStamp.getHours() < 6){
             resultObj.end = `${exitStamp.getHours() + 24}:${pad(exitStamp.getMinutes())}`;
