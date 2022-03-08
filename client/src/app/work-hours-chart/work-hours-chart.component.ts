@@ -39,6 +39,7 @@ export class WorkHoursChartComponent implements OnInit {
 
   selectedChange(): void {
     this.init();
+    this.getDate();
     this.getTableData();
   }
 
@@ -138,8 +139,9 @@ export class WorkHoursChartComponent implements OnInit {
         if(extracted.length !== 0){
           console.log(this.names)
           for(let name of this.names){
+            console.log(name);
             let text: string = '';
-            let workHours = extracted.find(el => el.name = name);
+            let workHours = extracted.find(el => el.name === name);
             if(workHours){
               if(workHours.start && workHours.end){
                 let hours: string;
@@ -147,7 +149,7 @@ export class WorkHoursChartComponent implements OnInit {
                   hours = `${workHours.hours.slice(0,2)}`;
                 }
                 else{
-                  hours = `${workHours.hours.slice(0,2)}.5`
+                  hours = `${workHours.hours.slice(0,2)}.5`;
                 }
                 text = `退勤<br>(${workHours.start}～${workHours.end})<br>【実務】${hours}時間`;
               }
@@ -155,9 +157,15 @@ export class WorkHoursChartComponent implements OnInit {
                 text = `出勤<br>(${workHours.start}～)`;
               }
             }
+            console.log(text);
             info.push(text);
           }
         }
+        else{
+          info = new Array<string>(this.names.length);
+          info.fill('');
+        }
+        console.log(info);
         displayWorkHours.push({
           date: date.view,
           info: info
@@ -165,6 +173,7 @@ export class WorkHoursChartComponent implements OnInit {
         console.log(displayWorkHours);
       }
       this.dataSource.data = displayWorkHours;
+      console.log(this.dataSource.data);
     });
   }
 }
