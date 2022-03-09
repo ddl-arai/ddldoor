@@ -9,8 +9,12 @@ export interface selectMonth {
 }
 
 export interface displayData {
-  date: string,
-  info: string[]
+  [key: string]: string[]
+}
+
+export interface dynamicColumn {
+  view: string,
+  def: string
 }
 
 @Component({
@@ -24,7 +28,8 @@ export class WorkHoursChartComponent implements OnInit {
   dataSource = new MatTableDataSource<displayData>();
   displayedColumns: string[] = [];
   dates: selectMonth[] = [];
-  names: string[] = [];
+  //names: string[] = [];
+  dynamicColumns: dynamicColumn[] = [];
 
   constructor(
     private dbService: DbService
@@ -47,7 +52,8 @@ export class WorkHoursChartComponent implements OnInit {
     this.dates = [];
     this.dataSource.data = [];
     this.displayedColumns = [];
-    this.names = [];
+    //this.names = [];
+    this.dynamicColumns = [];
   }
 
   getSelector(): void {
@@ -120,28 +126,39 @@ export class WorkHoursChartComponent implements OnInit {
     this.dbService.getWorkHours([], this.dates[0].date.toString(), this.dates[this.dates.length - 1].date.toString(), 30)
     .subscribe(workHourses => {
 
-      this.displayedColumns.push('date');
+      /* Make column */
+      let kinds: string[] = [];
       for(let workHours of workHourses){
-        if(!this.displayedColumns.includes(workHours.name)){
-          this.displayedColumns.push(workHours.name);
-          this.names.push(workHours.name);
+        if(!kinds.includes(workHours.name)){
+          kinds.push(workHours.name);
         }
       }
+      this.dynamicColumns.push({
+        view: '日付',
+        def: 'date'
+      });
+      for(let i = 0; i < kinds.length; i++){
+        this.dynamicColumns.push({
+          view: kinds[i],
+          def: String(i)
+        });
+      }
+      this.displayedColumns = this.dynamicColumns.map(el => el.def);
 
+      /* Make data */
       let displayWorkHours: displayData[] = [];
       for(let date of this.dates){
+        let object: displayData = {};
+        object['date'] = new Array<string>(3);
+        object['date'][0] = date.view;
         let extracted = workHourses.filter(workHours => {
           const workHoursDate = new Date(workHours.date);
           return date.date.getFullYear() === workHoursDate.getFullYear() && date.date.getMonth() === workHoursDate.getMonth() && date.date.getDate() === workHoursDate.getDate()
         });
-        console.log(extracted);
-        let info: string[] = [];
         if(extracted.length !== 0){
-          console.log(this.names)
-          for(let name of this.names){
-            console.log(name);
-            let text: string = '';
-            let workHours = extracted.find(el => el.name === name);
+          for(let i = 0; i < kinds.length; i++){
+            let text: Array<string> = new Array(3);
+            let workHours = extracted.find(el => el.name === kinds[i]);
             if(workHours){
               if(workHours.start && workHours.end){
                 let hours: string;
@@ -151,29 +168,23 @@ export class WorkHoursChartComponent implements OnInit {
                 else{
                   hours = `${workHours.hours.slice(0,2)}.5`;
                 }
-                text = `退勤<br>(${workHours.start}～${workHours.end})<br>【実務】${hours}時間`;
+                //text = `退勤<br>(${workHours.start}～${workHours.end})<br>【実務】${hours}時間`;
+                text[0] = '退勤';
+                text[1] = `(${workHours.start}～${workHours.end})`;
+                text[2] = `【実務】${Number(hours)}時間`;
               }
               else if(workHours.start && !workHours.end){
-                text = `出勤<br>(${workHours.start}～)`;
+                //text = `出勤<br>(${workHours.start}～)`;
+                text[0] = '出勤';
+                text[1] = `(${workHours.start}～)`;
               }
             }
-            console.log(text);
-            info.push(text);
+            object[`${i}`] = text;
           }
         }
-        else{
-          info = new Array<string>(this.names.length);
-          info.fill('');
-        }
-        console.log(info);
-        displayWorkHours.push({
-          date: date.view,
-          info: info
-        });
-        console.log(displayWorkHours);
+        displayWorkHours.push(object);
       }
       this.dataSource.data = displayWorkHours;
-      console.log(this.dataSource.data);
     });
   }
 }
