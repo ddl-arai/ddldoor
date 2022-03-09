@@ -117,6 +117,8 @@
         </div>
     </mat-tab>
     <mat-tab label="一覧">
-        <app-work-hours-chart></app-work-hours-chart>
+        <ng-template matTabContent>
+            <app-work-hours-chart></app-work-hours-chart>
+        </ng-template>
     </mat-tab>
 </mat-tab-group>

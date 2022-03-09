@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { member } from '../models/member';
 import { DbService } from '../db.service';
+import { SpinnerService } from '../spinner.service';
 
 export interface selectMonth {
   view: string,
@@ -9,12 +9,21 @@ export interface selectMonth {
 }
 
 export interface displayData {
-  [key: string]: string[]
+  [key: string]: string
 }
 
 export interface dynamicColumn {
   view: string,
   def: string
+}
+
+export interface calcSet {
+  sumMonth: displayData,
+  s_number: number[],
+  workDate: displayData,
+  w_number: number[],
+  overtimeHours: displayData
+  o_number: number[]
 }
 
 @Component({
@@ -28,23 +37,20 @@ export class WorkHoursChartComponent implements OnInit {
   dataSource = new MatTableDataSource<displayData>();
   displayedColumns: string[] = [];
   dates: selectMonth[] = [];
-  //names: string[] = [];
   dynamicColumns: dynamicColumn[] = [];
 
   constructor(
-    private dbService: DbService
+    private dbService: DbService,
+    private spinnerService: SpinnerService
   ) { }
 
   ngOnInit(): void {
     this.getSelector();
-    //this.getDisplayColumns();
-    this.getDate();
     this.getTableData();
   }
 
   selectedChange(): void {
     this.init();
-    this.getDate();
     this.getTableData();
   }
 
@@ -52,7 +58,6 @@ export class WorkHoursChartComponent implements OnInit {
     this.dates = [];
     this.dataSource.data = [];
     this.displayedColumns = [];
-    //this.names = [];
     this.dynamicColumns = [];
   }
 
@@ -74,16 +79,6 @@ export class WorkHoursChartComponent implements OnInit {
       }
     }
     this.selected = this.selector[0].date;
-  }
-
-  getDisplayColumns(): void {
-    this.displayedColumns.push('date');
-    this.dbService.getAll<member>('members')
-    .subscribe(members => {
-      members.forEach(member => {
-        this.displayedColumns.push(member.name);
-      });
-    });
   }
 
   getDate(): void {
@@ -123,6 +118,8 @@ export class WorkHoursChartComponent implements OnInit {
   }
 
   getTableData(): void {
+    this.spinnerService.attach();
+    this.getDate();
     this.dbService.getWorkHours([], this.dates[0].date.toString(), this.dates[this.dates.length - 1].date.toString(), 30)
     .subscribe(workHourses => {
 
@@ -144,23 +141,40 @@ export class WorkHoursChartComponent implements OnInit {
         });
       }
       this.displayedColumns = this.dynamicColumns.map(el => el.def);
+      this.dynamicColumns.shift();
 
       /* Make data */
       let displayWorkHours: displayData[] = [];
+      let calcSet: calcSet = {
+        sumMonth: {},
+        s_number: new Array<number>(kinds.length),
+        workDate: {},
+        w_number: new Array<number>(kinds.length),
+        overtimeHours: {},
+        o_number: new Array<number>(kinds.length)
+      }
+      calcSet.sumMonth['date'] = '月総計';
+      calcSet.workDate['date'] = '出勤日数';
+      calcSet.overtimeHours['date'] = '残業目安';
+      calcSet.s_number.fill(0);
+      calcSet.w_number.fill(0);
+      calcSet.o_number.fill(0);
+
       for(let date of this.dates){
         let object: displayData = {};
-        object['date'] = new Array<string>(3);
-        object['date'][0] = date.view;
+        object['date'] = date.view;
         let extracted = workHourses.filter(workHours => {
           const workHoursDate = new Date(workHours.date);
           return date.date.getFullYear() === workHoursDate.getFullYear() && date.date.getMonth() === workHoursDate.getMonth() && date.date.getDate() === workHoursDate.getDate()
         });
+
         if(extracted.length !== 0){
           for(let i = 0; i < kinds.length; i++){
-            let text: Array<string> = new Array(3);
+            let text: string = '';
             let workHours = extracted.find(el => el.name === kinds[i]);
             if(workHours){
               if(workHours.start && workHours.end){
+                calcSet.w_number[i] += 1;
                 let hours: string;
                 if(workHours.hours.slice(-2) == '00'){
                   hours = `${workHours.hours.slice(0,2)}`;
@@ -168,15 +182,12 @@ export class WorkHoursChartComponent implements OnInit {
                 else{
                   hours = `${workHours.hours.slice(0,2)}.5`;
                 }
-                //text = `退勤<br>(${workHours.start}～${workHours.end})<br>【実務】${hours}時間`;
-                text[0] = '退勤';
-                text[1] = `(${workHours.start}～${workHours.end})`;
-                text[2] = `【実務】${Number(hours)}時間`;
+                calcSet.s_number[i] += Number(hours) - 1;
+                text = `退勤<br>(${workHours.start}～${workHours.end})<br>【実務】${Number(hours) - 1}時間`;
+                calcSet.o_number[i] += (Number(hours) - 1) - 8;
               }
               else if(workHours.start && !workHours.end){
-                //text = `出勤<br>(${workHours.start}～)`;
-                text[0] = '出勤';
-                text[1] = `(${workHours.start}～)`;
+                text = `出勤<br>(${workHours.start}～)`;
               }
             }
             object[`${i}`] = text;
@@ -184,7 +195,18 @@ export class WorkHoursChartComponent implements OnInit {
         }
         displayWorkHours.push(object);
       }
+      /* Calc information */
+      for(let i = 0; i < kinds.length; i++){
+        calcSet.sumMonth[`${i}`] = `${calcSet.s_number[i]}時間`;
+        calcSet.workDate[`${i}`] = `${calcSet.w_number[i]}日`;
+        calcSet.overtimeHours[`${i}`] = `${calcSet.o_number[i]}時間`;
+      }
+      displayWorkHours.push(calcSet.sumMonth);
+      displayWorkHours.push(calcSet.workDate);
+      displayWorkHours.push(calcSet.overtimeHours);
+
       this.dataSource.data = displayWorkHours;
+      this.spinnerService.detach();
     });
   }
 }

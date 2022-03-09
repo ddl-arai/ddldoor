@@ -10,32 +10,25 @@
         </span>
     </div>
 
-    <div class="mat-elevation-z8">
+    <div class="table-container mat-elevation-z8">
         <table mat-table [dataSource]="dataSource">
 
             <!--- Note that these columns can be defined in any order.
                 The actual rendered columns are set as a property on the row definition" -->
         
-            <!-- id Column -->
-            <!--
-            <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef>日付</th>
-                <td mat-cell *matCellDef="let element"> {{element.date}} </td>
-            </ng-container>-->
+            <!-- date Column -->
+            <ng-container matColumnDef="date" sticky>
+                <th class="w-header" mat-header-cell *matHeaderCellDef>日付</th>
+                <td class="w-data date-data" mat-cell *matCellDef="let element"> {{element['date']}} </td>
+            </ng-container>
 
-            <!-- names Column -->
+            <!-- workhour Column -->
                 <ng-container *ngFor="let column of dynamicColumns" [matColumnDef]="column.def">
-                    <th mat-header-cell *matHeaderCellDef>{{column.view}}</th>
-                    <td mat-cell *matCellDef="let element">
-                        {{element[column.def][0]}}
-                        <br>
-                        {{element[column.def][1]}}
-                        <br>
-                        {{element[column.def][2]}}
-                    </td>
+                    <th class="w-header" mat-header-cell *matHeaderCellDef>{{column.view}}</th>
+                    <td class="w-data workHours-data" mat-cell *matCellDef="let element" [innerHTML]="element[column.def]"></td>
                 </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
     </div>

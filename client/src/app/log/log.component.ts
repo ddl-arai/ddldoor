@@ -134,10 +134,10 @@ export class LogComponent implements OnInit, AfterViewInit{
             result = '施錠';
             break;
           case 9:
-            result = '不正なリクエスト';
+            result = '不正リクエスト';
             break;
           case 10:
-            result = '許可されていないデバイス';
+            result = '無許可IDm';
             break;
           default:
             break;

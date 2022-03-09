@@ -108,7 +108,7 @@ doorRouter.get('/' , async (req, res, next) => {
 
                 if(card.banDevids.includes(req.query.devid)){
                     res.json({
-                        result: 6,
+                        result: 10,
                         message: 'Disable member'
                     });
                     await Log.create({
@@ -233,7 +233,7 @@ doorRouter.get('/' , async (req, res, next) => {
                 let device = await Device.findOne({id: req.query.devid}).exec();
                 if(!device){
                     res.json({
-                        result: 1,
+                        result: 2,
                         message: 'Not registered device'
                     });
                     await Log.create({
@@ -278,7 +278,7 @@ doorRouter.get('/' , async (req, res, next) => {
                 let device = await Device.findOne({id: req.query.devid}).exec();
                 if(!device){
                     res.json({
-                        result: 1,
+                        result: 2,
                         message: 'Not registered device'
                     });
                     await Log.create({
@@ -320,11 +320,48 @@ doorRouter.get('/' , async (req, res, next) => {
             }
             break;
         case 'status':
+            try {
+                let device = await Device.findOne({id: req.query.devid}).exec();
+                if(!device){
+                    res.json({
+                        result: 2,
+                        message: 'Not registered device'
+                    });
+                    await Log.create({
+                        sec: req.query.sec,
+                        devid: req.query.devid,
+                        result: 3
+                    });
+                    return;
+                }
+                switch(device.status){
+                    case 0:
+                        res.json({
+                            result: device.status,
+                            message: 'close'
+                        });
+                        break;
+                    case 1:
+                        /**
+                         * TODO: Judge whether time of temporary open exceeds set time (e.g. 60 min)
+                         * If exceeds, send close response
+                         */
+                        res.json({
+                            result: device.status,
+                            message: 'open'
+                        });
+                    default:
+                        break;
+                }
+            }
+            catch(error){
+                next(error);
+            }
 
             break;
         default:
             res.json({
-                result: 2,
+                result: 8,
                 message: 'Not found reqeust'
             });
             break;
