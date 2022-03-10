@@ -8,6 +8,7 @@ import { DeviceDialogComponent } from '../device-dialog/device-dialog.component'
 import { EditDeviceDialogComponent } from '../edit-device-dialog/edit-device-dialog.component';
 import { DeleteDeviceDialogComponent } from '../delete-device-dialog/delete-device-dialog.component';
 import { MatSort } from '@angular/material/sort';
+import { DeviceTmpopenDialogComponent } from '../device-tmpopen-dialog/device-tmpopen-dialog.component';
 
 export interface displayData {
   id: number,
@@ -28,6 +29,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
     'name',
     'role',
     'status',
+    'tmpopen',
     'action'
   ];
   dataSource = new MatTableDataSource<displayData>();
@@ -124,6 +126,38 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
       width: '400px',
       data: {
         id: id, 
+        name: name
+      }
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.ngOnInit();
+    });
+  }
+
+  onLock(id: number): void {
+    let device: device = {
+      id: id,
+      name: '',
+      func: '',
+      status: 0
+    }
+    this.dbService.update<device>('device/tmp', device)
+    .subscribe(result => {
+      if(result){
+        this.snackBar.open('施錠しました', '閉じる', {duration: 5000});
+        this.ngOnInit();
+      }
+      else{
+        this.snackBar.open('施錠できませんでした', '閉じる', {duration: 7000});
+      }
+    })
+  }
+
+  onTempOpen(id: number, name: string): void {
+    let dialogRef = this.dialog.open(DeviceTmpopenDialogComponent, {
+      width: '400px',
+      data: {
+        id: id,
         name: name
       }
     });

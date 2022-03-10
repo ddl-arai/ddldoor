@@ -241,6 +241,14 @@ dbRouter.put('/device', (req, res, next) => {
   });
 });
 
+/* PUT db/device/tmp */
+dbRouter.put('/device/tmp', (req, res, next) => {
+  Device.updateOne({id: req.body.id}, {$set: {status: req.body.status}}, error => {
+      if(error) next(error);
+      res.json(true);
+  });
+});
+
 /* POST db/device */
 dbRouter.post('/device', (req, res, next) => {
   Device.create(req.body, error => {

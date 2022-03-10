@@ -140,10 +140,20 @@ doorRouter.get('/' , async (req, res, next) => {
                                 break;
                         }
                         await member.save();
-                        res.json({
-                            result: 0,
-                            message: 'Success'
-                        });
+
+                        /* Temporary open status */
+                        if(device.status === 1){
+                            res.json({
+                                result: 9,
+                                message: 'Success between temporary open'
+                            });
+                        }
+                        else{
+                            res.json({
+                                result: 0,
+                                message: 'Success'
+                            });
+                        }
                         break;
                     /* Attendance */
                     case 1:
@@ -158,10 +168,20 @@ doorRouter.get('/' , async (req, res, next) => {
                                 break;
                             case 'exit':
                                 member.status = 2;
-                                res.json({
-                                    result: 0,
-                                    message: 'Success'
-                                });
+
+                                /* Temporary open status */
+                                if(device.status === 1){
+                                    res.json({
+                                        result: 9,
+                                        message: 'Success between temporary open'
+                                    });
+                                }
+                                else{
+                                    res.json({
+                                        result: 0,
+                                        message: 'Success'
+                                    });
+                                }
                                 break;
                             default:
                                 break;
@@ -173,10 +193,20 @@ doorRouter.get('/' , async (req, res, next) => {
                         switch(device.func){
                             case 'enter':
                                 member.status = 1;
-                                res.json({
-                                    result: 0,
-                                    message: 'Success'
-                                });
+
+                                /* Temporary open status */
+                                if(device.status === 1){
+                                    res.json({
+                                        result: 9,
+                                        message: 'Success between temporary open'
+                                    });
+                                }
+                                else{
+                                    res.json({
+                                        result: 0,
+                                        message: 'Success'
+                                    });
+                                }
                                 break;
                             case 'exit':
                                 member.status = 3;
@@ -204,10 +234,19 @@ doorRouter.get('/' , async (req, res, next) => {
                      *  => Add open mode by member.status = 4
                      */
                     case 4:
-                        res.json({
-                            result: 0,
-                            message: 'Success'
-                        });
+                        /* Temporary open status */
+                        if(device.status === 1){
+                            res.json({
+                                result: 9,
+                                message: 'Success between temporary open'
+                            });
+                        }
+                        else{
+                            res.json({
+                                result: 0,
+                                message: 'Success'
+                            });
+                        }
                         break;
                     default:
                         break;
@@ -336,20 +375,31 @@ doorRouter.get('/' , async (req, res, next) => {
                 }
                 switch(device.status){
                     case 0:
+                        if(device.open){
+                           device.open = false;
+                        }
+                        await device.save();
+
                         res.json({
                             result: device.status,
                             message: 'close'
                         });
                         break;
                     case 1:
-                        /**
-                         * TODO: Judge whether time of temporary open exceeds set time (e.g. 60 min)
-                         * If exceeds, send close response
-                         */
+                        if(!device.open){
+                            device.open = true;
+                            device.openStartTime = Date.now();
+                        }
+                        if(Date.now() - device.openStartTime > 60* 60 * 1000){
+                            device.status = 0;
+                        }
+                        await device.save();
+
                         res.json({
                             result: device.status,
                             message: 'open'
                         });
+                        break;
                     default:
                         break;
                 }
