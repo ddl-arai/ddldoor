@@ -10,7 +10,8 @@ doorRouter.get('/' , async (req, res, next) => {
     if(!req.query.devid || !req.query.idm || !req.query.sec || !req.query.request){
         res.json({
             result: 7,
-            message: 'Invalid parameter'
+            message: 'Invalid parameter',
+            request: ''
         });
         return;
     }
@@ -27,7 +28,8 @@ doorRouter.get('/' , async (req, res, next) => {
                     if(!device){
                         res.json({
                             result: 4,
-                            message: 'Not registered idm and device'
+                            message: 'Not registered idm and device',
+                            request: req.query.request
                         });
                         await Log.create({
                             sec: req.query.sec,
@@ -41,7 +43,8 @@ doorRouter.get('/' , async (req, res, next) => {
                         /* No card, exist device */
                         res.json({
                             result: 2,
-                            message: 'Not registered idm'
+                            message: 'Not registered idm',
+                            request: req.query.request
                         });
                         await Log.create({
                             sec: req.query.sec,
@@ -59,7 +62,8 @@ doorRouter.get('/' , async (req, res, next) => {
                 if(!device){
                     res.json({
                         result: 3,
-                        message: 'Not registered device'
+                        message: 'Not registered device',
+                        request: req.query.request
                     });
                     await Log.create({
                         sec: req.query.sec,
@@ -75,7 +79,8 @@ doorRouter.get('/' , async (req, res, next) => {
                 if(!card.enable){
                     res.json({
                         result: 5,
-                        message: 'Disable idm'
+                        message: 'Disable idm',
+                        request: req.query.request
                     });
                     await Log.create({
                         sec: req.query.sec,
@@ -92,7 +97,8 @@ doorRouter.get('/' , async (req, res, next) => {
                 if(!member.enable){
                     res.json({
                         result: 6,
-                        message: 'Disable member'
+                        message: 'Disable member',
+                        request: req.query.request
                     });
                     await Log.create({
                         sec: req.query.sec,
@@ -109,7 +115,8 @@ doorRouter.get('/' , async (req, res, next) => {
                 if(card.banDevids.includes(req.query.devid)){
                     res.json({
                         result: 10,
-                        message: 'Disable member'
+                        message: 'Disable member',
+                        request: req.query.request
                     });
                     await Log.create({
                         sec: req.query.sec,
@@ -145,13 +152,15 @@ doorRouter.get('/' , async (req, res, next) => {
                         if(device.status === 1){
                             res.json({
                                 result: 9,
-                                message: 'Success between temporary open'
+                                message: 'Success between temporary open',
+                                request: req.query.request
                             });
                         }
                         else{
                             res.json({
                                 result: 0,
-                                message: 'Success'
+                                message: 'Success',
+                                request: req.query.request
                             });
                         }
                         break;
@@ -163,7 +172,8 @@ doorRouter.get('/' , async (req, res, next) => {
                                 result = 1;
                                 res.json({
                                     result: 1,
-                                    message: 'APB Error'
+                                    message: 'APB Error',
+                                    request: req.query.request
                                 });
                                 break;
                             case 'exit':
@@ -173,13 +183,15 @@ doorRouter.get('/' , async (req, res, next) => {
                                 if(device.status === 1){
                                     res.json({
                                         result: 9,
-                                        message: 'Success between temporary open'
+                                        message: 'Success between temporary open',
+                                        request: req.query.request
                                     });
                                 }
                                 else{
                                     res.json({
                                         result: 0,
-                                        message: 'Success'
+                                        message: 'Success',
+                                        request: req.query.request
                                     });
                                 }
                                 break;
@@ -198,13 +210,15 @@ doorRouter.get('/' , async (req, res, next) => {
                                 if(device.status === 1){
                                     res.json({
                                         result: 9,
-                                        message: 'Success between temporary open'
+                                        message: 'Success between temporary open',
+                                        request: req.query.request
                                     });
                                 }
                                 else{
                                     res.json({
                                         result: 0,
-                                        message: 'Success'
+                                        message: 'Success',
+                                        request: req.query.request
                                     });
                                 }
                                 break;
@@ -213,7 +227,8 @@ doorRouter.get('/' , async (req, res, next) => {
                                 result = 1;
                                 res.json({
                                     result: 1,
-                                    message: 'APB Error'
+                                    message: 'APB Error',
+                                    request: req.query.request
                                 });
                                 break;
                             default:
@@ -226,7 +241,8 @@ doorRouter.get('/' , async (req, res, next) => {
                         result = 1;
                         res.json({
                             result: 1,
-                            message: 'APB Error'
+                            message: 'APB Error',
+                            request: req.query.request
                         });
                         break;
                     /** 
@@ -238,13 +254,15 @@ doorRouter.get('/' , async (req, res, next) => {
                         if(device.status === 1){
                             res.json({
                                 result: 9,
-                                message: 'Success between temporary open'
+                                message: 'Success between temporary open',
+                                request: req.query.request
                             });
                         }
                         else{
                             res.json({
                                 result: 0,
-                                message: 'Success'
+                                message: 'Success',
+                                request: req.query.request
                             });
                         }
                         break;
@@ -273,7 +291,8 @@ doorRouter.get('/' , async (req, res, next) => {
                 if(!device){
                     res.json({
                         result: 2,
-                        message: 'Not registered device'
+                        message: 'Not registered device',
+                        request: req.query.request
                     });
                     await Log.create({
                         sec: req.query.sec,
@@ -289,14 +308,16 @@ doorRouter.get('/' , async (req, res, next) => {
                         device.status = 1;
                         res.json({
                             result: 0,
-                            message: 'Success'
+                            message: 'Success',
+                            request: req.query.request
                         });
                         break;
                     case 1:
                         result = 9;
                         res.json({
                             result: 1,
-                            message: 'Already opened'
+                            message: 'Already opened',
+                            request: req.query.request
                         });
                     default:
                         break;
@@ -318,7 +339,8 @@ doorRouter.get('/' , async (req, res, next) => {
                 if(!device){
                     res.json({
                         result: 2,
-                        message: 'Not registered device'
+                        message: 'Not registered device',
+                        request: req.query.request
                     });
                     await Log.create({
                         sec: req.query.sec,
@@ -334,14 +356,16 @@ doorRouter.get('/' , async (req, res, next) => {
                         result = 9;
                         res.json({
                             result: 1,
-                            message: 'Already closed'
+                            message: 'Already closed',
+                            request: req.query.request
                         });
                         break;
                     case 1:
                         device.status = 0;
                         res.json({
                             result: 0,
-                            message: 'Success'
+                            message: 'Success',
+                            request: req.query.request
                         });
                         break;
                     default:
@@ -364,7 +388,8 @@ doorRouter.get('/' , async (req, res, next) => {
                 if(!device){
                     res.json({
                         result: 2,
-                        message: 'Not registered device'
+                        message: 'Not registered device',
+                        request: req.query.request
                     });
                     await Log.create({
                         sec: req.query.sec,
@@ -382,7 +407,8 @@ doorRouter.get('/' , async (req, res, next) => {
 
                         res.json({
                             result: device.status,
-                            message: 'close'
+                            message: 'close',
+                            request: req.query.request
                         });
                         break;
                     case 1:
@@ -397,7 +423,8 @@ doorRouter.get('/' , async (req, res, next) => {
 
                         res.json({
                             result: device.status,
-                            message: 'open'
+                            message: 'open',
+                            request: req.query.request
                         });
                         break;
                     default:
@@ -412,7 +439,8 @@ doorRouter.get('/' , async (req, res, next) => {
         default:
             res.json({
                 result: 8,
-                message: 'Not found reqeust'
+                message: 'Not found reqeust',
+                request: req.query.request
             });
             break;
     } 
