@@ -2,7 +2,7 @@ let schedule = require('node-schedule');
 let axios = require('axios'); 
 
 console.log('Wait...');
-schedule.scheduleJob('*/3 * * * *', function(){
+schedule.scheduleJob('*/10 * * * * *', function(){
     dummyWork();
 });
 

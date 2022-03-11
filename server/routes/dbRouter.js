@@ -242,24 +242,39 @@ dbRouter.put('/device', (req, res, next) => {
 });
 
 /* PUT db/device/tmp */
-dbRouter.put('/device/tmp', (req, res, next) => {
-  Device.updateOne({id: req.body.id}, {$set: {status: req.body.status}}, error => {
-    if(error) next(error);
-    let result = 7;  // open log code
-    if(req.body.status === 0){
-      result = 8;  // close log code
+dbRouter.put('/device/tmp', async (req, res, next) => {
+  try {
+    let device = await Device.findOne({id: req.body.id}).exec();
+    const now = Math.floor(Date.now() / 1000);
+    /* Already closed or open */
+    if((req.body.status === 0 && device.status === 0) || (req.body.status === 1 && device.status === 1)){
+      await Log.create({
+        sec: now,
+        devid: req.body.id,
+        devName: req.body.name,
+        result: 9
+      });
+      res.json(false);
+      return;
     }
-    let now = Math.floor(Date.now() / 1000);
-    Log.create({
+
+    let result = 7;
+    if(req.body.status === 0){
+      result = 8;
+    }
+    device.status = req.body.status;
+    await device.save();
+    await Log.create({
       sec: now,
       devid: req.body.id,
       devName: req.body.name,
       result: result
-    }, error => {
-      if(error) next(error);
-      res.json(true);
     });
-  });
+    res.json(true);
+  }
+  catch(error){
+    next(error);
+  }
 });
 
 /* POST db/device */
