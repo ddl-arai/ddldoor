@@ -228,24 +228,36 @@ dbRouter.get('/devices', (req, res, next) => {
 /* GET db/device/:idm */
 dbRouter.get('/device/:id', (req, res, next) => {
   Device.findOne({id: req.params.id}, (error, device) => {
-      if(error) next(error);
-      res.json(device);
-  })
+    if(error) next(error);
+    res.json(device);
+  });
 });
 
 /* PUT db/device */
 dbRouter.put('/device', (req, res, next) => {
   Device.updateOne({id: req.body.id}, req.body, error => {
-      if(error) next(error);
-      res.json(true);
+    if(error) next(error);
+    res.json(true);
   });
 });
 
 /* PUT db/device/tmp */
 dbRouter.put('/device/tmp', (req, res, next) => {
   Device.updateOne({id: req.body.id}, {$set: {status: req.body.status}}, error => {
+    if(error) next(error);
+    let result = 7;  // open log code
+    if(req.body.status === 0){
+      result = 8;  // close log code
+    }
+    let now = Math.floor.apply(null, new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000)).getTime() / 1000);
+    Log.create({
+      sec: now,
+      devid: req.body.id,
+      result: result
+    }, error => {
       if(error) next(error);
       res.json(true);
+    });
   });
 });
 
