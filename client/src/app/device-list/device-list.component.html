@@ -49,7 +49,7 @@
                         <button mat-raised-button type="button" color="primary" (click)="onTempOpen(element.id, element.name)">一時解錠</button>
                     </div> 
                     <div *ngIf="element.status === '一時解錠中' && element.role === '出口'">
-                        <button mat-raised-button color="warn" type="button" (click)="onLock(element.id)">施錠</button>
+                        <button mat-raised-button color="warn" type="button" (click)="onLock(element.id, element.name)">施錠</button>
                     </div>
                 </td>
             </ng-container>

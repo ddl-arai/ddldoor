@@ -253,6 +253,7 @@ dbRouter.put('/device/tmp', (req, res, next) => {
     Log.create({
       sec: now,
       devid: req.body.id,
+      devName: req.body.name,
       result: result
     }, error => {
       if(error) next(error);

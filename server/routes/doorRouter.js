@@ -297,6 +297,7 @@ doorRouter.get('/' , async (req, res, next) => {
                     await Log.create({
                         sec: req.query.sec,
                         devid: req.query.devid,
+                        devName: device.name,
                         result: 3
                     });
                     return;
@@ -326,6 +327,7 @@ doorRouter.get('/' , async (req, res, next) => {
                 await Log.create({
                     sec: req.query.sec,
                     devid: req.query.devid,
+                    devName: device.name,
                     result: result
                 });
             }
@@ -345,6 +347,7 @@ doorRouter.get('/' , async (req, res, next) => {
                     await Log.create({
                         sec: req.query.sec,
                         devid: req.query.devid,
+                        devName: device.name,
                         result: 3
                     });
                     return;
@@ -375,6 +378,7 @@ doorRouter.get('/' , async (req, res, next) => {
                 await Log.create({
                     sec: req.query.sec,
                     devid: req.query.devid,
+                    devName: device.name,
                     result: result
                 });
             }
@@ -394,6 +398,7 @@ doorRouter.get('/' , async (req, res, next) => {
                     await Log.create({
                         sec: req.query.sec,
                         devid: req.query.devid,
+                        devName: device.name,
                         result: 3
                     });
                     return;
@@ -416,7 +421,7 @@ doorRouter.get('/' , async (req, res, next) => {
                             device.open = true;
                             device.openStartTime = Date.now();
                         }
-                        if(Date.now() - device.openStartTime > 60 * 60 * 1000){
+                        if(Date.now() - device.openStartTime > 15 * 1000){
                             device.status = 0;
                         }
                         await device.save();

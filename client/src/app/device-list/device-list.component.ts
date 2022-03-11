@@ -134,10 +134,10 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onLock(id: number): void {
+  onLock(id: number, name: string): void {
     let device: device = {
       id: id,
-      name: '',
+      name: name,
       func: '',
       status: 0
     }

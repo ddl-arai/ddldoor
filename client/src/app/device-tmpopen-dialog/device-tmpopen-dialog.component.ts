@@ -33,7 +33,7 @@ export class DeviceTmpopenDialogComponent implements OnInit {
   onTmpOpen(): void {
     let device: device = {
       id: this.data.id,
-      name: '',
+      name: this.data.name,
       func: '',
       status: 1
     }
