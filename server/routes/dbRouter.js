@@ -249,7 +249,7 @@ dbRouter.put('/device/tmp', (req, res, next) => {
     if(req.body.status === 0){
       result = 8;  // close log code
     }
-    let now = Math.floor.apply(null, new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000)).getTime() / 1000);
+    let now = Math.floor(Date.now() / 1000);
     Log.create({
       sec: now,
       devid: req.body.id,
