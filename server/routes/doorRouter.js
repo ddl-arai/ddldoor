@@ -423,6 +423,12 @@ doorRouter.get('/' , async (req, res, next) => {
                         }
                         if(Date.now() - device.openStartTime > 15 * 1000){
                             device.status = 0;
+                            await Log.create({
+                                sec: req.query.sec,
+                                devid: req.query.devid,
+                                devName: device.name,
+                                result: 8
+                            });
                         }
                         await device.save();
 
