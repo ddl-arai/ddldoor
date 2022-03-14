@@ -199,15 +199,15 @@ export class WorkHoursChartComponent implements OnInit {
                     calcSet.w_number[i] += 1;
                     let hours: string;
                     if(workHours.hours.slice(-2) == '00'){
-                      hours = `${workHours.hours.slice(0,2)}`;
+                      hours = `${workHours.hours.slice(0, 2)}`;
                     }
                     else{
-                      hours = `${workHours.hours.slice(0,2)}.5`;
+                      hours = `${workHours.hours.slice(0, 2)}.5`;
                     }
 
                     calcSet.s_number[i] += Number(hours) - 1;
                     let num_hours: number = Number(hours);
-                    if(num_hours > 6){
+                    if(num_hours > 8){
                       num_hours = num_hours - 1;
                     }
                     text = `退勤<br>(${workHours.start}～${workHours.end})<br>【実務】${num_hours}時間`;
