@@ -5,12 +5,12 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { MemberComponent } from './member/member.component';
 import { AuthGuard } from './auth.guard';
-import { StatusListComponent } from './status-list/status-list.component';
 import { LogComponent } from './log/log.component';
 import { DeviceListComponent } from './device-list/device-list.component';
 import { AccountComponent } from './account/account.component';
 import { ResetComponent } from './reset/reset.component';
 import { WorkHoursComponent } from './work-hours/work-hours.component';
+import { AdminGuard } from './admin.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -21,12 +21,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children:[
       { path: 'member', component: MemberComponent },
-      { path: 'statusList', component: StatusListComponent },
+      //{ path: 'statusList', component: StatusListComponent },
       { path: 'log', component: LogComponent },
       { path: 'nfc', component: NfcComponent },
       { path: 'deviceList', component: DeviceListComponent },
       { path: 'workHours', component: WorkHoursComponent },
-      { path: 'maintenance', component: AccountComponent }
+      { path: 'maintenance', component: AccountComponent, canActivate: [AdminGuard] }
     ]
   },
   { path: "**", redirectTo: "home" }

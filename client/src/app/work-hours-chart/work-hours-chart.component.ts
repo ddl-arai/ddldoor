@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { DbService } from '../db.service';
+import { member } from '../models/member';
 import { SpinnerService } from '../spinner.service';
 
 export interface selectMonth {
@@ -15,6 +16,11 @@ export interface displayData {
 export interface dynamicColumn {
   view: string,
   def: string
+}
+
+export interface kind {
+  name: string,
+  status: number
 }
 
 export interface calcSet {
@@ -122,91 +128,114 @@ export class WorkHoursChartComponent implements OnInit {
     this.getDate();
     this.dbService.getWorkHours([], this.dates[0].date.toString(), this.dates[this.dates.length - 1].date.toString(), 30)
     .subscribe(workHourses => {
+      this.dbService.getAll<member>('members')
+      .subscribe(members => {
 
-      /* Make column */
-      let kinds: string[] = [];
-      for(let workHours of workHourses){
-        if(!kinds.includes(workHours.name)){
-          kinds.push(workHours.name);
-        }
-      }
-      this.dynamicColumns.push({
-        view: '日付',
-        def: 'date'
-      });
-      for(let i = 0; i < kinds.length; i++){
-        this.dynamicColumns.push({
-          view: kinds[i],
-          def: String(i)
-        });
-      }
-      this.displayedColumns = this.dynamicColumns.map(el => el.def);
-      this.dynamicColumns.shift();
-
-      /* Make data */
-      let displayWorkHours: displayData[] = [];
-      let calcSet: calcSet = {
-        sumMonth: {},
-        s_number: new Array<number>(kinds.length),
-        workDate: {},
-        w_number: new Array<number>(kinds.length),
-        overtimeHours: {},
-        o_number: new Array<number>(kinds.length)
-      }
-      calcSet.sumMonth['date'] = '月総計';
-      calcSet.workDate['date'] = '出勤日数';
-      calcSet.overtimeHours['date'] = '残業目安';
-      calcSet.s_number.fill(0);
-      calcSet.w_number.fill(0);
-      calcSet.o_number.fill(0);
-
-      for(let date of this.dates){
-        let object: displayData = {};
-        object['date'] = date.view;
-        let extracted = workHourses.filter(workHours => {
-          const workHoursDate = new Date(workHours.date);
-          return date.date.getFullYear() === workHoursDate.getFullYear() && date.date.getMonth() === workHoursDate.getMonth() && date.date.getDate() === workHoursDate.getDate()
-        });
-
-        if(extracted.length !== 0){
-          for(let i = 0; i < kinds.length; i++){
-            let text: string = '';
-            let workHours = extracted.find(el => el.name === kinds[i]);
-            if(workHours){
-              if(workHours.start && workHours.end){
-                calcSet.w_number[i] += 1;
-                let hours: string;
-                if(workHours.hours.slice(-2) == '00'){
-                  hours = `${workHours.hours.slice(0,2)}`;
-                }
-                else{
-                  hours = `${workHours.hours.slice(0,2)}.5`;
-                }
-                calcSet.s_number[i] += Number(hours) - 1;
-                text = `退勤<br>(${workHours.start}～${workHours.end})<br>【実務】${Number(hours) - 1}時間`;
-                calcSet.o_number[i] += (Number(hours) - 1) - 8;
-              }
-              else if(workHours.start && !workHours.end){
-                text = `出勤<br>(${workHours.start}～)`;
-              }
-            }
-            object[`${i}`] = text;
+        /* Make column */
+        let kinds: kind[] = [];
+        for(let workHours of workHourses){
+          let status: number = 0;
+          let member = members.find(member => member.id === workHours.id);
+          if(member !== undefined){
+            status = member.status;
+          }
+          if(!kinds.map(kind => kind.name).includes(workHours.name)){
+            kinds.push({
+              name: workHours.name,
+              status: status
+            });
           }
         }
-        displayWorkHours.push(object);
-      }
-      /* Calc information */
-      for(let i = 0; i < kinds.length; i++){
-        calcSet.sumMonth[`${i}`] = `${calcSet.s_number[i]}時間`;
-        calcSet.workDate[`${i}`] = `${calcSet.w_number[i]}日`;
-        calcSet.overtimeHours[`${i}`] = `${calcSet.o_number[i]}時間`;
-      }
-      displayWorkHours.push(calcSet.sumMonth);
-      displayWorkHours.push(calcSet.workDate);
-      displayWorkHours.push(calcSet.overtimeHours);
+        this.dynamicColumns.push({
+          view: '日付',
+          def: 'date'
+        });
+        for(let i = 0; i < kinds.length; i++){
+          this.dynamicColumns.push({
+            view: kinds[i].name,
+            def: String(i)
+          });
+        }
+        this.displayedColumns = this.dynamicColumns.map(el => el.def);
+        this.dynamicColumns.shift();
 
-      this.dataSource.data = displayWorkHours;
-      this.spinnerService.detach();
+        /* Make data */
+        let displayWorkHours: displayData[] = [];
+        let calcSet: calcSet = {
+          sumMonth: {},
+          s_number: new Array<number>(kinds.length),
+          workDate: {},
+          w_number: new Array<number>(kinds.length),
+          overtimeHours: {},
+          o_number: new Array<number>(kinds.length)
+        }
+        calcSet.sumMonth['date'] = '月総計';
+        calcSet.workDate['date'] = '出勤日数';
+        calcSet.overtimeHours['date'] = '残業目安';
+        calcSet.s_number.fill(0);
+        calcSet.w_number.fill(0);
+        calcSet.o_number.fill(0);
+
+        for(let date of this.dates){
+          let object: displayData = {};
+          object['date'] = date.view;
+          let extracted = workHourses.filter(workHours => {
+            const workHoursDate = new Date(workHours.date);
+            return date.date.getFullYear() === workHoursDate.getFullYear() && date.date.getMonth() === workHoursDate.getMonth() && date.date.getDate() === workHoursDate.getDate()
+          });
+
+          if(extracted.length !== 0){
+            for(let i = 0; i < kinds.length; i++){
+              let text: string = '';
+              let workHours = extracted.find(el => el.name === kinds[i].name);
+              if(workHours){
+                if(workHours.start && workHours.end){
+                  const now = new Date();
+                  const workDate = new Date(workHours.date);
+                  if(kinds[i].status === 1 && (now.getFullYear() === workDate.getFullYear() && now.getMonth() === workDate.getMonth() && now.getDate() === workDate.getDate())){
+                    text = `出勤<br>(${workHours.start}～)`;
+                  }
+                  else{
+                    calcSet.w_number[i] += 1;
+                    let hours: string;
+                    if(workHours.hours.slice(-2) == '00'){
+                      hours = `${workHours.hours.slice(0,2)}`;
+                    }
+                    else{
+                      hours = `${workHours.hours.slice(0,2)}.5`;
+                    }
+
+                    calcSet.s_number[i] += Number(hours) - 1;
+                    let num_hours: number = Number(hours);
+                    if(num_hours > 6){
+                      num_hours = num_hours - 1;
+                    }
+                    text = `退勤<br>(${workHours.start}～${workHours.end})<br>【実務】${num_hours}時間`;
+                    calcSet.o_number[i] += num_hours - 8;
+                  }
+                }
+                else if(workHours.start && !workHours.end){
+                  text = `出勤<br>(${workHours.start}～)`;
+                }
+              }
+              object[`${i}`] = text;
+            }
+          }
+          displayWorkHours.push(object);
+        }
+        /* Calc information */
+        for(let i = 0; i < kinds.length; i++){
+          calcSet.sumMonth[`${i}`] = `${calcSet.s_number[i]}時間`;
+          calcSet.workDate[`${i}`] = `${calcSet.w_number[i]}日`;
+          calcSet.overtimeHours[`${i}`] = `${calcSet.o_number[i]}時間`;
+        }
+        displayWorkHours.push(calcSet.sumMonth);
+        displayWorkHours.push(calcSet.workDate);
+        displayWorkHours.push(calcSet.overtimeHours);
+
+        this.dataSource.data = displayWorkHours;
+        this.spinnerService.detach();
+      });
     });
   }
 }

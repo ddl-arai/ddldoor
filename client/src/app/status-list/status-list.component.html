@@ -1,11 +1,13 @@
-<mat-card class="data-card">
-    <mat-card-header class="header">
-        <mat-card-title class="mat-title">在外室一覧</mat-card-title>
-        <span fxLayout="row" fxFlexOffset="auto">
-            <button mat-icon-button color="primary" (click)="onRefresh()"><mat-icon class="refresh-icon">refresh</mat-icon></button>
-        </span>
-    </mat-card-header>
-    <mat-card-content>
+<div class="container" fxLayout="column" fxLayoutGap="16px">
+    <div>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="mat-title">メンバー</span>
+            <span fxLayout="row" fxFlexOffset="auto">
+                <button mat-icon-button color="primary" (click)="onRefresh()"><mat-icon class="refresh-icon">refresh</mat-icon></button>
+            </span>
+        </div>
+    </div>
+    <div>
         <div flexLayout="row" fxLayoutAlign="space-between" fxLayoutGap="20px">
             <div class="full-width">
             <table mat-table [dataSource]="dataSourceIni" class="mat-elevation-z8">
@@ -76,8 +78,8 @@
             </table>
             </div>
         </div>
-    </mat-card-content>
-</mat-card>
+    </div>
+</div>
   
 
 

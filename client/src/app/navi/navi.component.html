@@ -5,11 +5,11 @@
         [opened]="(isHandset$ | async) === false">
       <mat-toolbar>メニュー</mat-toolbar>
       <mat-nav-list>
-        <a mat-list-item [routerLink]="['/home/member']" routerLinkActive="active-list-item"><mat-icon class="list-icon">group</mat-icon>メンバー情報</a>
-        <a mat-list-item [routerLink]="['/home/statusList']" routerLinkActive="active-list-item"><mat-icon class="list-icon">directions_run</mat-icon>在外室一覧</a>
+        <a mat-list-item [routerLink]="['/home/member']" routerLinkActive="active-list-item"><mat-icon class="list-icon">group</mat-icon>メンバー</a>
+        <!--<a mat-list-item [routerLink]="['/home/statusList']" routerLinkActive="active-list-item"><mat-icon class="list-icon">directions_run</mat-icon>在外室一覧</a>-->
         <a mat-list-item [routerLink]="['/home/log']" routerLinkActive="active-list-item"><mat-icon class="list-icon">description</mat-icon>ログ</a>
         <a mat-list-item [routerLink]="['/home/nfc']" routerLinkActive="active-list-item"><mat-icon class="list-icon">nfc</mat-icon>カードID</a>
-        <a mat-list-item [routerLink]="['/home/deviceList']" routerLinkActive="active-list-item"><mat-icon class="list-icon">device_hub</mat-icon>デバイス一覧</a>
+        <a mat-list-item [routerLink]="['/home/deviceList']" routerLinkActive="active-list-item"><mat-icon class="list-icon">device_hub</mat-icon>デバイス</a>
         <a mat-list-item [routerLink]="['/home/workHours']" routerLinkActive="active-list-item"><mat-icon class="list-icon">work</mat-icon>勤務時間</a>
         <a *ngIf="user.admin" mat-list-item [routerLink]="['/home/maintenance']" routerLinkActive="active-list-item"><mat-icon class="list-icon">build</mat-icon>メンテナンス</a>
       </mat-nav-list>

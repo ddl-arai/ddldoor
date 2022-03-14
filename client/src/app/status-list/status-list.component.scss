@@ -6,16 +6,17 @@ table {
     padding: 8px 8px 8px 0;
 }
 
-.header {
-    padding-bottom: 16px;
-}
-
 .full-width {
     width: 100%;
 }
 
-.mat-card-title {
+.container {
+    margin: 16px;
+}
+
+.mat-title {
     margin: 0;
+    margin-left: 8px;
 }
 
 .green-header {
