@@ -72,7 +72,7 @@
   }
   
   .login-wrapper .mat-card {
-    padding: 50px 70px 50px;
+    padding: 60px 70px 50px;
   }
   
   .login-wrapper .mat-stroked-button {
@@ -93,3 +93,7 @@
     text-align: center;
     padding: 24px;
   }
+
+  .mat-card-header {
+    margin-bottom: 32px;
+}
