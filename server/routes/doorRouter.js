@@ -287,7 +287,45 @@ doorRouter.get('/' , async (req, res, next) => {
             break;
         case 'open':
             try {
+                let card = await Card.findOne({idm: req.query.idm}).exec();
                 let device = await Device.findOne({id: req.query.devid}).exec();
+
+                if(!card){
+                    /* No card and device */
+                    if(!device){
+                        res.json({
+                            result: 2,
+                            message: 'Not registered idm and device',
+                            request: req.query.request
+                        });
+                        await Log.create({
+                            sec: req.query.sec,
+                            idm: req.query.idm,
+                            devid: req.query.devid,
+                            result: 4
+                        });
+                        return;
+                    }
+                    else{
+                        /* No card, exist device */
+                        res.json({
+                            result: 2,
+                            message: 'Not registered idm',
+                            request: req.query.request
+                        });
+                        await Log.create({
+                            sec: req.query.sec,
+                            idm: req.query.idm,
+                            devid: req.query.devid,
+                            devName: device.name,
+                            result: 2
+                        });
+                        return;
+                    }
+                }
+                
+                /* Card exist and no device */
+                let member = await Member.findOne({id: card.id}).exec();
                 if(!device){
                     res.json({
                         result: 2,
@@ -296,9 +334,65 @@ doorRouter.get('/' , async (req, res, next) => {
                     });
                     await Log.create({
                         sec: req.query.sec,
+                        idm: req.query.idm,
+                        id: member.id,
+                        name: member.name,
+                        devid: req.query.devid,
+                        result: 3
+                    });
+                    return;
+                }
+
+                if(!card.enable){
+                    res.json({
+                        result: 2,
+                        message: 'Disable idm',
+                        request: req.query.request
+                    });
+                    await Log.create({
+                        sec: req.query.sec,
+                        idm: req.query.idm,
+                        id: member.id,
+                        name: member.name,
                         devid: req.query.devid,
                         devName: device.name,
-                        result: 3
+                        result: 5
+                    });
+                    return;
+                }
+
+                if(!member.enable){
+                    res.json({
+                        result: 2,
+                        message: 'Disable member',
+                        request: req.query.request
+                    });
+                    await Log.create({
+                        sec: req.query.sec,
+                        idm: req.query.idm,
+                        id: member.id,
+                        name: member.name,
+                        devid: req.query.devid,
+                        devName: device.name,
+                        result: 6
+                    });
+                    return;
+                }
+
+                if(card.banDevids.includes(req.query.devid)){
+                    res.json({
+                        result: 2,
+                        message: 'Not permmited member',
+                        request: req.query.request
+                    });
+                    await Log.create({
+                        sec: req.query.sec,
+                        idm: req.query.idm,
+                        id: member.id,
+                        name: member.name,
+                        devid: req.query.devid,
+                        devName: device.name,
+                        result: 10
                     });
                     return;
                 }
@@ -326,6 +420,9 @@ doorRouter.get('/' , async (req, res, next) => {
                 await device.save();
                 await Log.create({
                     sec: req.query.sec,
+                    idm: req.query.idm,
+                    id: member.id,
+                    name: member.name,
                     devid: req.query.devid,
                     devName: device.name,
                     result: result
