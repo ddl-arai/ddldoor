@@ -7,7 +7,6 @@ let Log = require('../models/log');
 let Device = require('../models/device');
 let bcrypt = require('bcrypt');
 let crypto = require('crypto');
-const member = require('../models/member');
 const saltRounds = 10;
 
 /* POST db/user */

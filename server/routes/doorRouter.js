@@ -7,6 +7,9 @@ let Device = require('../models/device');
 
 /* GET /door?request=(string)&devid=(number)&idm=(string)&sec=(number) */
 doorRouter.get('/' , async (req, res, next) => {
+    console.log('ip: ' + req.ip);
+    console.log(process.env.IP);
+
     if(!req.query.devid || !req.query.idm || !req.query.sec || !req.query.request){
         res.json({
             result: 7,
@@ -115,7 +118,7 @@ doorRouter.get('/' , async (req, res, next) => {
                 if(card.banDevids.includes(req.query.devid)){
                     res.json({
                         result: 10,
-                        message: 'Disable member',
+                        message: 'Unpermitted member',
                         request: req.query.request
                     });
                     await Log.create({
@@ -300,7 +303,6 @@ doorRouter.get('/' , async (req, res, next) => {
                         });
                         await Log.create({
                             sec: req.query.sec,
-                            idm: req.query.idm,
                             devid: req.query.devid,
                             result: 4
                         });
@@ -315,7 +317,6 @@ doorRouter.get('/' , async (req, res, next) => {
                         });
                         await Log.create({
                             sec: req.query.sec,
-                            idm: req.query.idm,
                             devid: req.query.devid,
                             devName: device.name,
                             result: 2
@@ -334,9 +335,6 @@ doorRouter.get('/' , async (req, res, next) => {
                     });
                     await Log.create({
                         sec: req.query.sec,
-                        idm: req.query.idm,
-                        id: member.id,
-                        name: member.name,
                         devid: req.query.devid,
                         result: 3
                     });
@@ -351,9 +349,6 @@ doorRouter.get('/' , async (req, res, next) => {
                     });
                     await Log.create({
                         sec: req.query.sec,
-                        idm: req.query.idm,
-                        id: member.id,
-                        name: member.name,
                         devid: req.query.devid,
                         devName: device.name,
                         result: 5
@@ -369,9 +364,6 @@ doorRouter.get('/' , async (req, res, next) => {
                     });
                     await Log.create({
                         sec: req.query.sec,
-                        idm: req.query.idm,
-                        id: member.id,
-                        name: member.name,
                         devid: req.query.devid,
                         devName: device.name,
                         result: 6
@@ -382,14 +374,11 @@ doorRouter.get('/' , async (req, res, next) => {
                 if(card.banDevids.includes(req.query.devid)){
                     res.json({
                         result: 2,
-                        message: 'Not permmited member',
+                        message: 'Unpermitted member',
                         request: req.query.request
                     });
                     await Log.create({
                         sec: req.query.sec,
-                        idm: req.query.idm,
-                        id: member.id,
-                        name: member.name,
                         devid: req.query.devid,
                         devName: device.name,
                         result: 10
@@ -420,9 +409,6 @@ doorRouter.get('/' , async (req, res, next) => {
                 await device.save();
                 await Log.create({
                     sec: req.query.sec,
-                    idm: req.query.idm,
-                    id: member.id,
-                    name: member.name,
                     devid: req.query.devid,
                     devName: device.name,
                     result: result
@@ -444,7 +430,6 @@ doorRouter.get('/' , async (req, res, next) => {
                     await Log.create({
                         sec: req.query.sec,
                         devid: req.query.devid,
-                        devName: device.name,
                         result: 3
                     });
                     return;
@@ -495,7 +480,6 @@ doorRouter.get('/' , async (req, res, next) => {
                     await Log.create({
                         sec: req.query.sec,
                         devid: req.query.devid,
-                        devName: device.name,
                         result: 3
                     });
                     return;
