@@ -29,7 +29,7 @@ async function main(){
     
     /* 3s interval */
     const _sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    await _sleep(3000);
+    await _sleep(1000);
 
     const now = Math.floor(Date.now() / 1000);
     const url = getURI(now); 

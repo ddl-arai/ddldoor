@@ -23,7 +23,7 @@
                         <mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">不正な終了時刻です</mat-error>
                         -->
                     </mat-form-field>
-                    <button mat-icon-button color="primary" (click)="onRefresh()"><mat-icon class="refresh-icon">refresh</mat-icon></button>
+                    <button mat-mini-fab color="primary" (click)="onRefresh()"><mat-icon class="refresh-icon">refresh</mat-icon></button>
                     <button mat-raised-button color="accent" (click)="exporter.exportTable('csv', options)">CSV出力</button>
                 </span>
             </div>

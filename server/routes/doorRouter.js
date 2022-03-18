@@ -7,6 +7,7 @@ let Device = require('../models/device');
 
 /* GET /door?request=(string)&devid=(number)&idm=(string)&sec=(number) */
 doorRouter.get('/' , async (req, res, next) => {
+    /*
     if(req.ip !== process.env.IP){
         res.json({
             result: 99,
@@ -14,7 +15,7 @@ doorRouter.get('/' , async (req, res, next) => {
             request: ''
         });
         return;
-    }
+    }*/
 
     if(!req.query.devid || !req.query.idm || !req.query.sec || !req.query.request){
         res.json({
@@ -508,7 +509,7 @@ doorRouter.get('/' , async (req, res, next) => {
                             device.open = true;
                             device.openStartTime = Date.now();
                         }
-                        if(Date.now() - device.openStartTime > 60 * 60 * 1000){
+                        if(Date.now() - device.openStartTime > device.timeout){
                             device.status = 0;
                             await Log.create({
                                 sec: req.query.sec,

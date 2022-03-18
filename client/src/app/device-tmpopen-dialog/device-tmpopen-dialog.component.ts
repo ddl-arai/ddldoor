@@ -6,7 +6,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface dialogData {
   id: number,
-  name: string
+  name: string,
+  timeout: string
 }
 
 @Component({
@@ -27,7 +28,7 @@ export class DeviceTmpopenDialogComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   onTmpOpen(): void {
@@ -35,13 +36,13 @@ export class DeviceTmpopenDialogComponent implements OnInit {
       id: this.data.id,
       name: this.data.name,
       func: '',
-      status: 1
+      status: 1,
+      timeout: 0
     }
     this.dbService.update<device>('device/tmp', device)
     .subscribe(result => {
       if(result){
-        this.snackBar.open('一時解錠しました', '閉じる', {duration: 5000});
-        this.dialogRef.close();
+        this.dialogRef.close(true);
       }
       else{
         this.snackBar.open('一時解錠できませんでした', '閉じる', {duration: 7000});

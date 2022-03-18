@@ -20,7 +20,8 @@ export class DeviceDialogComponent implements OnInit {
     id: 0,
     name: '',
     func: '',
-    status: 0
+    status: 0,
+    timeout: 60 * 60 * 1000 // initial value
   }
   idOptions: number[] = [...Array(100).keys()].map(i => ++i);
   form!: FormGroup;

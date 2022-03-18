@@ -2,5 +2,7 @@ export interface device {
     id: number,
     name: string,
     func: string,
-    status: number
+    status: number,
+    openStartTime?: number,
+    timeout: number
 }

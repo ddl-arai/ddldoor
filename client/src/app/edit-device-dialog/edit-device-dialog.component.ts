@@ -10,6 +10,11 @@ export interface viewFunc {
   value: string
 }
 
+export interface timeout {
+  value: number,
+  view: string
+}
+
 @Component({
   selector: 'app-edit-device-dialog',
   templateUrl: './edit-device-dialog.component.html',
@@ -20,16 +25,25 @@ export class EditDeviceDialogComponent implements OnInit {
     id: 0,
     name: '',
     func: '',
-    status: 0
+    status: 0,
+    timeout: 0
   }
   form!: FormGroup;
   idControl = new FormControl(null, Validators.required);
   nameControl = new FormControl(null, Validators.required);
   funcControl = new FormControl(null, Validators.required);
+  timeoutControl = new FormControl(0, Validators.required);
   funcList: viewFunc[] = [
     {view: '入口', value: 'enter'},
     {view: '出口', value: 'exit'}
   ];
+  timeoutOptions: timeout[] = [
+    {value: 60 * 60 * 1000, view: '60分'},
+    {value: 30 * 60 * 1000, view: '30分'},
+    {value: 15 * 60 * 1000, view: '15分'},
+    {value: 15 * 1000, view: '15秒'}
+  ];
+  isAdmin: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<EditDeviceDialogComponent>,
@@ -40,11 +54,13 @@ export class EditDeviceDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getAdmin();
     this.getDevice(this.id);
     this.form = this.fb.group({
       id: this.idControl,
       name: this.nameControl,
-      func: this.funcControl
+      func: this.funcControl,
+      timeout: this.timeoutControl
     });
   }
 
@@ -53,11 +69,18 @@ export class EditDeviceDialogComponent implements OnInit {
     .subscribe(device => {
       this.device = device;
       this.funcControl.setValue(this.device.func);
+      this.timeoutControl.setValue(this.device.timeout);
     });
+  }
+
+  getAdmin(): void {
+    this.dbService.getUser()
+    .subscribe(user => this.isAdmin = user.admin);
   }
 
   onSave(): void {
     this.device.func = this.form.get('func')?.value;
+    this.device.timeout = this.form.get('timeout')?.value;
     this.dbService.update<device>('device', this.device)
     .subscribe(result => {
       if(result){

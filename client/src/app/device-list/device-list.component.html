@@ -4,7 +4,7 @@
         <div fxLayout="row" fxLayoutAlign="space-between center">
             <span class="mat-title">デバイス</span>
             <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="16px">
-                <button mat-icon-button color="primary" (click)="onRefresh()"><mat-icon class="refresh-icon">refresh</mat-icon></button>
+                <button mat-mini-fab color="primary" (click)="onRefresh()"><mat-icon class="refresh-icon">refresh</mat-icon></button>
                 <button mat-raised-button color="accent" (click)="onRegister()">登録</button>
             </span>
         </div>
@@ -41,20 +41,30 @@
                     <div *ngIf="element.status === '通常'; else elseBlock">
                         <span class="table-safe">{{element.status}}</span>
                     </div> 
-                    <ng-template #elseBlock>{{element.status}}</ng-template>
+                    <ng-template #elseBlock>{{element.status}}({{counters[element.id]}})</ng-template>
                 </td>
             </ng-container>
 
             <!-- tmpopen Column -->
-            <ng-container matColumnDef="tmpopen">
+            <ng-container matColumnDef="tmpopen" class="tmpopen-btn">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">
                     <div *ngIf="element.status === '通常' && element.role === '出口'">
-                        <button mat-raised-button type="button" color="primary" (click)="onTempOpen(element.id, element.name)">一時解錠</button>
+                        <button mat-flat-button type="button" color="primary" (click)="onTempOpen(element.id, element.name, element.timeout)">一時解錠</button>
                     </div> 
                     <div *ngIf="element.status === '一時解錠中' && element.role === '出口'">
-                        <button mat-raised-button color="warn" type="button" (click)="onLock(element.id, element.name)">施錠</button>
+                        <button mat-flat-button color="warn" type="button" (click)="onLock(element.id, element.name)">施錠</button>
                     </div>
+                </td>
+            </ng-container>
+
+            <!-- timeout Column -->
+            <ng-container matColumnDef="timeout">
+                <th mat-header-cell *matHeaderCellDef>最大解錠時間</th>
+                <td mat-cell *matCellDef="let element">
+                    <div *ngIf="element.status === '通常' && element.role === '出口'">
+                        {{element.timeout}}
+                    </div> 
                 </td>
             </ng-container>
 
@@ -66,7 +76,7 @@
                     <button mat-icon-button color="primary" (click)="onEdit(element.id)">
                         <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-icon-button color="warn" (click)="onDelete(element.id, element.name)">
+                    <button mat-icon-button color="warn" (click)="onDelete(element.id, element.name)" [disabled]="!isAdmin">
                         <mat-icon>delete</mat-icon>
                     </button> 
                 </td>

@@ -5,7 +5,7 @@
                 <div fxLayout="row" fxLayoutAlign="space-between center">
                     <span class="mat-title">メンバー</span>
                     <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="16px">
-                        <button mat-icon-button color="primary" (click)="onRefresh()"><mat-icon class="refresh-icon">refresh</mat-icon></button>
+                        <button mat-mini-fab color="primary" (click)="onRefresh()"><mat-icon class="refresh-icon">refresh</mat-icon></button>
                         <button mat-raised-button color="accent" (click)="onRegister()">登録</button>
                     </span>
                 </div>
@@ -64,10 +64,10 @@
                                 <span class="table-safe" *ngSwitchCase="'在室'">{{element.status}}</span>
                                 <span class="table-accent" *ngSwitchCase="'初期状態'">{{element.status}}</span>
                                 <span class="table-warn" *ngSwitchCase="'アンチパスバック'">
-                                    {{element.status}}<button mat-icon-button (click)="onReset(element.id)"><mat-icon>new_releases</mat-icon></button>
+                                    {{element.status}}<button mat-icon-button (click)="onReset(element.id)" matTooltip="初期状態になります" matTooltipPosition="right"><mat-icon class="init-icon">new_releases</mat-icon></button>
                                 </span>
                                 <span *ngSwitchCase="'状態管理なし'">
-                                    {{element.status}}<button mat-icon-button (click)="onReset(element.id)"><mat-icon>new_releases</mat-icon></button>
+                                    {{element.status}}<button mat-icon-button (click)="onReset(element.id)" matTooltip="初期状態になります" matTooltipPosition="right"><mat-icon class="init-icon">new_releases</mat-icon></button>
                                 </span>
                             </div>
                         </td>

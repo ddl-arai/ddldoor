@@ -5,7 +5,8 @@ let mongoose = require("mongoose"),
     func: String,
     status: Number,
     open: Boolean,
-    openStartTime: Number
+    openStartTime: Number,
+    timeout: Number
   });
 
 module.exports = mongoose.model("Device", deviceSchema, 'device');
