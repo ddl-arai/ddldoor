@@ -9,6 +9,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
+import { MatPaginatorIntlJa } from './mat-paginator-jp';
 
 /* Material */
 import { MatButtonModule } from '@angular/material/button';
@@ -29,7 +30,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -143,7 +144,8 @@ import { DeviceTmpopenDialogComponent } from './device-tmpopen-dialog/device-tmp
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlJa }
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
