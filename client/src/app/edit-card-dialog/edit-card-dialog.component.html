@@ -1,8 +1,7 @@
 <h2 mat-dialog-title>カード編集</h2>
 <div mat-dialog-content>
     <form class="example-form" [formGroup]="form" novalidate (ngSubmit)="onSave()">
-        <mat-card-content>
-        <div fxLayout="column" fxLayoutAlign="space-around">
+        <div class="spacer" fxLayout="column" fxLayoutAlign="space-around">
 
             <mat-form-field class="example-full-width">
                 <input matInput placeholder="IDm" name="idm" [(ngModel)]="card.idm" formControlName="idm" readonly>
@@ -64,10 +63,9 @@
             </div>
 
         </div>
-        </mat-card-content>
         <span fxLayout="row" fxLayoutAlign="space-between center">
-        <button mat-button type="button" (click)="onCancel()">キャンセル</button>
-        <button mat-raised-button class="btn-block" color="accent" type="submit" [disabled]="form.invalid">更新</button>
+            <button mat-button type="button" (click)="onCancel()">キャンセル</button>
+            <button mat-raised-button class="btn-block" color="accent" type="submit" [disabled]="form.invalid">更新</button>
         </span>
     </form>
 

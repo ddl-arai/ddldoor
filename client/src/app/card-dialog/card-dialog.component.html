@@ -8,8 +8,7 @@
         <button mat-raised-button color="accent" type="button" (click)="onScan()" [disabled]="scanStatus==1">スキャン</button>
     </div>
     <form class="example-form" [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
-        <mat-card-content>
-        <div fxLayout="column" fxLayoutAlign="space-around">
+        <div class="spacer" fxLayout="column" fxLayoutAlign="space-around">
 
             <mat-form-field class="example-full-width">
                 <input matInput placeholder="IDm" name="idm" [(ngModel)]="card.idm" formControlName="idm" [readonly]="!admin">
@@ -61,10 +60,9 @@
             </div>
 
         </div>
-        </mat-card-content>
         <span fxLayout="row" fxLayoutAlign="space-between center">
-        <button mat-button type="button" (click)="onCancel()">キャンセル</button>
-        <button mat-raised-button class="btn-block" color="accent" type="submit" [disabled]="form.invalid">カード登録</button>
+            <button mat-button type="button" (click)="onCancel()">キャンセル</button>
+            <button mat-raised-button class="btn-block" color="accent" type="submit" [disabled]="form.invalid">カード登録</button>
         </span>
     </form>
 

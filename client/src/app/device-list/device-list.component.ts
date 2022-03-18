@@ -159,8 +159,11 @@ export class DeviceListComponent implements OnInit, AfterViewInit, OnDestroy {
             this.counters[`${dev.id}`] = `${rest.getMinutes()}:${('0' + String(rest.getSeconds())).slice(-2)}`;
           }
           else{
+            if(msec < - 60 * 60 * 1000){
+              this.counters[`${dev.id}`] = '0:00';
+              this.snackBar.open('エラーが発生しました', '閉じる', {duration: 7000});
+            }
             this.onRefresh();
-            return;
           }
         });
       });
