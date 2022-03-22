@@ -139,12 +139,15 @@ export class LogComponent implements OnInit, AfterViewInit{
           case 10:
             result = '無許可IDm';
             break;
+          case 11:
+            result = '手動打刻';
+            break;
           default:
             break;
         }
 
         displaylogs.push({
-          no: log.no,
+          no: log.no!,
           date: `${time.getFullYear()}/${this.pad(time.getMonth() + 1)}/${this.pad(time.getDate())}`,
           time: `${this.pad(time.getHours())}:${this.pad(time.getMinutes())}:${this.pad(time.getSeconds())}`,
           idm: log.idm,

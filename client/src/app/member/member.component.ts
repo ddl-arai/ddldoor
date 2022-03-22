@@ -8,6 +8,7 @@ import { MemberDialogComponent } from '../member-dialog/member-dialog.component'
 import { EditMemberDialogComponent } from '../edit-member-dialog/edit-member-dialog.component';
 import { DeleteMemberDialogComponent } from '../delete-member-dialog/delete-member-dialog.component';
 import { MatSort } from '@angular/material/sort';
+import { StampDialogComponent } from '../stamp-dialog/stamp-dialog.component';
 
 
 export interface displayData {
@@ -125,6 +126,19 @@ export class MemberComponent implements OnInit, AfterViewInit{
     dialogRef.afterClosed().subscribe(() => {
       this.ngOnInit();
     });
+  }
+
+  onStamp(id: number, name: string): void {
+    let dialogRef = this.dialog.open(StampDialogComponent, {
+      width: '400px',
+      data: {
+        id: id,
+        name: name
+      }
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.ngOnInit();
+    })
   }
 
   onRefresh(): void {

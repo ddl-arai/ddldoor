@@ -69,6 +69,7 @@ import { DeleteLogDialogComponent } from './delete-log-dialog/delete-log-dialog.
 import { WorkHoursComponent } from './work-hours/work-hours.component';
 import { WorkHoursChartComponent } from './work-hours-chart/work-hours-chart.component';
 import { DeviceTmpopenDialogComponent } from './device-tmpopen-dialog/device-tmpopen-dialog.component';
+import { StampDialogComponent } from './stamp-dialog/stamp-dialog.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { DeviceTmpopenDialogComponent } from './device-tmpopen-dialog/device-tmp
     WorkHoursComponent,
     WorkHoursChartComponent,
     DeviceTmpopenDialogComponent,
+    StampDialogComponent,
   ],
   imports: [
     BrowserModule,
