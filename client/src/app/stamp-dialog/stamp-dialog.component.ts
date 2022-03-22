@@ -3,7 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { timer, Subscription } from 'rxjs';
 import { DbService } from '../db.service';
 import { device } from '../models/device';
-import { member } from '../models/member';
 import { log } from '../models/log';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
