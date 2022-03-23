@@ -3,7 +3,7 @@
         <div class="container" fxLayout="column" fxLayoutGap="16px">
             <!--<mat-card-title class="mat-title">勤務時間</mat-card-title>-->
             <div>
-                <span fxLayout="row" fxLayoutAlign="space-between center">
+                <span class="marginer" fxLayout="row" fxLayoutAlign="space-between center">
                     <span class="mat-title">勤務時間</span>
                     <!--<button mat-icon-button color="primary" (click)="onRefresh()"><mat-icon class="refresh-icon">refresh</mat-icon></button>-->
                     <button mat-raised-button color="accent" (click)="exporter.exportTable('csv', options)">CSV出力</button>

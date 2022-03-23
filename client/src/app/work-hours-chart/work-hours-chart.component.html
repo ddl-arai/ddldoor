@@ -1,12 +1,14 @@
 <div class="container" fxLayout="column" fxLayoutGap="16px">
     <div>
-        <span fxLayout="row" fxLayoutAlign="space-between center">
+        <span class="marginer" fxLayout="row" fxLayoutAlign="space-between center">
             <span class="mat-title">勤務時間</span>
-            <mat-form-field>
-                <mat-select [(ngModel)]="selected" (selectionChange)="selectedChange()">
-                    <mat-option [value]="option.date" *ngFor="let option of selector">{{option.view}}</mat-option>
-                </mat-select>
-            </mat-form-field>
+            <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center">
+                <mat-form-field>
+                    <mat-select [(ngModel)]="selected" (selectionChange)="selectedChange()">
+                        <mat-option [value]="option.date" *ngFor="let option of selector">{{option.view}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </span>
         </span>
     </div>
 

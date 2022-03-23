@@ -1,15 +1,19 @@
-<h2 mat-dialog-title>手動打刻 {{data.name}}さん</h2>
+<h2 mat-dialog-title>手動打刻</h2>
 <div mat-dialog-content>
     <div fxLayout="column" fxLayoutGap="24px">
-        <p><mat-icon class="warning">warning</mat-icon>手動打刻は状態管理の対象外です</p>
-        <mat-form-field>
-            <mat-label>デバイス</mat-label>
-            <mat-select [(ngModel)]="deviceId">
-                <mat-option *ngFor="let device of deviceOptions" [value]="device.id">
-                    {{device.view}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+        <div>
+            <p>{{data.name}}さん</p>
+            <p><mat-icon class="warning">warning</mat-icon>手動打刻は状態管理の対象外です</p>
+        
+            <mat-form-field class="full-width">
+                <mat-label>デバイス</mat-label>
+                <mat-select [(ngModel)]="deviceId">
+                    <mat-option *ngFor="let device of deviceOptions" [value]="device.id">
+                        {{device.view}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
         <div>
             <span fxLayout="row" fxLayoutAlign="center center" class="clock">
                 {{clock}}

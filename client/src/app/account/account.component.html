@@ -3,8 +3,38 @@
         <mat-card-title class="mat-title">アカウント</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <div fxLayout="row">
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" fxFlex="60">
+        <div fxLayout="row wrap" fxLayoutGap="24px">
+
+            <div fxFlex="36" class="full-width">
+                <div fxLayout="column" fxLayoutAlign="space-between none">
+                    <form class="form"[formGroup]="form" novalidate (ngSubmit)="onGenAccount()">
+                        <mat-label>アカウント発行</mat-label>
+                        <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+
+                                <mat-form-field class="example-full-width">
+                                    <input matInput type="email" placeholder="登録するメールアドレス" formControlName="email">
+                                    <mat-error *ngIf="emailControl.hasError('required') || emailControl.hasError('email')">
+                                        <strong>メールアドレスを入力してください</strong>
+                                    </mat-error>
+                                </mat-form-field>
+
+                            <mat-checkbox [(ngModel)]="user.admin" formControlName="admin">管理者</mat-checkbox>
+                            <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">発行</button>
+                        </div>
+
+                        <span class="password" *ngIf="success">
+                            パスワード: <span>{{user.password}}</span>
+                            <button mat-icon-button type="button" (click)="onCopy()">
+                                <mat-icon>file_copy</mat-icon>
+                            </button>
+                        </span>
+                    </form>
+                </div>
+            </div>
+
+           
+
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" fxFlex>
 
                 <!-- email Column -->
                 <ng-container matColumnDef="email">
@@ -37,33 +67,10 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
-            <div fxFlex="4"></div>
+           
 
          
-            <div fxLayout="column" fxLayoutAlign="space-between none" fxFlex>
-                <form [formGroup]="form" novalidate (ngSubmit)="onGenAccount()">
-                    <mat-label>アカウント発行</mat-label>
-                    <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
-
-                            <mat-form-field class="example-full-width">
-                                <input matInput type="email" placeholder="登録するメールアドレス" formControlName="email">
-                                <mat-error *ngIf="emailControl.hasError('required') || emailControl.hasError('email')">
-                                    <strong>メールアドレスを入力してください</strong>
-                                </mat-error>
-                            </mat-form-field>
-
-                        <mat-checkbox [(ngModel)]="user.admin" formControlName="admin">管理者</mat-checkbox>
-                        <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">発行</button>
-                    </div>
-
-                    <span class="password" *ngIf="success">
-                        パスワード: <span>{{user.password}}</span>
-                        <button mat-icon-button type="button" (click)="onCopy()">
-                            <mat-icon>file_copy</mat-icon>
-                        </button>
-                    </span>
-                </form>
-            </div>
+            
         </div>
     </mat-card-content>
 </mat-card>
