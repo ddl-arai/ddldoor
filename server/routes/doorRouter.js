@@ -28,7 +28,7 @@ doorRouter.get('/' , async (req, res, next) => {
 
     /***** Temporary process *****/
     const now = Math.floor(Date.now() / 1000);
-    console.log(`***** Device time: ${req.query.sec} Server time: ${now}`);
+    console.log(`***** Device time: ${req.query.sec} Server time: ${now} *****`);
     req.query.sec = now;
     /*****************************/
 
