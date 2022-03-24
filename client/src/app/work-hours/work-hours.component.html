@@ -2,11 +2,11 @@
     <mat-tab label="出力">
         <div class="container" fxLayout="column" fxLayoutGap="16px">
             <!--<mat-card-title class="mat-title">勤務時間</mat-card-title>-->
-            <div>
+            <div class="header">
                 <span fxLayout="row" fxLayoutAlign="space-between center">
                     <span class="mat-title">勤務時間</span>
                     <!--<button mat-icon-button color="primary" (click)="onRefresh()"><mat-icon class="refresh-icon">refresh</mat-icon></button>-->
-                    <button mat-raised-button color="accent" (click)="exporter.exportTable('csv', options)">CSV出力</button>
+                    <button mat-button (click)="exporter.exportTable('csv', options)">CSV出力</button>
                 </span>
             </div>
 
@@ -35,7 +35,7 @@
                             <span fxLayout="row" fxLayoutGap="16px">
                                 <span>
                                 <mat-form-field>
-                                    <mat-label>範囲指定</mat-label>
+                                    <mat-label>範囲選択</mat-label>
                                     <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
                                         <input matStartDate formControlName="start" placeholder="YYYY/MM/DD">
                                         <input matEndDate formControlName="end" placeholder="YYYY/MM/DD">
@@ -46,7 +46,7 @@
                                         不正な範囲です
                                     </mat-error>
                                 </mat-form-field>
-                                <p class="mat-small">範囲の指定がない場合は過去30日間を出力します</p>
+                                <p class="mat-small">範囲の選択がない場合は過去30日間を出力します</p>
                                 </span>
 
                                 <mat-form-field>

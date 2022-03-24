@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { SpinnerService } from '../spinner.service';
+import { MatDateRangePicker } from '@angular/material/datepicker';
 
 export interface displayData {
   no: number,
@@ -50,6 +51,7 @@ export class LogComponent implements OnInit, AfterViewInit{
   options: options = {
     fileName: ''
   }
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -175,7 +177,7 @@ export class LogComponent implements OnInit, AfterViewInit{
   onFilter(): void {
     let start = new Date(this.range.value['start']);
     if(!this.range.value['end']){
-      this.snackBar.open('範囲を指定してください', '閉じる', {duration: 7000});
+      this.snackBar.open('範囲を選択してください', '閉じる', {duration: 7000});
       this.onRefresh();
       return;
     }

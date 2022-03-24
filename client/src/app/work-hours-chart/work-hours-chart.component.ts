@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DbService } from '../db.service';
 import { member } from '../models/member';
 import { SpinnerService } from '../spinner.service';
+import screenfull from 'screenfull';
 
 export interface selectMonth {
   view: string,
@@ -237,5 +238,11 @@ export class WorkHoursChartComponent implements OnInit {
         this.spinnerService.detach();
       });
     });
+  }
+
+  toggleFullscreen(element: HTMLElement): void {
+    if(screenfull.isEnabled){
+      screenfull.toggle(element);
+    }
   }
 }

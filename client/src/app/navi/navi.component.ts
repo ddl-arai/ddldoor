@@ -18,10 +18,11 @@ export class NaviComponent implements OnInit {
     password: '',
     admin: false
   }
+  name: string = '';
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
-      map(result => result.matches),
+      map(result => false),//result.matches),
       shareReplay()
     );
 
@@ -54,7 +55,16 @@ export class NaviComponent implements OnInit {
 
   getUser(): void {
     this.dbService.getUser()
-    .subscribe(user => this.user = user);
+    .subscribe(user => {
+      this.user = user
+      let cushion = this.user.email.match(/(.*)\..*@/);
+      if(cushion !== null && cushion.length > 0){
+        this.name = cushion[1];
+      }
+      else{
+        this.name = 'someone'
+      }
+    });
   }
 }
 

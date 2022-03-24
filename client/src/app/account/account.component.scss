@@ -7,10 +7,6 @@
     padding-bottom: 16px;
 }
 
-.mat-card-header .mat-card-title {
-    margin-bottom: 0;
-}
-
 .password {
     font-size: 16px;
 }
@@ -32,3 +28,11 @@ table {
     margin: 0;
 }
 
+.mat-card-content {
+    margin-top: 16px;
+    margin-left: 8px;
+}
+
+.full-width {
+    width: 100%;
+}

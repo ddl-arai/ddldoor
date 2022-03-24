@@ -2,9 +2,38 @@
     <mat-card-header class="header">
         <mat-card-title class="mat-title">アカウント</mat-card-title>
     </mat-card-header>
+    <mat-divider inset="true"></mat-divider>
     <mat-card-content>
-        <div fxLayout="row">
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" fxFlex="60">
+        <div fxLayout="row wrap" fxLayoutGap="24px">
+
+            <div fxFlex="36" class="full-width">
+                <div fxLayout="column" fxLayoutAlign="space-between none">
+                    <form class="form"[formGroup]="form" novalidate (ngSubmit)="onGenAccount()">
+                        <mat-label>アカウント発行</mat-label>
+                        <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+
+                                <mat-form-field class="example-full-width">
+                                    <input matInput type="email" placeholder="登録するメールアドレス" formControlName="email">
+                                    <mat-error *ngIf="emailControl.hasError('required') || emailControl.hasError('email')">
+                                        <strong>メールアドレスを入力してください</strong>
+                                    </mat-error>
+                                </mat-form-field>
+
+                            <mat-checkbox [(ngModel)]="user.admin" formControlName="admin">管理者</mat-checkbox>
+                            <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">発行</button>
+                        </div>
+
+                        <span class="password" *ngIf="success">
+                            パスワード: <span>{{user.password}}</span>
+                            <button mat-icon-button type="button" (click)="onCopy()">
+                                <mat-icon>file_copy</mat-icon>
+                            </button>
+                        </span>
+                    </form>
+                </div>
+            </div>
+
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" fxFlex=>
 
                 <!-- email Column -->
                 <ng-container matColumnDef="email">
@@ -35,35 +64,7 @@
             
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-
-            <div fxFlex="4"></div>
-
-         
-            <div fxLayout="column" fxLayoutAlign="space-between none" fxFlex>
-                <form [formGroup]="form" novalidate (ngSubmit)="onGenAccount()">
-                    <mat-label>アカウント発行</mat-label>
-                    <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
-
-                            <mat-form-field class="example-full-width">
-                                <input matInput type="email" placeholder="登録するメールアドレス" formControlName="email">
-                                <mat-error *ngIf="emailControl.hasError('required') || emailControl.hasError('email')">
-                                    <strong>メールアドレスを入力してください</strong>
-                                </mat-error>
-                            </mat-form-field>
-
-                        <mat-checkbox [(ngModel)]="user.admin" formControlName="admin">管理者</mat-checkbox>
-                        <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">発行</button>
-                    </div>
-
-                    <span class="password" *ngIf="success">
-                        パスワード: <span>{{user.password}}</span>
-                        <button mat-icon-button type="button" (click)="onCopy()">
-                            <mat-icon>file_copy</mat-icon>
-                        </button>
-                    </span>
-                </form>
-            </div>
+            </table>            
         </div>
     </mat-card-content>
 </mat-card>
@@ -72,19 +73,20 @@
     <mat-card-header class="header">
         <mat-card-title class="mat-title" color="warn">Danger Zone</mat-card-title>
     </mat-card-header>
+    <mat-divider inset="true"></mat-divider>
     <mat-card-content>
         <div fxLayout="column" fxLayoutGap="16px">
             <div>
-                <span fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+                <span fxLayout="row wrap" fxLayoutAlign=" center" fxLayoutGap="16px">
                     <!--<button mat-raised-button matTooltip="全メンバーが状態管理なし状態になります" matTooltipPosition="above" color="warn" type="button" (click)="onZaru()">状態管理なしモード</button>-->
                     <button mat-raised-button color="warn" type="button" (click)="onZaru()">状態管理なしモード</button>
                     <p class="info">全てのメンバーが状態管理なし状態になります。状態管理なし状態ではアンチパスバックにはなりません</p>
                 </span>
             </div>
             <div>
-                <span fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+                <span fxLayout="row wrap" fxLayoutAlign=" center" fxLayoutGap="16px">
                     <mat-form-field color="warn">
-                        <mat-label><mat-icon class="filter-icon">filter_list</mat-icon>日付指定</mat-label>
+                        <mat-label><mat-icon class="filter-icon">filter_list</mat-icon>範囲選択</mat-label>
                         <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
                             <input matStartDate formControlName="start" placeholder="YYYY/MM/DD">
                             <input matEndDate formControlName="end" placeholder="YYYY/MM/DD">

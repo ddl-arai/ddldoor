@@ -1,11 +1,11 @@
 <div class="container" fxLayout="column" fxLayoutGap="16px">
 
-    <div>
+    <div class="header">
         <div fxLayout="row" fxLayoutAlign="space-between center">
             <span class="mat-title">デバイス</span>
-            <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="16px">
-                <button mat-mini-fab color="primary" (click)="onRefresh()"><mat-icon class="refresh-icon">refresh</mat-icon></button>
-                <button mat-raised-button color="accent" (click)="onRegister()">登録</button>
+            <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center">
+                <button mat-icon-button (click)="onRefresh()"><mat-icon>refresh</mat-icon></button>
+                <button mat-button (click)="onRegister()">登録</button>
             </span>
         </div>
     </div>
