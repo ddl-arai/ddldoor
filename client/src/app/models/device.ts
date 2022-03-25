@@ -4,5 +4,6 @@ export interface device {
     func: string,
     status: number,
     openStartTime?: number,
-    timeout: number
+    timeout: number,
+    open?: boolean
 }

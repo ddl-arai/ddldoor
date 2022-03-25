@@ -241,19 +241,8 @@ export class DeviceListComponent implements OnInit, AfterViewInit, OnDestroy {
         timeout: timeout
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      /* It takes about 1 sec for completing opend */
-      if(result){
-        this.spinnerService.attach()
-        setTimeout(() => {
-          this.spinnerService.detach();
-          this.snackBar.open('一時解錠しました', '閉じる', {duration: 5000});
-          this.ngOnInit();
-        }, 1000);
-      }
-      else{
-        this.ngOnInit();
-      }
+    dialogRef.afterClosed().subscribe(() => {
+      this.ngOnInit();
     });
   }
 
