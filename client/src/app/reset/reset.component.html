@@ -1,11 +1,12 @@
 <div *ngIf="display" class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
 	<mat-card class="box mat-elevation-z8">
 		<mat-card-header>
-			<mat-card-title>パスワードリセット</mat-card-title>
+			<mat-card-title>パスワード変更</mat-card-title>
+			<!--
             <mat-card-subtitle>
                 パスワードは不可逆的に暗号化され
                 <p>本人以外は知り得ません</p>
-            </mat-card-subtitle>
+            </mat-card-subtitle>-->
 		</mat-card-header>
 
 		<form class="example-form" [formGroup]="form" novalidate (ngSubmit)="onSubmit()">

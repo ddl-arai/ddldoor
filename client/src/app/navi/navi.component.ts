@@ -22,7 +22,7 @@ export class NaviComponent implements OnInit {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
-      map(result => false),//result.matches),
+      map(result => result.matches),
       shareReplay()
     );
 

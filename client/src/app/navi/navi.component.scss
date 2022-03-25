@@ -40,25 +40,32 @@
     color: #FFF;
 }
 
-/*
 .active-list-item {
-    background-color: #ff4081;
+    background-color: #ff4081 !important;
     border-radius: 4px;
 }
 
 .mat-nav-list .mat-list-item:hover {
-    background-color: transparent;
+    background-color: inherit;
 }
 
 .mat-nav-list .mat-list-item:focus {
     background-color: #ff4081;
     border-radius: 4px;
-}*/
+}
 
 .user {
     color: #FFF;
     padding: 16px;
     padding-right: 0;
     font-size: 16px;
+}
+
+.mat-drawer-side {
+    border-right: 0;
+}
+
+.toggle-btn {
+    
 }
 

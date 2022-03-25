@@ -1,18 +1,17 @@
 <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer class="sidenav" fixedInViewport
+    <mat-sidenav #drawer class="sidenav mat-elevation-z8" fixedInViewport autoFocus="false "
         [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
         [mode]="(isHandset$ | async) ? 'over' : 'side'"
         [opened]="(isHandset$ | async) === false">
       <div fxLayout="column" fxFill>
         <mat-toolbar>DDLDoor</mat-toolbar>
         <mat-nav-list fxFlex>
-          <a mat-list-item [routerLink]="['/home/member']" routerLinkActive="active-list-item" disableRipple="true"><mat-icon class="list-icon">group</mat-icon>メンバー</a>
-          <!--<a mat-list-item [routerLink]="['/home/statusList']" routerLinkActive="active-list-item"><mat-icon class="list-icon">directions_run</mat-icon>在外室一覧</a>-->
-          <a mat-list-item [routerLink]="['/home/log']" routerLinkActive="active-list-item" disableRipple="true"><mat-icon class="list-icon">description</mat-icon>ログ</a>
-          <a mat-list-item [routerLink]="['/home/nfc']" routerLinkActive="active-list-item" disableRipple="true"><mat-icon class="list-icon">nfc</mat-icon>カードID</a>
-          <a mat-list-item [routerLink]="['/home/deviceList']" routerLinkActive="active-list-item" disableRipple="true"><mat-icon class="list-icon">device_hub</mat-icon>デバイス</a>
-          <a mat-list-item [routerLink]="['/home/workHours']" routerLinkActive="active-list-item" disableRipple="true"><mat-icon class="list-icon">work</mat-icon>勤務時間</a>
-          <a *ngIf="user.admin" mat-list-item [routerLink]="['/home/maintenance']" routerLinkActive="active-list-item" disableRipple="true"><mat-icon class="list-icon">build</mat-icon>メンテナンス</a>
+          <a mat-list-item [routerLink]="['/home/member']" routerLinkActive="active-list-item mat-elevation-z4" ><mat-icon class="list-icon">group</mat-icon>メンバー</a>
+          <a mat-list-item [routerLink]="['/home/log']" routerLinkActive="active-list-item mat-elevation-z4"><mat-icon class="list-icon">description</mat-icon>ログ</a>
+          <a mat-list-item [routerLink]="['/home/nfc']" routerLinkActive="active-list-item mat-elevation-z4"><mat-icon class="list-icon">nfc</mat-icon>カードID</a>
+          <a mat-list-item [routerLink]="['/home/deviceList']" routerLinkActive="active-list-item mat-elevation-z4"><mat-icon class="list-icon">device_hub</mat-icon>デバイス</a>
+          <a mat-list-item [routerLink]="['/home/workHours']" routerLinkActive="active-list-item mat-elevation-z4"><mat-icon class="list-icon">work</mat-icon>勤務時間</a>
+          <a *ngIf="user.admin" mat-list-item [routerLink]="['/home/maintenance']" routerLinkActive="active-list-item mat-elevation-z4"><mat-icon class="list-icon">build</mat-icon>メンテナンス</a>
         </mat-nav-list>
         <span fxFlex></span>
         <div class="user" fxLayout="row" fxLayoutAlign="space-between center">
@@ -20,20 +19,33 @@
           <button mat-icon-button type="button" [matMenuTriggerFor]="userMenu">
             <mat-icon class="more_vert">more_vert</mat-icon>
           </button>
-          <mat-menu #userMenu="matMenu" class="user-profile" yPosition="above">
+          <mat-menu #userMenu="matMenu" class="user-profile" yPosition="above" xPosition="before">
             <button mat-menu-item (click)="onLogout()">
                 <mat-icon>logout</mat-icon>
                 ログアウト
             </button>
             <button mat-menu-item (click)="onResetPW()">
               <mat-icon>security</mat-icon>
-                パスワードリセット
+                パスワード変更
             </button>
           </mat-menu>
         </div>
       </div>
     </mat-sidenav>
+    
     <mat-sidenav-content>
+      <!--
+      <button
+        class="toggle-btn"
+        color="primary"
+        *ngIf="(isHandset$ | async) === true"
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-flat-button
+        (click)="drawer.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">keyboard_arrow_right</mat-icon>
+      </button>
+      -->
       <!--
       <mat-toolbar color="primary">
         <button
