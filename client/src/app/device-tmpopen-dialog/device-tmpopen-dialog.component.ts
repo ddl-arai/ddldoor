@@ -5,6 +5,7 @@ import { DbService } from '../db.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { timer, Subscription } from 'rxjs';
 import { SpinnerService } from '../spinner.service';
+import { log } from '../models/log';
 
 export interface dialogData {
   id: number,
@@ -20,7 +21,6 @@ export interface dialogData {
 export class DeviceTmpopenDialogComponent implements OnInit, OnDestroy {
   timer = timer(0, 1000);
   subscription: Subscription = new Subscription();
-  opened: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<DeviceTmpopenDialogComponent>,
@@ -50,21 +50,26 @@ export class DeviceTmpopenDialogComponent implements OnInit, OnDestroy {
     .subscribe(result => {
       if(result){
         this.subscription = this.timer.subscribe(count => {
-          console.log('Active');
           /* Get open status */
           this.dbService.get<device>('device', this.data.id)
           .subscribe(device => {
-            if(device.open){
-              this.opened = device.open;
-            }
+            let opened = device.open; 
 
             /* Opened */
-            if(this.opened){
-              this.subscription.unsubscribe();
-              this.snackBar.open('一時解錠しました', '閉じる', {duration: 5000});
-              this.spinnerService.detach();
-              this.dialogRef.close();
-              return;
+            if(opened){
+              this.dbService.add<any>('log', {
+                sec: Math.floor(Date.now() / 1000),
+                devid: device.id,
+                devName: device.name,
+                result: 7
+              })
+              .subscribe(() => {
+                this.subscription.unsubscribe();
+                this.snackBar.open('一時解錠しました', '閉じる', {duration: 5000});
+                this.spinnerService.detach();
+                this.dialogRef.close();
+                return;
+              });
             }
 
             /* Timeout */
@@ -91,6 +96,7 @@ export class DeviceTmpopenDialogComponent implements OnInit, OnDestroy {
       else{
         this.snackBar.open('一時解錠できませんでした', '閉じる', {duration: 7000});
         this.spinnerService.detach();
+        this.dialogRef.close();
       }
     });
   }

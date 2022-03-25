@@ -49,6 +49,8 @@ export class DeviceListComponent implements OnInit, AfterViewInit, OnDestroy {
   usedIds: number[] = [];
   timer = timer(0, 1000);
   subscription: Subscription = new Subscription();
+  timerLock = timer(0, 1000);
+  subscriptionLock: Subscription = new Subscription();
   isAdmin: boolean = false;
   counters: counter = {};
   openedDevs: openedDev[] = [];
@@ -159,14 +161,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit, OnDestroy {
             this.counters[`${dev.id}`] = `${rest.getMinutes()}:${('0' + String(rest.getSeconds())).slice(-2)}`;
           }
           else{
-            if(msec < - 60 * 60 * 1000){
-              this.subscription.unsubscribe();
-              this.counters[`${dev.id}`] = '0:00';
-              this.snackBar.open('エラーが発生しました', '閉じる', {duration: 7000});
-            }
-            else{
-              this.onRefresh();
-            }
+            this.onRefresh();    
           }
         });
       });
@@ -213,6 +208,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onLock(id: number, name: string): void {
+    this.spinnerService.attach();
     let device: device = {
       id: id,
       name: name,
@@ -223,13 +219,61 @@ export class DeviceListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dbService.update<device>('device/tmp', device)
     .subscribe(result => {
       if(result){
-        this.snackBar.open('施錠しました', '閉じる', {duration: 5000});
-        this.ngOnInit();
+        this.subscriptionLock = this.timerLock.subscribe(count => {
+          /* Get open status */
+          this.dbService.get<device>('device', id)
+          .subscribe(device => {
+            let opened = device.open;
+            if(opened === undefined){
+              this.subscriptionLock.unsubscribe();
+              this.snackBar.open('エラーが発生しました', '閉じる', {duration: 5000});
+              return;
+            }
+
+            /* Closed */
+            if(!opened){
+              this.dbService.add<any>('log', {
+                sec: Math.floor(Date.now() / 1000),
+                devid: device.id,
+                devName: device.name,
+                result: 8
+              })
+              .subscribe(() => {
+                this.subscriptionLock.unsubscribe();
+                this.snackBar.open('施錠しました', '閉じる', {duration: 5000});
+                this.spinnerService.detach();
+                this.ngOnInit();
+                return;
+              });
+            }
+
+            /* Timeout */
+            if(count > 5){
+              device.status = 1;
+              this.dbService.update<device>('device/tmp', device)
+              .subscribe(result => {
+                if(result){
+                  this.subscriptionLock.unsubscribe();
+                  this.snackBar.open('デバイスから応答がありませんでした', '閉じる', {duration: 7000});
+                  this.spinnerService.detach();
+                  this.ngOnInit();
+                  return;
+                }
+                else{
+                  this.subscription.unsubscribe();
+                  this.snackBar.open('エラーが発生しました', '閉じる', {duration: 5000});
+                }
+              });
+            }
+          });
+        });
       }
       else{
         this.snackBar.open('施錠できませんでした', '閉じる', {duration: 7000});
+        this.spinnerService.detach();
+        this.ngOnInit();
       }
-    })
+    });
   }
 
   onTempOpen(id: number, name: string, timeout: string): void {
@@ -248,6 +292,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.subscriptionLock.unsubscribe();
   }
 
 }

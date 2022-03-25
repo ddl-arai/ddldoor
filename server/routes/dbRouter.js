@@ -222,7 +222,7 @@ dbRouter.post('/log', (req, res, next) => {
     if(error) next(error);
     res.json(true);
   })
-})
+});
 
 /* GET db/devices */
 dbRouter.get('/devices', (req, res, next) => {
@@ -264,19 +264,8 @@ dbRouter.put('/device/tmp', async (req, res, next) => {
       res.json(false);
       return;
     }
-
-    let result = 7;
-    if(req.body.status === 0){
-      result = 8;
-    }
     device.status = req.body.status;
     await device.save();
-    await Log.create({
-      sec: now,
-      devid: req.body.id,
-      devName: req.body.name,
-      result: result
-    });
     res.json(true);
   }
   catch(error){
