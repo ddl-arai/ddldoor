@@ -25,7 +25,7 @@ const mtOptions = {
         archive.pipe(output);
         archive.glob('./dump/*');
         archive.finalize();
-        output.on('close', () => {
+        output.on('close', async () => {
             s3 = new AWS.S3();
             let uploadParams = {Bucket: 'backupddldoor', Key: '', Body: ''};
             let fileStream = fs.createReadStream(zip_file_name);
