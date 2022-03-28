@@ -43,9 +43,13 @@ async function main() {
         let fileStream = fs.createReadStream(zip_file_name);
         uploadParams.Body = fileStream;
         uploadParams.Key = path.basename(zip_file_name);
-        let result2 = await s3.upload(uploadParams);
-        console.log(result2);
-        console.timeEnd();
+        s3.upload (uploadParams, function (err, data) {
+            if (err) {
+              console.log("Error", err);
+            } if (data) {
+              console.log("Upload Success", data.Location);
+            }
+        });
     }
     catch(error){
         console.log(error);
