@@ -48,6 +48,7 @@ async function main() {
               console.log("Error", err);
             } if (data) {
               console.log("Upload Success", data.Location);
+              console.timeEnd();
             }
         });
     }
