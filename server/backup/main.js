@@ -21,7 +21,8 @@ async function main() {
     try {
         let result = await mongoTools.mongodump(mtOptions);
         console.log(result);
-        let zip_file_name = 'dump.zip'
+        let zip_file_name = result.fileName;
+        /*
         let archive = archiver.create('zip', {});
         let output = fs.createWriteStream(zip_file_name);
         archive.pipe(output);
@@ -36,7 +37,15 @@ async function main() {
             let result = await s3.upload(uploadParams);
             console.log(result);
             console.timeEnd();
-        });
+        });*/
+        s3 = new AWS.S3();
+        let uploadParams = {Bucket: 'backupddldoor', Key: '', Body: ''};
+        let fileStream = fs.createReadStream(zip_file_name);
+        uploadParams.Body = fileStream;
+        uploadParams.Key = path.basename(zip_file_name);
+        let result2 = await s3.upload(uploadParams);
+        console.log(result2);
+        console.timeEnd();
     }
     catch(error){
         console.log(error);
