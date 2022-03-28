@@ -13,9 +13,7 @@ const mtOptions = {
     path: './'
 }
 
-(async () => {
-    main();
-})();
+main();
 
 async function main() {
     console.log('Backup start!');
