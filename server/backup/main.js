@@ -14,6 +14,10 @@ const mtOptions = {
 }
 
 (async () => {
+    main();
+})();
+
+async function main() {
     console.log('Backup start!');
     console.time();
     try {
@@ -39,4 +43,4 @@ const mtOptions = {
     catch(error){
         console.log(error);
     }
-})();
+}
