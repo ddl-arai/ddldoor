@@ -50,7 +50,8 @@
 }
 
 .mat-nav-list .mat-list-item:focus {
-    background-color: #ff4081;
+    //background-color: #ff4081;
+    background-color: inherit;
     border-radius: 4px;
 }
 
