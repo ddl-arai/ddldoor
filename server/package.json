@@ -7,7 +7,6 @@
     "restart": "git pull && pm2 restart www"
   },
   "dependencies": {
-    "archiver": "^5.3.0",
     "aws-sdk": "^2.1101.0",
     "axios": "^0.26.0",
     "bcrypt": "^5.0.1",
