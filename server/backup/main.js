@@ -21,7 +21,7 @@ process.on('SIGINT', () => {
 });
 
 console.log('Welcome to backup serivce');
-schedule.scheduleJob('*/3 * * * *', () => {
+schedule.scheduleJob('*/1 * * * *', () => {
     main();
 });
 
@@ -32,7 +32,7 @@ async function main() {
         let result = await mongoTools.mongodump(mtOptions);
         let file_name = result.fileName;
         s3 = new AWS.S3();
-        let uploadParams = {Bucket: process.env.BACKET_NAME, Key: '', Body: ''};
+        let uploadParams = {Bucket: process.env.AWS_BACKET_NAME, Key: '', Body: ''};
         let fileStream = fs.createReadStream(file_name);
         uploadParams.Body = fileStream;
         uploadParams.Key = path.basename(file_name);
