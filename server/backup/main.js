@@ -21,7 +21,7 @@ process.on('SIGINT', () => {
 });
 
 console.log('Welcome to backup serivce');
-schedule.scheduleJob('*/1 * * * *', () => {
+schedule.scheduleJob('* */2 * * *', () => {
     main();
 });
 
