@@ -254,7 +254,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit, OnDestroy {
               .subscribe(result => {
                 if(result){
                   this.subscriptionLock.unsubscribe();
-                  this.snackBar.open('デバイスから応答がありませんでした', '閉じる', {duration: 7000});
+                  this.snackBar.open('デバイスからの応答がありませんでした', '閉じる', {duration: 7000});
                   this.spinnerService.detach();
                   this.ngOnInit();
                   return;

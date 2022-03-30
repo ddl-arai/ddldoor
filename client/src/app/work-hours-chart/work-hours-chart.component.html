@@ -1,38 +1,47 @@
-<div class="container" fxLayout="column">
-    <div class="header">
-        <span fxLayout="row" fxLayoutAlign="space-between center">
-            <span class="mat-title">勤務時間</span>
-            <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="8px">
-                <button mat-icon-button (click)="toggleFullscreen(table)"><mat-icon>fullscreen</mat-icon></button>
-                <mat-form-field>
-                    <mat-select [(ngModel)]="selected" (selectionChange)="selectedChange()">
-                        <mat-option [value]="option.date" *ngFor="let option of selector">{{option.view}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </span>
-        </span>
-    </div>
+<mat-tab-group>
+    <mat-tab label="一覧">
+        <div class="container" fxLayout="column">
+            <div class="header">
+                <span fxLayout="row" fxLayoutAlign="space-between center">
+                    <span class="mat-title">勤務時間</span>
+                    <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="8px">
+                        <button mat-icon-button (click)="toggleFullscreen(table)"><mat-icon>fullscreen</mat-icon></button>
+                        <mat-form-field>
+                            <mat-select [(ngModel)]="selected" (selectionChange)="selectedChange()">
+                                <mat-option [value]="option.date" *ngFor="let option of selector">{{option.view}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </span>
+                </span>
+            </div>
 
-    <div class="table-container mat-elevation-z8" #table>
-        <table mat-table [dataSource]="dataSource">
+            <div class="table-container mat-elevation-z8" #table>
+                <table mat-table [dataSource]="dataSource">
 
-            <!--- Note that these columns can be defined in any order.
-                The actual rendered columns are set as a property on the row definition" -->
-        
-            <!-- date Column -->
-            <ng-container matColumnDef="date" sticky>
-                <th class="w-header" mat-header-cell *matHeaderCellDef>日付</th>
-                <td class="w-data date-data" mat-cell *matCellDef="let element"> {{element['date']}} </td>
-            </ng-container>
+                    <!--- Note that these columns can be defined in any order.
+                        The actual rendered columns are set as a property on the row definition" -->
+                
+                    <!-- date Column -->
+                    <ng-container matColumnDef="date" sticky>
+                        <th class="w-header" mat-header-cell *matHeaderCellDef>日付</th>
+                        <td class="w-data date-data" mat-cell *matCellDef="let element"> {{element['date']}} </td>
+                    </ng-container>
 
-            <!-- workhour Column -->
-                <ng-container *ngFor="let column of dynamicColumns" [matColumnDef]="column.def">
-                    <th class="w-header" mat-header-cell *matHeaderCellDef>{{column.view}}</th>
-                    <td class="w-data workHours-data" mat-cell *matCellDef="let element" [innerHTML]="element[column.def]"></td>
-                </ng-container>
+                    <!-- workhour Column -->
+                        <ng-container *ngFor="let column of dynamicColumns" [matColumnDef]="column.def">
+                            <th class="w-header" mat-header-cell *matHeaderCellDef>{{column.view}}</th>
+                            <td class="w-data workHours-data" mat-cell *matCellDef="let element" [innerHTML]="element[column.def]"></td>
+                        </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table>
-    </div>
-</div>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="出力">
+        <ng-template matTabContent>
+            <app-work-hours></app-work-hours>
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>

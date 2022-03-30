@@ -9,7 +9,8 @@ import { LogComponent } from './log/log.component';
 import { DeviceListComponent } from './device-list/device-list.component';
 import { AccountComponent } from './account/account.component';
 import { ResetComponent } from './reset/reset.component';
-import { WorkHoursComponent } from './work-hours/work-hours.component';
+//import { WorkHoursComponent } from './work-hours/work-hours.component';
+import { WorkHoursChartComponent } from './work-hours-chart/work-hours-chart.component';
 import { AdminGuard } from './admin.guard';
 
 const routes: Routes = [
@@ -25,7 +26,7 @@ const routes: Routes = [
       { path: 'log', component: LogComponent },
       { path: 'nfc', component: NfcComponent },
       { path: 'deviceList', component: DeviceListComponent },
-      { path: 'workHours', component: WorkHoursComponent },
+      { path: 'workHours', component: WorkHoursChartComponent },
       { path: 'maintenance', component: AccountComponent, canActivate: [AdminGuard] }
     ]
   },
