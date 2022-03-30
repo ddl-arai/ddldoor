@@ -79,7 +79,7 @@ export class DeviceTmpopenDialogComponent implements OnInit, OnDestroy {
               .subscribe(result => {
                 if(result){
                   this.subscription.unsubscribe();
-                  this.snackBar.open('デバイスから応答がありませんでした', '閉じる', {duration: 7000});
+                  this.snackBar.open('デバイスからの応答がありませんでした', '閉じる', {duration: 7000});
                   this.spinnerService.detach();
                   this.dialogRef.close();
                   return;

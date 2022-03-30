@@ -19,7 +19,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -147,7 +147,8 @@ import { StampDialogComponent } from './stamp-dialog/stamp-dialog.component';
     { provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlJa }
+    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlJa },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {panelClass: ['custom-snack-bar']} }
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

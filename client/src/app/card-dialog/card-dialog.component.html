@@ -1,11 +1,11 @@
 <h2 mat-dialog-title>カード登録</h2>
 <div mat-dialog-content>
     <div fxLayout="column" fxLayoutAlign="space-around center" class="nfc">
-        <div *ngIf="scanStatus==0"><mat-icon class="nfc-icon" color="accent">nfc</mat-icon></div>
-        <div *ngIf="scanStatus==1"><mat-spinner diameter="60" color="accent"></mat-spinner></div>
-        <div *ngIf="scanStatus==2"><mat-icon class="nfc-icon" color="accent">done</mat-icon></div>
+        <div *ngIf="scanStatus==0"><mat-icon class="nfc-icon" color="primary">nfc</mat-icon></div>
+        <div *ngIf="scanStatus==1"><mat-spinner diameter="60" color="primary"></mat-spinner></div>
+        <div *ngIf="scanStatus==2"><mat-icon class="nfc-icon" color="primary">done</mat-icon></div>
     
-        <button mat-raised-button color="accent" type="button" (click)="onScan()" [disabled]="scanStatus==1">スキャン</button>
+        <button mat-raised-button color="primary" type="button" (click)="onScan()" [disabled]="scanStatus==1">スキャン</button>
     </div>
     <form class="example-form" [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
         <div class="spacer" fxLayout="column" fxLayoutAlign="space-around">
@@ -60,7 +60,7 @@
             </div>
 
         </div>
-        <span fxLayout="row" fxLayoutAlign="space-between center">
+        <span  class="dialog-btn" fxLayout="row" fxLayoutAlign="space-between center">
             <button mat-button type="button" (click)="onCancel()">キャンセル</button>
             <button mat-raised-button class="btn-block" color="primary" type="submit" [disabled]="form.invalid">カード登録</button>
         </span>

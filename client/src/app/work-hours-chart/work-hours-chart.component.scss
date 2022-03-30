@@ -1,3 +1,5 @@
+@import 'variables';
+
 .container {
     margin: 16px;
     margin-top: 0;
@@ -67,3 +69,12 @@ table {
     border-radius: 0;
 }
 
+.saturday {
+    background-color: $saturday;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.sunday {
+    background-color: $sunday;
+    border-bottom: 1px solid #e0e0e0;
+}

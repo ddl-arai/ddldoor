@@ -50,8 +50,8 @@
                     <ng-container matColumnDef="enable">
                         <th mat-header-cell *matHeaderCellDef></th>
                         <td mat-cell *matCellDef="let element">
-                        <span class="table-safe" *ngIf="element.enable=='有効'">{{element.enable}}</span>
-                        <span class="table-accent" *ngIf="element.enable=='無効'">{{element.enable}}</span>
+                        <span class="accent-color" *ngIf="element.enable=='有効'">{{element.enable}}</span>
+                        <span class="warn-color" *ngIf="element.enable=='無効'">{{element.enable}}</span>
                         </td>
                     </ng-container>
 
@@ -60,10 +60,10 @@
                         <th mat-header-cell *matHeaderCellDef>状況</th>
                         <td mat-cell *matCellDef="let element">
                             <div [ngSwitch]="element.status">
-                                <span class="table-primary" *ngSwitchCase="'外室'">{{element.status}}</span>
-                                <span class="table-safe" *ngSwitchCase="'在室'">{{element.status}}</span>
-                                <span class="table-accent" *ngSwitchCase="'初期状態'">{{element.status}}</span>
-                                <span class="table-warn" *ngSwitchCase="'アンチパスバック'">
+                                <span class="primary-color" *ngSwitchCase="'外室'">{{element.status}}</span>
+                                <span class="accent-color" *ngSwitchCase="'在室'">{{element.status}}</span>
+                                <span *ngSwitchCase="'初期状態'">{{element.status}}</span>
+                                <span class="warn-color" *ngSwitchCase="'アンチパスバック'">
                                     {{element.status}}<button mat-icon-button (click)="onReset(element.id)" matTooltip="初期状態になります" matTooltipPosition="right"><mat-icon class="init-icon">new_releases</mat-icon></button>
                                 </span>
                                 <span *ngSwitchCase="'状態管理なし'">
@@ -83,7 +83,7 @@
                             <button mat-icon-button color="warn" (click)="onDelete(element.id, element.name)">
                                 <mat-icon>delete</mat-icon>
                             </button> 
-                            <button *ngIf="!(element.status === 'アンチパスバック')" mat-icon-button color="accent" (click)="onStamp(element.id, element.name)">
+                            <button *ngIf="!(element.status === 'アンチパスバック')" mat-icon-button (click)="onStamp(element.id, element.name)">
                                 <mat-icon>timer</mat-icon>
                             </button>
                         </td>

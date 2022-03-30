@@ -24,13 +24,14 @@
                     <!-- date Column -->
                     <ng-container matColumnDef="date" sticky>
                         <th class="w-header" mat-header-cell *matHeaderCellDef>日付</th>
-                        <td class="w-data date-data" mat-cell *matCellDef="let element"> {{element['date']}} </td>
+                        <td class="w-data date-data" mat-cell *matCellDef="let element" [class.saturday]="getDay(element['date'])===1" [class.sunday]="getDay(element['date'])===2"> {{element['date']}} </td>
                     </ng-container>
 
                     <!-- workhour Column -->
                         <ng-container *ngFor="let column of dynamicColumns" [matColumnDef]="column.def">
                             <th class="w-header" mat-header-cell *matHeaderCellDef>{{column.view}}</th>
-                            <td class="w-data workHours-data" mat-cell *matCellDef="let element" [innerHTML]="element[column.def]"></td>
+                            <td class="w-data workHours-data" mat-cell *matCellDef="let element" [innerHTML]="element[column.def]"
+                            [class.saturday]="getDay(element['date'])===1" [class.sunday]="getDay(element['date'])===2"></td>
                         </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
