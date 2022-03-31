@@ -150,14 +150,20 @@ dbRouter.put('/member', (req, res, next) => {
 });
 
 /* DELETE db/member/:id */
-dbRouter.delete('/member/:id', (req, res, next) => {
-  Card.deleteMany({id: req.params.id}, error => {
-    if(error) next(error);
-    Member.deleteOne({id: req.params.id}, error => {
-      if(error) next(error);
-      res.json(true);
-    });
-  })
+dbRouter.delete('/member/:id', async (req, res, next) => {
+  try {
+    await Card.deleteMany({id: req.params.id}).exec();
+    let user = await User.findOne({associated_member_id: req.params.id}).exec();
+    if(user){
+      user.associated_member_id = 0;
+      await user.save();
+    }
+    await Member.deleteOne({id: req.params.id}).exec();
+    res.json(true);
+  }
+  catch(error){
+    next(error);
+  }
 });
 
 /* GET db/card/:idm */
