@@ -9,6 +9,7 @@ import { EditMemberDialogComponent } from '../edit-member-dialog/edit-member-dia
 import { DeleteMemberDialogComponent } from '../delete-member-dialog/delete-member-dialog.component';
 import { MatSort } from '@angular/material/sort';
 import { StampDialogComponent } from '../stamp-dialog/stamp-dialog.component';
+import { user } from '../models/user';
 
 
 export interface displayData {
@@ -41,6 +42,12 @@ export class MemberComponent implements OnInit, AfterViewInit{
   ];
   dataSource = new MatTableDataSource<displayData>();
   usedIds: number[] = [];
+  user: user = {
+    email: '',
+    password: '',
+    admin: false,
+    associated_member_id: 0
+  }
 
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -53,10 +60,16 @@ export class MemberComponent implements OnInit, AfterViewInit{
   ngOnInit(): void {
     this.usedIds = [];
     this.getMembers();
+    this.getUser();
   }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+  }
+
+  getUser(): void {
+    this.dbService.getUser()
+    .subscribe(user => this.user = user);
   }
 
   getMembers(): void {

@@ -1,3 +1,5 @@
+@import 'variables';
+
 table {
     width: 100%;
 }
@@ -21,4 +23,8 @@ table {
 
 .header {
     margin: 0 8px;
+}
+
+.timer {
+    color: $timer;
 }

@@ -70,6 +70,7 @@ import { WorkHoursComponent } from './work-hours/work-hours.component';
 import { WorkHoursChartComponent } from './work-hours-chart/work-hours-chart.component';
 import { DeviceTmpopenDialogComponent } from './device-tmpopen-dialog/device-tmpopen-dialog.component';
 import { StampDialogComponent } from './stamp-dialog/stamp-dialog.component';
+import { NaviSetMemberComponent } from './navi-set-member/navi-set-member.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { StampDialogComponent } from './stamp-dialog/stamp-dialog.component';
     WorkHoursChartComponent,
     DeviceTmpopenDialogComponent,
     StampDialogComponent,
+    NaviSetMemberComponent
   ],
   imports: [
     BrowserModule,

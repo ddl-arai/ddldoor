@@ -83,7 +83,7 @@
                             <button mat-icon-button color="warn" (click)="onDelete(element.id, element.name)">
                                 <mat-icon>delete</mat-icon>
                             </button> 
-                            <button *ngIf="!(element.status === 'アンチパスバック')" mat-icon-button (click)="onStamp(element.id, element.name)">
+                            <button class="timer" *ngIf="!(element.status === 'アンチパスバック') && element.id === user.associated_member_id" mat-icon-button (click)="onStamp(element.id, element.name)">
                                 <mat-icon>timer</mat-icon>
                             </button>
                         </td>

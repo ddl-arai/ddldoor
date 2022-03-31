@@ -6,6 +6,8 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { DbService } from '../db.service';
 import { user } from '../models/user';
+import { NaviSetMemberComponent } from '../navi-set-member/navi-set-member.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-navi',
@@ -16,7 +18,7 @@ export class NaviComponent implements OnInit {
   user: user = {
     email: '',
     password: '',
-    admin: false
+    admin: false,
   }
   name: string = '';
 
@@ -30,7 +32,8 @@ export class NaviComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private authService: AuthService,
     private router: Router,
-    private dbService: DbService
+    private dbService: DbService,
+    public dialog: MatDialog
     ) {}
   
   ngOnInit(): void {
@@ -65,6 +68,16 @@ export class NaviComponent implements OnInit {
         this.name = 'someone'
       }
     });
+  }
+
+  onSetMember(): void {
+    let dialogRef = this.dialog.open(NaviSetMemberComponent, {
+		  width: '400px',
+      data: this.user
+		});
+		dialogRef.afterClosed().subscribe(() => {
+		  this.ngOnInit();
+		});
   }
 }
 
