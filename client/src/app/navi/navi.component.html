@@ -17,7 +17,7 @@
         <div class="user" fxLayout="row" fxLayoutAlign="space-between center">
           {{name}}
           <button mat-icon-button type="button" [matMenuTriggerFor]="userMenu">
-            <mat-icon class="more_vert">more_vert</mat-icon>
+            <mat-icon class="more_vert" matBadge="!" matBadgeColor="warn" [matBadgeHidden]="!badge" matBadgeSize="small">more_vert</mat-icon>
           </button>
           <mat-menu #userMenu="matMenu" class="user-profile" yPosition="above" xPosition="before">
             <button mat-menu-item (click)="onLogout()">
@@ -30,7 +30,7 @@
             </button>
             <button mat-menu-item (click)="onSetMember()">
               <mat-icon>person_add</mat-icon>
-                メンバーリンク
+                <span matBadge="!" matBadgeColor="warn" [matBadgeHidden]="!badge" matBadgeSize="small" matBadgeOverlap="false">メンバーリンク</span>
             </button>
           </mat-menu>
         </div>

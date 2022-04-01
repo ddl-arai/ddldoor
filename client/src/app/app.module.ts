@@ -41,6 +41,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatBadgeModule } from '@angular/material/badge';
 
 
 /* Component */
@@ -140,7 +141,8 @@ import { NaviSetMemberComponent } from './navi-set-member/navi-set-member.compon
     OverlayModule,
     PortalModule,
     MatTabsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatBadgeModule
   ],
   entryComponents: [
     MatSpinner

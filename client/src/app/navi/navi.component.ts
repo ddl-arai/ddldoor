@@ -21,6 +21,7 @@ export class NaviComponent implements OnInit {
     admin: false,
   }
   name: string = '';
+  badge: boolean = false;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -37,7 +38,8 @@ export class NaviComponent implements OnInit {
     ) {}
   
   ngOnInit(): void {
-      this.getUser();
+    this.badge = false;
+    this.getUser();
   }
 
   onLogout(): void {
@@ -60,6 +62,9 @@ export class NaviComponent implements OnInit {
     this.dbService.getUser()
     .subscribe(user => {
       this.user = user
+      if(!this.user.associated_member_id || this.user.associated_member_id === 0){
+        this.badge = true;
+      }
       let cushion = this.user.email.match(/(.*)\..*@/);
       if(cushion !== null && cushion.length > 0){
         this.name = cushion[1];
