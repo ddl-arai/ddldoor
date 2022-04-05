@@ -77,8 +77,7 @@
     @media screen and (max-width: 599px) {
       padding: 60px 60px 50px;
       margin: 0;
-      height: 100%;
-      position: fixed;
+      height: -webkit-fill-available
     }
     padding: 60px 70px 50px;
   }
