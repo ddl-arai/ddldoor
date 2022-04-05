@@ -2,32 +2,30 @@
 <div class="container" fxLayout="column" fxLayoutGap="8px">
     
         <div class="header">
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-                <span class="mat-title">ログ</span>
-                <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center">
-                    <span fxLayout="row" fxLayoutAlign="center center">
-                        <mat-form-field>
-                            
-                            <mat-label>選択された範囲</mat-label>
-                            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                                <input matStartDate formControlName="start" [disabled]="true">
-                                <input matEndDate formControlName="end" [disabled]="true">
-                            </mat-date-range-input>
-                            
-                            <mat-date-range-picker #picker disabled="false">
-                                <mat-datepicker-actions>
-                                    <button mat-button matDatepickerCancel>キャンセル</button>
-                                    <button mat-raised-button color="primary" (click)="onFilter()" matDatepickerApply>フィルター</button>
-                                </mat-datepicker-actions>
-                            </mat-date-range-picker>
-                            <!--
-                            <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid')">不正な開始時刻です</mat-error>
-                            <mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">不正な終了時刻です</mat-error>
-                            -->
-                        </mat-form-field>
-                        <button mat-icon-button (click)="picker.open()"><mat-icon>filter_list</mat-icon></button>
-                        <button mat-icon-button (click)="onRefresh()"><mat-icon>refresh</mat-icon></button>
-                    </span>
+            <div fxLayout="row warp" fxLayoutAlign="space-between center">
+                <span class="mat-title" [class.mobileTitle]="mobileTitle">ログ</span>
+                <span class="sei-mei" fxLayout="row" fxLayoutAlign="center center">
+                    <mat-form-field>
+                        
+                        <mat-label>選択された範囲</mat-label>
+                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                            <input matStartDate formControlName="start" [disabled]="true">
+                            <input matEndDate formControlName="end" [disabled]="true">
+                        </mat-date-range-input>
+                        
+                        <mat-date-range-picker #picker disabled="false">
+                            <mat-datepicker-actions>
+                                <button mat-button matDatepickerCancel>キャンセル</button>
+                                <button mat-raised-button color="primary" (click)="onFilter()" matDatepickerApply>フィルター</button>
+                            </mat-datepicker-actions>
+                        </mat-date-range-picker>
+                        <!--
+                        <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid')">不正な開始時刻です</mat-error>
+                        <mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">不正な終了時刻です</mat-error>
+                        -->
+                    </mat-form-field>
+                    <button mat-icon-button (click)="picker.open()"><mat-icon>filter_list</mat-icon></button>
+                    <button mat-icon-button (click)="onRefresh()"><mat-icon>refresh</mat-icon></button>
                     <button mat-button (click)="exporter.exportTable('csv', options)">CSV出力</button>
                 </span>
             </div>

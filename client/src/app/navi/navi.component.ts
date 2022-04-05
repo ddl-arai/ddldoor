@@ -1,13 +1,14 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { first, map, shareReplay } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { DbService } from '../db.service';
 import { user } from '../models/user';
 import { NaviSetMemberComponent } from '../navi-set-member/navi-set-member.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-navi',
@@ -23,11 +24,13 @@ export class NaviComponent implements OnInit {
   name: string = '';
   badge: boolean = false;
 
+  @ViewChild('drawer') sidenav!: MatSidenav;
+
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+  .pipe(
+    map(result => result.matches),
+    shareReplay(1)
+  );
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -83,6 +86,14 @@ export class NaviComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(() => {
 		  this.ngOnInit();
 		});
+  }
+
+  onClose(): void {
+    this.isHandset$
+    .pipe(first())
+    .subscribe(result => {
+      if(result) this.sidenav.close();
+    })
   }
 }
 

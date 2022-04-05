@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { log } from '../models/log';
 import { DbService } from '../db.service';
@@ -8,7 +8,8 @@ import { MatSort } from '@angular/material/sort';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { SpinnerService } from '../spinner.service';
-import { MatDateRangePicker } from '@angular/material/datepicker';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
 
 export interface displayData {
   no: number,
@@ -26,23 +27,34 @@ export interface options {
   fileName: string
 }
 
+const COLUMNS = [
+  'no',
+  'date',
+  'time',
+  'idm',
+  'id',
+  'name',
+  'devName',
+  'prevStat',
+  'result'
+];
+
+const COLUMNS_FOR_MOBILE = [
+  'date',
+  'time',
+  'name',
+  'devName',
+  'result'
+];
+
 @Component({
   selector: 'app-log',
   templateUrl: './log.component.html',
   styleUrls: ['./log.component.scss']
 })
-export class LogComponent implements OnInit, AfterViewInit{
-  displayedColumns: string[] = [
-    'no',
-    'date',
-    'time',
-    'idm',
-    'id',
-    'name',
-    'devName',
-    'prevStat',
-    'result'
-  ];
+export class LogComponent implements OnInit, AfterViewInit, OnDestroy {
+  subscription = new Subscription();
+  displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<displayData>();
   range = new FormGroup({
     start: new FormControl(),
@@ -51,6 +63,7 @@ export class LogComponent implements OnInit, AfterViewInit{
   options: options = {
     fileName: ''
   }
+  mobileTitle: boolean = false;
 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -60,13 +73,26 @@ export class LogComponent implements OnInit, AfterViewInit{
     private dbService: DbService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    private breakpointObserver: BreakpointObserver,
   ) { }
 
   ngOnInit(): void {
     this.getLogs();
     this.range.reset();
     this.options.fileName = 'ddldoor_log';
+    this.subscription.unsubscribe();
+    this.subscription = this.breakpointObserver.observe(Breakpoints.Handset)
+    .subscribe(result => {
+      if(result.matches){
+        this.displayedColumns = COLUMNS_FOR_MOBILE;
+        this.mobileTitle = true;
+      }
+      else{
+        this.displayedColumns = COLUMNS;
+        this.mobileTitle = false;
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -187,6 +213,10 @@ export class LogComponent implements OnInit, AfterViewInit{
     let end_str = `${end.getFullYear()}-${this.pad(end.getMonth() + 1)}-${this.pad(end.getDate())}`
     this.options.fileName += `(${start_str}_${end_str})`;
     this.snackBar.open('フィルタリングしました', '閉じる', {duration: 5000});
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }

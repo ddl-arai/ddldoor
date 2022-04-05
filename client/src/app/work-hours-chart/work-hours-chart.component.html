@@ -4,7 +4,7 @@
             <div class="header">
                 <span fxLayout="row" fxLayoutAlign="space-between center">
                     <span class="mat-title">勤務時間</span>
-                    <span fxLayout="row" fxFlexOffset="auto" fxLayoutAlign="center center" fxLayoutGap="8px">
+                    <span class="month-select" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="8px"> 
                         <button mat-icon-button (click)="toggleFullscreen(table)"><mat-icon>fullscreen</mat-icon></button>
                         <mat-form-field>
                             <mat-select [(ngModel)]="selected" (selectionChange)="selectedChange()">

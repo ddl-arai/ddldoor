@@ -1,4 +1,9 @@
 import { MatPaginatorIntl } from '@angular/material/paginator';
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
 
 export class MatPaginatorIntlJa extends MatPaginatorIntl {
   override itemsPerPageLabel = '件数';

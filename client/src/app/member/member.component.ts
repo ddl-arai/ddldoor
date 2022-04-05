@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { DbService } from '../db.service';
 import { member } from '../models/member';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,7 +10,8 @@ import { DeleteMemberDialogComponent } from '../delete-member-dialog/delete-memb
 import { MatSort } from '@angular/material/sort';
 import { StampDialogComponent } from '../stamp-dialog/stamp-dialog.component';
 import { user } from '../models/user';
-
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
 
 export interface displayData {
   id: number,
@@ -22,24 +23,32 @@ export interface displayData {
   status: string  // 在室, 外室, 初期状態 or アンチパスバック
 }
 
+const COLUMNS = [
+  'id',
+  'name',
+  'lastname',
+  'firstname',
+  'company',
+  'enable',
+  'status',
+  'action'
+];
+
+const COLUMNS_FOR_MOBILE = [
+  'id',
+  'name',
+  'status',
+  'action'
+];
 
 @Component({
   selector: 'app-member',
   templateUrl: './member.component.html',
   styleUrls: ['./member.component.scss']
 })
-export class MemberComponent implements OnInit, AfterViewInit{
-  //members: member[] = [];
-  displayedColumns: string[] = [
-    'id',
-    'name',
-    'lastname',
-    'firstname',
-    'company',
-    'enable',
-    'status',
-    'action'
-  ];
+export class MemberComponent implements OnInit, AfterViewInit, OnDestroy {
+  subscription = new Subscription();
+  displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<displayData>();
   usedIds: number[] = [];
   user: user = {
@@ -55,12 +64,23 @@ export class MemberComponent implements OnInit, AfterViewInit{
     private dbService: DbService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
+    private breakpointObserver: BreakpointObserver,
   ) { }
 
   ngOnInit(): void {
     this.usedIds = [];
     this.getMembers();
     this.getUser();
+    this.subscription.unsubscribe();
+    this.subscription = this.breakpointObserver.observe(Breakpoints.Handset)
+    .subscribe(result => {
+      if(result.matches){
+        this.displayedColumns = COLUMNS_FOR_MOBILE;
+      }
+      else{
+        this.displayedColumns = COLUMNS;
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -187,4 +207,9 @@ export class MemberComponent implements OnInit, AfterViewInit{
       this.ngOnInit();
     });
   }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+  
 }

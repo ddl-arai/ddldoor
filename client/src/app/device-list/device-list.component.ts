@@ -11,6 +11,7 @@ import { MatSort } from '@angular/material/sort';
 import { DeviceTmpopenDialogComponent } from '../device-tmpopen-dialog/device-tmpopen-dialog.component';
 import { timer, Subscription } from 'rxjs';
 import { SpinnerService } from '../spinner.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 export interface displayData {
   id: number,
@@ -30,12 +31,31 @@ export interface openedDev {
   timeout: number
 }
 
+const COLUMNS = [
+  'id',
+  'name',
+  'role',
+  'status',
+  'tmpopen',
+  'timeout',
+  'action'
+];
+
+const COLUMNS_FOR_MOBILE = [
+  'id',
+  'name',
+  'role',
+  'status',
+  'tmpopen'
+];
+
 @Component({
   selector: 'app-device-list',
   templateUrl: './device-list.component.html',
   styleUrls: ['./device-list.component.scss']
 })
 export class DeviceListComponent implements OnInit, AfterViewInit, OnDestroy {
+  subscriptionHandset = new Subscription();
   displayedColumns: string[] = [
     'id',
     'name',
@@ -61,7 +81,8 @@ export class DeviceListComponent implements OnInit, AfterViewInit, OnDestroy {
     private dbService: DbService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    private breakpointObserver: BreakpointObserver,
   ) { }
 
   ngOnInit(): void {
@@ -69,6 +90,16 @@ export class DeviceListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.openedDevs = [];
     this.getDevices();
     this.getAdmin();
+    this.subscriptionHandset.unsubscribe();
+    this.subscriptionHandset = this.breakpointObserver.observe(Breakpoints.Handset)
+    .subscribe(result => {
+      if(result.matches){
+        this.displayedColumns = COLUMNS_FOR_MOBILE;
+      }
+      else{
+        this.displayedColumns = COLUMNS;
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -293,6 +324,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.subscriptionLock.unsubscribe();
+    this.subscriptionHandset.unsubscribe();
   }
 
 }

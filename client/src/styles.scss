@@ -80,6 +80,15 @@ table {
     color: $primary;
 }
 
+.sei-mei .mat-form-field-infix {
+    width: 100% !important;
+    max-width: 180px;
+}
+
+.month-select .mat-form-field-infix {
+    width: 116px !important;
+}
+
 $custom-typography: mat-typography-config(
   $font-family: 'Noto Sans JP',
   $input: mat-typography-level(inherit, 1.3, 400)

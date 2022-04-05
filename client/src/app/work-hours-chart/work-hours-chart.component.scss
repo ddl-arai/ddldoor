@@ -6,6 +6,10 @@
 }
 
 .table-container {
+    @media screen and (max-width: 599px) {
+        height: calc(100vh - 196px);
+    }
+
     height: calc(100vh - 140px);
     //height: 100%;
     width: 100%;
