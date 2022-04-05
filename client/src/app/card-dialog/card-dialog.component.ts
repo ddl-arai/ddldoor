@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewInit} from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, AfterViewInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { DbService } from '../db.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -28,7 +28,6 @@ export class CardDialogComponent implements OnInit, AfterViewInit {
     remark: '',
     banDevids: []
   }
-  admin: boolean = false;
   scanStatus: number = 0;
   terminate: boolean = false;
   members: member[] = [];
@@ -46,10 +45,10 @@ export class CardDialogComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private dbService: DbService,
     private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public mobile: boolean,
   ) { }
 
   ngOnInit(): void {
-    this.getUser();
     this.getMembers();
     this.getDevices();
     this.form = this.fb.group({
@@ -69,11 +68,6 @@ export class CardDialogComponent implements OnInit, AfterViewInit {
   getMembers(): void {
     this.dbService.getAll<member>('members')
     .subscribe(members => this.members = members);
-  }
-
-  getUser(): void {
-    this.dbService.getUser()
-    .subscribe(user => this.admin = user.admin);
   }
 
   getDevices(): void {

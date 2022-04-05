@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>カード登録</h2>
 <div mat-dialog-content>
-    <div fxLayout="column" fxLayoutAlign="space-around center" class="nfc">
+    <div *ngIf="!mobile" fxLayout="column" fxLayoutAlign="space-around center" class="nfc">
         <div *ngIf="scanStatus==0"><mat-icon class="nfc-icon" color="primary">nfc</mat-icon></div>
         <div *ngIf="scanStatus==1"><mat-spinner diameter="60" color="primary"></mat-spinner></div>
         <div *ngIf="scanStatus==2"><mat-icon class="nfc-icon" color="primary">done</mat-icon></div>
@@ -11,7 +11,7 @@
         <div class="spacer" fxLayout="column" fxLayoutAlign="space-around">
 
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="IDm" name="idm" [(ngModel)]="card.idm" formControlName="idm" [readonly]="!admin">
+                <input matInput placeholder="IDm" name="idm" [(ngModel)]="card.idm" formControlName="idm">
                 <mat-error *ngIf="idmControl.hasError('required')">
                     <strong>カードをスキャンしてください</strong>
                 </mat-error>

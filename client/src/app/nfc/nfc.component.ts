@@ -48,6 +48,7 @@ export class NfcComponent implements OnInit, AfterViewInit, OnDestroy {
 	subscription = new Subscription();
 	displayedColumns: string[] = [];
 	dataSource = new MatTableDataSource<displayData>();
+	dialogMobile: boolean = false;
 
 	@ViewChild(MatSort) sort!: MatSort;
 
@@ -64,12 +65,14 @@ export class NfcComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.subscription.unsubscribe();
 		this.subscription = this.breakpointObserver.observe(Breakpoints.Handset)
 		.subscribe(result => {
-		if(result.matches){
-			this.displayedColumns = COLUMNS_FOR_MOBILE;
-		}
-		else{
-			this.displayedColumns = COLUMNS;
-		}
+			if(result.matches){
+				this.displayedColumns = COLUMNS_FOR_MOBILE;
+				this.dialogMobile = true;
+			}
+			else{
+				this.displayedColumns = COLUMNS;
+				this.dialogMobile = false;
+			}
 		});
 	}
 
@@ -137,6 +140,7 @@ export class NfcComponent implements OnInit, AfterViewInit, OnDestroy {
 	onCardRegister(): void {
 		let dialogRef = this.dialog.open(CardDialogComponent, {
 			width: '400px',
+			data: this.dialogMobile
 			//minHeight: 'calc(100vh - 64px)'
 		});
 		dialogRef.afterClosed().subscribe(() => {

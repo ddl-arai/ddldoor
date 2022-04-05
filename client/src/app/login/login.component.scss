@@ -74,6 +74,11 @@
 }
 
 .login-wrapper .mat-card {
+  @media screen and (max-width: 599px) {
+    padding: 40px 60px 50px;
+    margin: auto 0;
+    height: 100%;
+  }
   padding: 40px 70px 50px;
 }
 
