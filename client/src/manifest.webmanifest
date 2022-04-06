@@ -1,6 +1,6 @@
 {
-  "name": "client",
-  "short_name": "client",
+  "name": "DDLDoor",
+  "short_name": "ddl",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
