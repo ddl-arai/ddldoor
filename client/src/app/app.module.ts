@@ -72,6 +72,8 @@ import { WorkHoursChartComponent } from './work-hours-chart/work-hours-chart.com
 import { DeviceTmpopenDialogComponent } from './device-tmpopen-dialog/device-tmpopen-dialog.component';
 import { StampDialogComponent } from './stamp-dialog/stamp-dialog.component';
 import { NaviSetMemberComponent } from './navi-set-member/navi-set-member.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -142,7 +144,13 @@ import { NaviSetMemberComponent } from './navi-set-member/navi-set-member.compon
     PortalModule,
     MatTabsModule,
     MatExpansionModule,
-    MatBadgeModule
+    MatBadgeModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   entryComponents: [
     MatSpinner
