@@ -36,8 +36,8 @@
           <ng-container matColumnDef="enable">
               <th mat-header-cell *matHeaderCellDef></th>
               <td mat-cell *matCellDef="let element">
-                <span class="table-safe" *ngIf="element.enable=='有効'">{{element.enable}}</span>
-                <span class="table-accent" *ngIf="element.enable=='無効'">{{element.enable}}</span>
+                <span class="accent-color" *ngIf="element.enable=='有効'">{{element.enable}}</span>
+                <span class="warn-color" *ngIf="element.enable=='無効'">{{element.enable}}</span>
               </td>
           </ng-container>
 

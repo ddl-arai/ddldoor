@@ -71,6 +71,31 @@ dbRouter.get('/users', (req, res, next) => {
   });
 });
 
+/* PUT db/user/set */
+dbRouter.put('/user/set', async (req, res, next) => {
+  try {
+    let user = await User.findOne({associated_member_id: req.body['id']}).exec();
+    if(user){
+      res.json({result: 1});
+    }
+    else{
+      await User.updateOne({email: req.user['email']}, {$set: {associated_member_id: req.body['id']}}).exec();
+      res.json({result: 0});
+    }
+  }
+  catch(error){
+    next(error);
+  }
+});
+
+/* GET db/user/release */
+dbRouter.get('/user/release', (req, res, next) => {
+  User.updateOne({email: req.user['email']}, {$set: {associated_member_id: 0}}, error => {
+    if(error) next(error);
+    res.json(true);
+  });
+});
+
 /* DELETE db/user/:email */
 dbRouter.delete('/user/:email', (req, res, next) => {
   if(req.params.email === req.user['email']){
@@ -125,14 +150,20 @@ dbRouter.put('/member', (req, res, next) => {
 });
 
 /* DELETE db/member/:id */
-dbRouter.delete('/member/:id', (req, res, next) => {
-  Card.deleteMany({id: req.params.id}, error => {
-    if(error) next(error);
-    Member.deleteOne({id: req.params.id}, error => {
-      if(error) next(error);
-      res.json(true);
-    });
-  })
+dbRouter.delete('/member/:id', async (req, res, next) => {
+  try {
+    await Card.deleteMany({id: req.params.id}).exec();
+    let user = await User.findOne({associated_member_id: req.params.id}).exec();
+    if(user){
+      user.associated_member_id = 0;
+      await user.save();
+    }
+    await Member.deleteOne({id: req.params.id}).exec();
+    res.json(true);
+  }
+  catch(error){
+    next(error);
+  }
 });
 
 /* GET db/card/:idm */

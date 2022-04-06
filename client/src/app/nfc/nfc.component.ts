@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,7 +9,25 @@ import { CardDialogComponent } from '../card-dialog/card-dialog.component';
 import { EditCardDialogComponent } from '../edit-card-dialog/edit-card-dialog.component';
 import { DeleteCardDialogComponent } from '../delete-card-dialog/delete-card-dialog.component';
 import { MatSort } from '@angular/material/sort';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
 
+const COLUMNS = [
+	'id',
+	'name',
+	'idm',
+	'enable',
+	'expire',
+	'remark',
+	'banDevids',
+	'action'
+  ];
+  
+  const COLUMNS_FOR_MOBILE = [
+	'name',
+	'idm',
+	'action'
+  ];
 
 export interface displayData {
 	id: number,
@@ -26,18 +44,11 @@ export interface displayData {
   templateUrl: './nfc.component.html',
   styleUrls: ['./nfc.component.scss']
 })
-export class NfcComponent implements OnInit, AfterViewInit{
-	displayedColumns: string[] = [
-		'id',
-		'name',
-		'idm',
-		'enable',
-		'expire',
-		'remark',
-		'banDevids',
-		'action'
-	];
+export class NfcComponent implements OnInit, AfterViewInit, OnDestroy {
+	subscription = new Subscription();
+	displayedColumns: string[] = [];
 	dataSource = new MatTableDataSource<displayData>();
+	dialogMobile: boolean = false;
 
 	@ViewChild(MatSort) sort!: MatSort;
 
@@ -45,11 +56,24 @@ export class NfcComponent implements OnInit, AfterViewInit{
 		private dbService: DbService,
     	private snackBar: MatSnackBar,
     	public dialog: MatDialog,
+		private breakpointObserver: BreakpointObserver,
 	) { 
 	}
 
 	ngOnInit(): void {
 		this.getCards();
+		this.subscription.unsubscribe();
+		this.subscription = this.breakpointObserver.observe(Breakpoints.Handset)
+		.subscribe(result => {
+			if(result.matches){
+				this.displayedColumns = COLUMNS_FOR_MOBILE;
+				this.dialogMobile = true;
+			}
+			else{
+				this.displayedColumns = COLUMNS;
+				this.dialogMobile = false;
+			}
+		});
 	}
 
 	ngAfterViewInit(): void {
@@ -116,6 +140,7 @@ export class NfcComponent implements OnInit, AfterViewInit{
 	onCardRegister(): void {
 		let dialogRef = this.dialog.open(CardDialogComponent, {
 			width: '400px',
+			data: this.dialogMobile
 			//minHeight: 'calc(100vh - 64px)'
 		});
 		dialogRef.afterClosed().subscribe(() => {
@@ -141,5 +166,9 @@ export class NfcComponent implements OnInit, AfterViewInit{
 		dialogRef.afterClosed().subscribe(() => {
 		  this.ngOnInit();
 		});
+	}
+
+	ngOnDestroy(): void {
+		this.subscription.unsubscribe();
 	}
 }

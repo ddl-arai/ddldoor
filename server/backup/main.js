@@ -20,8 +20,8 @@ process.on('SIGINT', () => {
     });
 });
 
-console.log('Welcome to backup serivce');
-schedule.scheduleJob('* */2 * * *', () => {
+console.log('Welcome to backup service');
+schedule.scheduleJob('0 30 */2 * * *', () => {
     main();
 });
 

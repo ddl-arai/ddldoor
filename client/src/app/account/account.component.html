@@ -20,7 +20,7 @@
                                 </mat-form-field>
 
                             <mat-checkbox [(ngModel)]="user.admin" formControlName="admin">管理者</mat-checkbox>
-                            <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">発行</button>
+                            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">発行</button>
                         </div>
 
                         <span class="password" *ngIf="success">
@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" fxFlex=>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" fxFlex>
 
                 <!-- email Column -->
                 <ng-container matColumnDef="email">

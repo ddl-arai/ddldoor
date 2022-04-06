@@ -1,9 +1,9 @@
-<h2 mat-dialog-title>手動打刻</h2>
+<h2 mat-dialog-title>手動打刻 ({{data.name}}さん)</h2>
 <div mat-dialog-content>
     <div fxLayout="column" fxLayoutGap="24px">
         <div>
-            <p>{{data.name}}さん</p>
-            <p><mat-icon class="warning">warning</mat-icon>手動打刻は状態管理の対象外です</p>
+            <!--<p>{{data.name}}さん</p>-->
+            <p>手動打刻用デバイスの選択を推奨します</p>
             <mat-form-field class="full-width">
                 <mat-label>デバイス</mat-label>
                 <mat-select [(ngModel)]="deviceId">

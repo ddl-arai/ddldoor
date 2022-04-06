@@ -5,6 +5,10 @@ import { catchError, map, shareReplay } from 'rxjs/operators';
 import { user } from './models/user'; 
 import { workHours } from './models/workHours';
 
+export interface result {
+  result: number
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -162,6 +166,22 @@ export class DbService {
     }),this.httpOptions)
     .pipe(
       catchError(this.handleError<workHours[]>([]))
+    );
+  }
+
+  setMember(id: number): Observable<result>{
+    return this.http.put<result>('db/user/set', JSON.stringify({
+      id: id
+    }), this.httpOptions)
+    .pipe(
+      catchError(this.handleError<result>({result: 2}))
+    );
+  }
+
+  releaseMember(): Observable<boolean>{
+    return this.http.get<boolean>('db/user/release', this.httpOptions)
+    .pipe(
+      catchError(this.handleError<boolean>(false))
     );
   }
 

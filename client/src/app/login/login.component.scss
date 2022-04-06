@@ -15,7 +15,7 @@
   padding: 60px 50px 40px 50px;
   width: 100%;
   background: #fff;
-  border-radius: 10px;
+  border-radius: 4px;
   transform: scale(1);
   -webkit-transform: scale(1);
   -ms-transform: scale(1);
@@ -74,6 +74,11 @@
 }
 
 .login-wrapper .mat-card {
+  @media screen and (max-width: 599px) {
+    padding: 40px 60px 50px;
+    margin: 0;
+    height: -webkit-fill-available;
+  }
   padding: 40px 70px 50px;
 }
 

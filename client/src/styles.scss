@@ -1,5 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+
 @import '~@angular/material/theming';
+@include mat-core();
+@import 'variables';
+
+/*
+$primary: mat-palette($mat-blue, 500);
+$accent: mat-palette($mat-green, 500);
+$warn: mat-palette($mat-red);*/
+
+$theme: mat-light-theme(
+    $app-primary,
+    $app-accent,
+    $app-warn
+);
+
+@include angular-material-theme($theme);
+
 html, body { height: 100%; }
 body { 
     margin: 0;
@@ -7,20 +23,16 @@ body {
     background: #e2e2e2;
 }
 
-.table-primary {
-    color: #3f51b5;
+.primary-color {
+    color: $primary;
 }
 
-.table-accent {
-    color: #ff4081;
+.accent-color {
+    color: $accent;
 }
 
-.table-warn {
-    color: #f44336;
-}
-
-.table-safe {
-    color: #388E3C
+.warn-color {
+    color: $warn;
 }
 
 .mat-card {
@@ -48,6 +60,33 @@ table {
 
 .spacer {
     margin-bottom: 16px;
+}
+
+.dialog-btn {
+    margin-bottom: 2px;
+}
+
+.custom-snack-bar {
+    border-left: 6px solid;
+    border-left-color: $primary;
+    color: #000000de !important;
+    background-color: #FFF !important;
+    .mat-simple-snackbar-action {
+        color: $warn !important;
+    }
+}
+
+.mat-focused .mat-form-field-required-marker {
+    color: $primary;
+}
+
+.sei-mei .mat-form-field-infix {
+    width: 100% !important;
+    max-width: 180px;
+}
+
+.month-select .mat-form-field-infix {
+    width: 116px !important;
 }
 
 $custom-typography: mat-typography-config(

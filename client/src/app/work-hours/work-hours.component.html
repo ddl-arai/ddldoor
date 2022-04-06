@@ -1,124 +1,115 @@
-<mat-tab-group>
-    <mat-tab label="出力">
-        <div class="container" fxLayout="column" fxLayoutGap="16px">
-            <!--<mat-card-title class="mat-title">勤務時間</mat-card-title>-->
-            <div class="header">
-                <span fxLayout="row" fxLayoutAlign="space-between center">
-                    <span class="mat-title">勤務時間</span>
-                    <!--<button mat-icon-button color="primary" (click)="onRefresh()"><mat-icon class="refresh-icon">refresh</mat-icon></button>-->
-                    <button mat-button (click)="exporter.exportTable('csv', options)">CSV出力</button>
-                </span>
-            </div>
+<div class="container" fxLayout="column" fxLayoutGap="16px">
+    <!--<mat-card-title class="mat-title">勤務時間</mat-card-title>-->
+    <div class="header">
+        <span fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="mat-title">勤務時間</span>
+            <!--<button mat-icon-button color="primary" (click)="onRefresh()"><mat-icon class="refresh-icon">refresh</mat-icon></button>-->
+            <button mat-button (click)="exporter.exportTable('csv', options)">CSV出力</button>
+        </span>
+    </div>
 
-            <mat-accordion>
-                <mat-expansion-panel #panel>
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            <mat-icon>filter_list</mat-icon>
-                        </mat-panel-title>
-                        <!--<mat-panel-description>
-                        </mat-panel-description>-->
-                    </mat-expansion-panel-header>
-                    <div fxLayout="column" fxLayoutGap="16px">
-                        <div>
-                            <div fxLayout="column" fxLayoutGap="8px">
-                                <mat-label>メンバー選択</mat-label>
-                                <span fxLayout="row wrap" fxLayoutGap="10px">
-                                    <span *ngFor="let checkbox of checkboxList">
-                                        <mat-checkbox class="example-margin" [(ngModel)]="checkbox.checked">{{checkbox.name}}</mat-checkbox>
-                                    </span>
-                                </span>
-                                <p class="mat-small">ひとつも選択がない場合は全メンバーになります</p>
-                            </div>
-                        </div>
-                        <div>
-                            <span fxLayout="row" fxLayoutGap="16px">
-                                <span>
-                                <mat-form-field>
-                                    <mat-label>範囲選択</mat-label>
-                                    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                                        <input matStartDate formControlName="start" placeholder="YYYY/MM/DD">
-                                        <input matEndDate formControlName="end" placeholder="YYYY/MM/DD">
-                                    </mat-date-range-input>
-                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-date-range-picker #picker></mat-date-range-picker>
-                                    <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid') || range.controls['end'].hasError('matEndDateInvalid')">
-                                        不正な範囲です
-                                    </mat-error>
-                                </mat-form-field>
-                                <p class="mat-small">範囲の選択がない場合は過去30日間を出力します</p>
-                                </span>
-
-                                <mat-form-field>
-                                    <mat-label>丸め</mat-label>
-                                    <mat-select [(ngModel)]="selectedRound" name="round">
-                                    <mat-option *ngFor="let round of roundOptions" [value]="round.value">
-                                        {{round.viewValue}}
-                                    </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
+    <mat-accordion>
+        <mat-expansion-panel #panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>filter_list</mat-icon>
+                </mat-panel-title>
+                <!--<mat-panel-description>
+                </mat-panel-description>-->
+            </mat-expansion-panel-header>
+            <div fxLayout="column" fxLayoutGap="16px">
+                <div>
+                    <div fxLayout="column" fxLayoutGap="8px">
+                        <mat-label>メンバー選択</mat-label>
+                        <span fxLayout="row wrap" fxLayoutGap="10px">
+                            <span *ngFor="let checkbox of checkboxList">
+                                <mat-checkbox class="example-margin" [(ngModel)]="checkbox.checked">{{checkbox.name}}</mat-checkbox>
                             </span>
-                        </div>
+                        </span>
+                        <p class="mat-small">ひとつも選択がない場合は全メンバーになります</p>
                     </div>
-                    
-                    <mat-action-row>
-                        <button mat-raised-button color="primary" (click)="getWorkHours()" [disabled]="range.controls['start'].hasError('matStartDateInvalid') || range.controls['end'].hasError('matEndDateInvalid')">フィルター</button>
-                    </mat-action-row>
-                </mat-expansion-panel>
-            </mat-accordion>
+                </div>
+                <div>
+                    <span fxLayout="row wrap" fxLayoutGap="16px">
+                        <span>
+                        <mat-form-field>
+                            <mat-label>範囲選択</mat-label>
+                            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                                <input matStartDate formControlName="start" placeholder="YYYY/MM/DD">
+                                <input matEndDate formControlName="end" placeholder="YYYY/MM/DD">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                            <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid') || range.controls['end'].hasError('matEndDateInvalid')">
+                                不正な範囲です
+                            </mat-error>
+                        </mat-form-field>
+                        <p class="mat-small">範囲の選択がない場合は過去30日間を出力します</p>
+                        </span>
 
-            <div class="mat-elevation-z8">
-                <table mat-table matTableExporter [dataSource]="dataSource" matSort matSortActive="date" matSortDirection="desc" #exporter="matTableExporter">
-
-                    <!--- Note that these columns can be defined in any order.
-                        The actual rendered columns are set as a property on the row definition" -->
-                
-                    <!-- id Column -->
-                    <ng-container matColumnDef="id">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ユーザID</th>
-                        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-                    </ng-container>
-
-                    <!-- name Column -->
-                    <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef>ユーザ名</th>
-                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                    </ng-container>
-
-                    <!-- date Column -->
-                    <ng-container matColumnDef="date">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>日付</th>
-                        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
-                    </ng-container>
-
-                    <!-- start Column -->
-                    <ng-container matColumnDef="start">
-                        <th mat-header-cell *matHeaderCellDef>出勤時間</th>
-                        <td mat-cell *matCellDef="let element"> {{element.start}} </td>
-                    </ng-container>
-
-                    <!-- end Column -->
-                    <ng-container matColumnDef="end">
-                        <th mat-header-cell *matHeaderCellDef>退勤時間</th>
-                        <td mat-cell *matCellDef="let element"> {{element.end}} </td>
-                    </ng-container>
-
-                    <!-- hours Column -->
-                    <ng-container matColumnDef="hours">
-                        <th mat-header-cell *matHeaderCellDef>勤務時間</th>
-                        <td mat-cell *matCellDef="let element"> {{element.hours}} </td>
-                    </ng-container>
-
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
-                <mat-paginator [pageSizeOptions]="[200, 500, 1000]"></mat-paginator>
+                        <mat-form-field>
+                            <mat-label>丸め</mat-label>
+                            <mat-select [(ngModel)]="selectedRound" name="round">
+                            <mat-option *ngFor="let round of roundOptions" [value]="round.value">
+                                {{round.viewValue}}
+                            </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </span>
+                </div>
             </div>
-        </div>
-    </mat-tab>
-    <mat-tab label="一覧">
-        <ng-template matTabContent>
-            <app-work-hours-chart></app-work-hours-chart>
-        </ng-template>
-    </mat-tab>
-</mat-tab-group>
+            
+            <mat-action-row>
+                <button mat-raised-button color="primary" (click)="getWorkHours()" [disabled]="range.controls['start'].hasError('matStartDateInvalid') || range.controls['end'].hasError('matEndDateInvalid')">フィルター</button>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <div class="mat-elevation-z8">
+        <table mat-table matTableExporter [dataSource]="dataSource" matSort matSortActive="date" matSortDirection="desc" #exporter="matTableExporter">
+
+            <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+        
+            <!-- id Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>ユーザID</th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+
+            <!-- name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>ユーザ名</th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <!-- date Column -->
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>日付</th>
+                <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+            </ng-container>
+
+            <!-- start Column -->
+            <ng-container matColumnDef="start">
+                <th mat-header-cell *matHeaderCellDef>出勤時間</th>
+                <td mat-cell *matCellDef="let element"> {{element.start}} </td>
+            </ng-container>
+
+            <!-- end Column -->
+            <ng-container matColumnDef="end">
+                <th mat-header-cell *matHeaderCellDef>退勤時間</th>
+                <td mat-cell *matCellDef="let element"> {{element.end}} </td>
+            </ng-container>
+
+            <!-- hours Column -->
+            <ng-container matColumnDef="hours">
+                <th mat-header-cell *matHeaderCellDef>勤務時間</th>
+                <td mat-cell *matCellDef="let element"> {{element.hours}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[200, 500, 1000]"></mat-paginator>
+    </div>
+</div>

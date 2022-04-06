@@ -245,4 +245,23 @@ export class WorkHoursChartComponent implements OnInit {
       screenfull.toggle(element);
     }
   }
+
+  getDay(date: string): number {
+    let result = 0;
+    let day = date.slice(-2, -1);
+    switch(day){
+      case '土':
+        result = 1;
+        break;
+      case '日':
+        if(date==='出勤日数'){
+          break;
+        }
+        result = 2;
+        break;
+      default:
+        break;
+    }
+    return result;
+  }
 }

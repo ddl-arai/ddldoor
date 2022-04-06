@@ -7,7 +7,7 @@
         <mat-card-title>DDLDoor</mat-card-title>
         <mat-card-subtitle>入退室管理システム</mat-card-subtitle>
       </mat-card-header>
-  
+      
       <form class="example-form" [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
         <mat-card-content>
           <mat-form-field class="example-full-width">
@@ -26,9 +26,11 @@
         </mat-card-content>
         <!--<span fxLayout="row" fxLayoutAlign="space-between center">-->
           <!--<a mat-button routerLink="/register" routerLinkActive="active">新規登録</a>-->
-          <button mat-raised-button class="btn-block" color="accent" type="submit" [disabled]="form.invalid">ログイン</button>
+          <button mat-raised-button class="btn-block" color="primary" type="submit" [disabled]="form.invalid">ログイン</button>
         <!--</span>-->
+        
       </form>
+    
       <!--<mat-card-footer class="card-footer">
         <span fxFlexOffset="auto">
           <a mat-button routerLink="/forgot">パスワードを再発行</a>
