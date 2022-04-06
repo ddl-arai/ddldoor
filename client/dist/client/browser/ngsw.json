@@ -1,0 +1,87 @@
+{
+  "configVersion": 1,
+  "timestamp": 1649238388156,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/239.395f884b2eaaa287.js",
+        "/557.3bf245f32b84f55c.js",
+        "/favicon.ico",
+        "/index.html",
+        "/main.97880db1412c6ee5.js",
+        "/manifest.webmanifest",
+        "/polyfills.8837dfbaeeafe0e7.js",
+        "/runtime.f143a5caa2e1e8d1.js",
+        "/styles.d263911e06186bd0.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/assets/icons/door-128x128.png",
+        "/assets/icons/door-144x144.png",
+        "/assets/icons/door-152x152.png",
+        "/assets/icons/door-192x192.png",
+        "/assets/icons/door-32x32.png",
+        "/assets/icons/door-384x384.png",
+        "/assets/icons/door-512x512.png",
+        "/assets/icons/door-72x72.png",
+        "/assets/icons/door-96x96.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/239.395f884b2eaaa287.js": "8223b788ac944c8be00058619e9d7d1a8141e552",
+    "/557.3bf245f32b84f55c.js": "73d5d84460dea84511662c7e8d0238269a726885",
+    "/assets/icons/door-128x128.png": "a96b6b64a2430722b91284032ead10da952d7de3",
+    "/assets/icons/door-144x144.png": "b5c72f370964148a229861036c8fde5b6aa84337",
+    "/assets/icons/door-152x152.png": "4beea89ae5115ab951f52a21ed851b2fb4dd3116",
+    "/assets/icons/door-192x192.png": "564cd058f6ea5a200723f4ab3ed6b8ba40b1d4ae",
+    "/assets/icons/door-32x32.png": "6f3283077c41f2111fdb8b635c2c8a1a2ab8ab33",
+    "/assets/icons/door-384x384.png": "f82224e2e403345cd2a6ced7e754f67768038ff5",
+    "/assets/icons/door-512x512.png": "87a003f366e5543e320549467cba23e77b79ef18",
+    "/assets/icons/door-72x72.png": "147b3f8483ce789149fda52b35ebefc60718fab1",
+    "/assets/icons/door-96x96.png": "b06390653e713d85714268639ed749a11c736418",
+    "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "/index.html": "559794d62e69d8061756141a3d17f51394296f42",
+    "/main.97880db1412c6ee5.js": "789cb1d96ffde681555ac543bfb410b40481216f",
+    "/manifest.webmanifest": "e84110c427b8a03b6d391fc9155b03af14a4dcd0",
+    "/polyfills.8837dfbaeeafe0e7.js": "62413255988644c28a74eb007a96fc609b9a387e",
+    "/runtime.f143a5caa2e1e8d1.js": "4f4e8a0261605ef4658880af160006b6035fcfb5",
+    "/styles.d263911e06186bd0.css": "6d5cfb252053d4e13b90f90a5cd1fdc7ddf202e6"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}

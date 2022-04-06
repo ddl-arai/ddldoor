@@ -1,61 +1,16 @@
 .login-wrapper {
   height: 100%;
+  background-size: auto auto;
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 25px, rgba(0, 0, 0, 0.1) 25px, rgba(0, 0, 0, 0.1) 49px );
 }
 
-.positronx {
-  text-decoration: none;
-  color: #ffffff;
-}
-
-.box {
-  position: relative;
-  top: 0;
-  opacity: 1;
-  float: left;
-  padding: 60px 50px 40px 50px;
-  width: 100%;
-  background: #fff;
-  border-radius: 4px;
-  transform: scale(1);
-  -webkit-transform: scale(1);
-  -ms-transform: scale(1);
-  z-index: 5;
-  max-width: 330px;
-}
-
-/*
-.box.back {
-  transform: scale(.95);
-  -webkit-transform: scale(.95);
-  -ms-transform: scale(.95);
-  top: -20px;
-  opacity: .8;
-  z-index: -1;
-}*/
-
-/*
-.box:before {
-  content: "";
-  width: 100%;
-  height: 30px;
-  border-radius: 10px;
-  position: absolute;
-  top: -10px;
-  background: rgba(255, 255, 255, .6);
-  left: 0;
-  transform: scale(.95);
-  -webkit-transform: scale(.95);
-  -ms-transform: scale(.95);
-  z-index: -1;
-}*/
-
-.login-wrapper .example-form {
+.login-wrapper .form {
   min-width: 100%;
   max-width: 300px;
   width: 100%;
 }
 
-.login-wrapper .example-full-width,
+.login-wrapper .full-width,
 .login-wrapper .btn-block {
   width: 100%;
 }
@@ -75,11 +30,11 @@
 
 .login-wrapper .mat-card {
   @media screen and (max-width: 599px) {
-    padding: 40px 60px 50px;
+    padding: 30% 60px 30%;
     margin: 0;
     height: -webkit-fill-available;
   }
-  padding: 40px 70px 50px;
+  padding: 60px 70px;
 }
 
 .login-wrapper .mat-stroked-button {
@@ -90,10 +45,6 @@
 
 .login-wrapper .mat-form-field-appearance-legacy .mat-form-field-infix {
   padding: 0.8375em 0;
-}
-
-.door-icon {
-  transform: scale(3);
 }
 
 .img_logo {

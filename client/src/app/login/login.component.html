@@ -1,23 +1,23 @@
 <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
-    <mat-card class="box mat-elevation-z8">
+    <mat-card class="mat-elevation-z8">
       <p class="img_logo">
-        <img src="assets/door-icon96.png"/>
+        <img src="assets/icons/door-96x96.png"/>
       </p>
       <mat-card-header>
         <mat-card-title>DDLDoor</mat-card-title>
         <mat-card-subtitle>入退室管理システム</mat-card-subtitle>
       </mat-card-header>
       
-      <form class="example-form" [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
+      <form class="form" [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
         <mat-card-content>
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="full-width">
             <input matInput placeholder="メールアドレス" type="email" name="email" formControlName="email">
             <mat-error *ngIf="emailControl.hasError('required') || emailControl.hasError('email')">
                 <strong>メールアドレスを入力してください</strong>
             </mat-error>
           </mat-form-field>
   
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="full-width">
             <input matInput placeholder="パスワード" type="password" name="password" formControlName="password" autocomplete="off">
             <mat-error *ngIf="passwordControl.hasError('required')">
                 <strong>パスワードを入力してください</strong>
