@@ -184,4 +184,12 @@ export class WorkHoursComponent implements OnInit, AfterViewInit{
     });
   }
 
+  onCSVStart(): void {
+    this.spinnerService.attach();
+  }
+
+  onCSVFinish(): void {
+    this.spinnerService.detach();
+  }
+
 }

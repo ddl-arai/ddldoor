@@ -66,7 +66,7 @@
     </mat-accordion>
 
     <div class="mat-elevation-z8">
-        <table mat-table matTableExporter [dataSource]="dataSource" matSort matSortActive="date" matSortDirection="desc" #exporter="matTableExporter">
+        <table mat-table matTableExporter [dataSource]="dataSource" matSort matSortActive="date" matSortDirection="desc" #exporter="matTableExporter" (exportStarted)="onCSVStart()" (exportCompleted)="onCSVFinish()">
 
             <!--- Note that these columns can be defined in any order.
                 The actual rendered columns are set as a property on the row definition" -->

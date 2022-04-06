@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { MatSpinner } from '@angular/material/progress-spinner';
+import { MatprogressspinnerComponent } from './matprogressspinner/matprogressspinner.component';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class SpinnerService {
   });
 
   attach(): void {
-    this.overlayRef.attach(new ComponentPortal(MatSpinner));
+    this.overlayRef.attach(new ComponentPortal(MatprogressspinnerComponent));
   }
   
   detach(): void {

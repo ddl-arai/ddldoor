@@ -20,7 +20,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
-import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
@@ -74,6 +74,8 @@ import { StampDialogComponent } from './stamp-dialog/stamp-dialog.component';
 import { NaviSetMemberComponent } from './navi-set-member/navi-set-member.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { MatprogressspinnerComponent } from './matprogressspinner/matprogressspinner.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -103,10 +105,11 @@ import { environment } from '../environments/environment';
     WorkHoursChartComponent,
     DeviceTmpopenDialogComponent,
     StampDialogComponent,
-    NaviSetMemberComponent
+    NaviSetMemberComponent,
+    MatprogressspinnerComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -132,7 +135,7 @@ import { environment } from '../environments/environment';
     MatSelectModule,
     MatSortModule,
     MatPaginatorModule,
-    MatTableExporterModule,
+    MatTableExporterModule.forRoot({xlsxLightWeight: true}),
     MatDatepickerModule,
     MatNativeDateModule,
     MatRadioModule,
@@ -150,17 +153,15 @@ import { environment } from '../environments/environment';
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
-  ],
-  entryComponents: [
-    MatSpinner
+    }),
+    RouterModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlJa },
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {panelClass: ['custom-snack-bar']} }
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {panelClass: ['custom-snack-bar']} },
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -215,6 +215,14 @@ export class LogComponent implements OnInit, AfterViewInit, OnDestroy {
     this.snackBar.open('フィルタリングしました', '閉じる', {duration: 5000});
   }
 
+  onCSVStart(): void {
+    this.spinnerService.attach();
+  }
+
+  onCSVFinish(): void {
+    this.spinnerService.detach();
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

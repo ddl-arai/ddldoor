@@ -1,6 +1,5 @@
 
 <div class="container" fxLayout="column" fxLayoutGap="8px">
-    
         <div class="header">
             <div fxLayout="row warp" fxLayoutAlign="space-between center">
                 <span class="mat-title" [class.mobileTitle]="mobileTitle">ログ</span>
@@ -32,7 +31,7 @@
         </div>
 
         <div class="mat-elevation-z8">
-            <table mat-table matTableExporter [dataSource]="dataSource" matSort matSortActive="no" matSortDirection="desc" #exporter="matTableExporter">
+            <table mat-table matTableExporter [dataSource]="dataSource" matSort matSortActive="no" matSortDirection="desc" #exporter="matTableExporter" (exportStarted)="onCSVStart()" (exportCompleted)="onCSVFinish()">
 
                 <!--- Note that these columns can be defined in any order.
                     The actual rendered columns are set as a property on the row definition" -->
