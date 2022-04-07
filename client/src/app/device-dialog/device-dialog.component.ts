@@ -42,7 +42,7 @@ export class DeviceDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.idOptions = this.idOptions.filter(i => this.usedIds.indexOf(i) === -1);
+    this.idOptions = this.idOptions.filter(i => !this.usedIds.includes(i));
     this.form = this.fb.group({
       id: this.idControl,
       name: this.nameControl,

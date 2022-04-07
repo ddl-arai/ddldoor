@@ -2,13 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeviceDialogComponent } from './device-dialog.component';
 
+import { AppModule } from '../app.module';
+
 describe('DeviceDialogComponent', () => {
   let component: DeviceDialogComponent;
   let fixture: ComponentFixture<DeviceDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeviceDialogComponent ]
+      //declarations: [ DeviceDialogComponent ]
+      imports: [ AppModule ],
     })
     .compileComponents();
   });

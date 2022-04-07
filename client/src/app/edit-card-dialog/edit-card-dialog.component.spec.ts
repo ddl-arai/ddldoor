@@ -2,13 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditCardDialogComponent } from './edit-card-dialog.component';
 
+import { AppModule } from '../app.module';
+
 describe('EditCardDialogComponent', () => {
   let component: EditCardDialogComponent;
   let fixture: ComponentFixture<EditCardDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditCardDialogComponent ]
+      //declarations: [ EditCardDialogComponent ]
+      imports: [ AppModule ],
     })
     .compileComponents();
   });

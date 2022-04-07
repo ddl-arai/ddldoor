@@ -1,7 +1,7 @@
-import { MatPaginatorJp } from './mat-paginator-jp';
+import { MatPaginatorIntlJa } from './mat-paginator-jp';
 
 describe('MatPaginatorJp', () => {
   it('should create an instance', () => {
-    expect(new MatPaginatorJp()).toBeTruthy();
+    expect(new MatPaginatorIntlJa()).toBeTruthy();
   });
 });

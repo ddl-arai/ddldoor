@@ -27,7 +27,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
@@ -76,6 +76,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { MatprogressspinnerComponent } from './matprogressspinner/matprogressspinner.component';
 import { RouterModule } from '@angular/router';
+import { HomeUpdateComponent } from './home-update/home-update.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +107,8 @@ import { RouterModule } from '@angular/router';
     DeviceTmpopenDialogComponent,
     StampDialogComponent,
     NaviSetMemberComponent,
-    MatprogressspinnerComponent
+    MatprogressspinnerComponent,
+    HomeUpdateComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -162,6 +164,8 @@ import { RouterModule } from '@angular/router';
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlJa },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {panelClass: ['custom-snack-bar']} },
+    { provide: MatDialogRef, useValue: {} },
+    { provide: MAT_DIALOG_DATA, useValue: {} }
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

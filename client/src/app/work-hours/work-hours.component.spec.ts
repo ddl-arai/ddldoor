@@ -2,13 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WorkHoursComponent } from './work-hours.component';
 
+import { AppModule } from '../app.module';
+
 describe('WorkHoursComponent', () => {
   let component: WorkHoursComponent;
   let fixture: ComponentFixture<WorkHoursComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WorkHoursComponent ]
+      //declarations: [ WorkHoursComponent ]
+      imports: [ AppModule ],
     })
     .compileComponents();
   });

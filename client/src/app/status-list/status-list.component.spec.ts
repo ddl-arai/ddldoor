@@ -2,13 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StatusListComponent } from './status-list.component';
 
+import { AppModule } from '../app.module';
+
 describe('StatusListComponent', () => {
   let component: StatusListComponent;
   let fixture: ComponentFixture<StatusListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StatusListComponent ]
+      //declarations: [ StatusListComponent ]
+      imports: [ AppModule ],
     })
     .compileComponents();
   });

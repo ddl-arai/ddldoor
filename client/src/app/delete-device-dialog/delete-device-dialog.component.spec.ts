@@ -2,13 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeleteDeviceDialogComponent } from './delete-device-dialog.component';
 
+import { AppModule } from '../app.module';
+
 describe('DeleteDeviceDialogComponent', () => {
   let component: DeleteDeviceDialogComponent;
   let fixture: ComponentFixture<DeleteDeviceDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeleteDeviceDialogComponent ]
+      //declarations: [ DeleteDeviceDialogComponent ]
+      imports: [ AppModule ],
     })
     .compileComponents();
   });

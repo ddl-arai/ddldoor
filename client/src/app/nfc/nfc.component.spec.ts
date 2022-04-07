@@ -2,13 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NfcComponent } from './nfc.component';
 
+import { AppModule } from '../app.module';
+
 describe('NfcComponent', () => {
   let component: NfcComponent;
   let fixture: ComponentFixture<NfcComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NfcComponent ]
+      //declarations: [ NfcComponent ]
+      imports: [ AppModule ],
     })
     .compileComponents();
   });

@@ -2,13 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CardDialogComponent } from './card-dialog.component';
 
+import { AppModule } from '../app.module';
+ 
 describe('CardDialogComponent', () => {
   let component: CardDialogComponent;
   let fixture: ComponentFixture<CardDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CardDialogComponent ]
+      imports: [ AppModule ],
     })
     .compileComponents();
   });

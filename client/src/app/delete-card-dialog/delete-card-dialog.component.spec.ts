@@ -2,13 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeleteCardDialogComponent } from './delete-card-dialog.component';
 
+import { AppModule } from '../app.module';
+
 describe('DeleteCardDialogComponent', () => {
   let component: DeleteCardDialogComponent;
   let fixture: ComponentFixture<DeleteCardDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeleteCardDialogComponent ]
+      //declarations: [ DeleteCardDialogComponent ]
+      imports: [ AppModule ],
     })
     .compileComponents();
   });

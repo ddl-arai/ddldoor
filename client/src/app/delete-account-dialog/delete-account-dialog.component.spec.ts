@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeleteAccountDialogComponent } from './delete-account-dialog.component';
+import { AppModule } from '../app.module';
+
 
 describe('DeleteAccountDialogComponent', () => {
   let component: DeleteAccountDialogComponent;
@@ -8,7 +10,8 @@ describe('DeleteAccountDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeleteAccountDialogComponent ]
+      //declarations: [ DeleteAccountDialogComponent ]
+      imports: [ AppModule ],
     })
     .compileComponents();
   });
