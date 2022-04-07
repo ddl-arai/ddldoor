@@ -107,8 +107,8 @@ app.use('/auth', authRouter);
 app.use('/db', isLogined, dbRouter);
 app.use('/door', doorRouter);
 
-app.use(express.static(path.join(__dirname, '../client/dist/client')));
-app.use('/*', express.static(path.join(__dirname, '../client/dist/client/index.html')));
+app.use(express.static(path.join(__dirname, '../client/dist/client/browser')));
+app.use('/*', express.static(path.join(__dirname, '../client/dist/client/browser/index.html')));
 
 // error handler
 app.use(function(err, req, res, next) {
