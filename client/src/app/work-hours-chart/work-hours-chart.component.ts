@@ -4,6 +4,7 @@ import { DbService } from '../db.service';
 import { member } from '../models/member';
 import { SpinnerService } from '../spinner.service';
 import screenfull from 'screenfull';
+import { holiday } from '../models/holiday';
 
 export interface selectMonth {
   view: string,
@@ -45,6 +46,7 @@ export class WorkHoursChartComponent implements OnInit {
   displayedColumns: string[] = [];
   dates: selectMonth[] = [];
   dynamicColumns: dynamicColumn[] = [];
+  holidays: holiday[] = [];
 
   constructor(
     private dbService: DbService,
@@ -54,6 +56,7 @@ export class WorkHoursChartComponent implements OnInit {
   ngOnInit(): void {
     this.getSelector();
     this.getTableData();
+    this.getHolidays();
   }
 
   selectedChange(): void {
@@ -262,6 +265,18 @@ export class WorkHoursChartComponent implements OnInit {
       default:
         break;
     }
+    let dateNumber = Number(date.slice(0, -3));
+    if(dateNumber !== NaN){
+      const genDate = new Date(`${this.selected.getFullYear()}/${this.selected.getMonth() + 1}/${dateNumber}`).getTime();
+      if(this.holidays.map(el => el.date).includes(String(genDate))){
+        result = 2;
+      }
+    }
     return result;
+  }
+
+  getHolidays(): void {
+    this.dbService.getAll<holiday>('holidays')
+    .subscribe(holidays => this.holidays = holidays);
   }
 }

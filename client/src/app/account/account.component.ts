@@ -10,12 +10,23 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DeleteAccountDialogComponent } from '../delete-account-dialog/delete-account-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteLogDialogComponent } from '../delete-log-dialog/delete-log-dialog.component';
+import { holiday } from '../models/holiday';
+
+export interface viewHoliday {
+  view: string,
+  date: string,
+  remark: string
+}
 
 export interface displayData {
   email: string,
   admin: boolean
 }
 
+export interface selectedData {
+  date: string,
+  remark: string
+}
 
 @Component({
   selector: 'app-account',
@@ -29,7 +40,6 @@ export class AccountComponent implements OnInit {
     admin: false
   }
   email: string = '';
-
   form!: FormGroup;
   emailControl = new FormControl(null, [
     Validators.required,
@@ -38,13 +48,12 @@ export class AccountComponent implements OnInit {
   adminControl = new FormControl(null);
   success: boolean = false;
   checked: boolean = false;
-
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl(),
   });
-
-
+  selectedData: selectedData = {date: '', remark: ''};
+  viewHolidays: viewHoliday[] = [];
 
   displayedColumns: string[] = [
     'email',
@@ -60,12 +69,15 @@ export class AccountComponent implements OnInit {
     private snackBar: MatSnackBar,
     private clipboard: Clipboard,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
+    this.viewHolidays = [];
+    this.selectedData = {date: '', remark: ''};
     this.getUser();
     this.getUsers();
+    this.getHolidays();
     this.form = this.fb.group({
       email: this.emailControl,
       admin: this.adminControl
@@ -176,4 +188,71 @@ export class AccountComponent implements OnInit {
         this.ngOnInit();
     });
   }
+
+  getHolidays(): void {
+    this.dbService.getAll<holiday>('holidays')
+    .subscribe(holidays => {
+      holidays.forEach(holiday => {
+        let date = new Date(Number(holiday.date));
+        this.viewHolidays.push({
+          view: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${holiday.remark}`,
+          date: holiday.date,
+          remark: holiday.remark
+        });
+      });
+      this.viewHolidays.sort((x, y) => Number(x.date) - Number(y.date));
+    });
+  }
+
+  onRemove(date: string){
+    this.dbService.delete('holiday', date)
+    .subscribe(result => {
+      if(result){
+        this.ngOnInit();
+        //this.viewHolidays = this.viewHolidays.filter(el => el.date !== date);
+      }
+      else{
+        this.snackBar.open('削除できませんでした', '閉じる', {duration: 7000});
+        //this.ngOnInit();
+      }
+    });
+  }
+
+  onAdd(): void {
+    if(!this.selectedData.date){
+      this.snackBar.open('日付を入力してください', '閉じる', {duration: 7000});
+      return;
+    }
+    if(this.isDup()){
+      this.snackBar.open('その日付は既に追加されています', '閉じる', {duration: 7000});
+    }
+    else{
+      let body: holiday = {
+        date: String(new Date(this.selectedData.date).getTime()),
+        remark: this.selectedData.remark
+      }
+      this.dbService.add<holiday>('holiday', body)
+      .subscribe(result => {
+        if(result){
+          this.snackBar.open('追加しました', '閉じる', {duration: 5000});
+          this.ngOnInit();
+        }
+        else{
+          this.snackBar.open('追加できませんでした', '閉じる', {duration: 7000});
+        }
+      });
+    }
+  }
+
+  isDup(): boolean {
+    const selected = new Date(this.selectedData.date);
+    for(let d of this.viewHolidays){
+      const date = new Date(Number(d.date));
+      if(date.getFullYear() === selected.getFullYear() && date.getMonth() === selected.getMonth() && date.getDate() === selected.getDate()){
+        return true;
+      }
+    }
+    return false;
+  }
+
 }

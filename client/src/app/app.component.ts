@@ -23,7 +23,8 @@ export class AppComponent implements OnInit {
         console.log(`Current version: ${event.currentVersion.hash}`);
         this.dialog.open(HomeUpdateComponent, {
           width: '400px',
-          disableClose: true
+          disableClose: true,
+          autoFocus: false
         });
       }
     });

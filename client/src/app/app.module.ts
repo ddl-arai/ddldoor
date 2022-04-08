@@ -42,7 +42,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatBadgeModule } from '@angular/material/badge';
-
+import { MatChipsModule } from '@angular/material/chips';
 
 /* Component */
 import { AppComponent } from './app.component';
@@ -156,7 +156,8 @@ import { HomeUpdateComponent } from './home-update/home-update.component';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
-    RouterModule
+    RouterModule,
+    MatChipsModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },

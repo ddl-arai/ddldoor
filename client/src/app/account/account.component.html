@@ -69,6 +69,40 @@
     </mat-card-content>
 </mat-card>
 
+<mat-card>
+    <mat-card-header>
+        <mat-card-title class="mat-title">休日設定</mat-card-title>
+    </mat-card-header>
+    <mat-divider inset="true"></mat-divider>
+    <mat-card-content>
+        <div fxLayout="column" fxLayoutGap="8px">
+            <div>
+                <span fxLayout="row" fxFlexAlign=" center" fxLayoutGap="14px">
+                    <mat-form-field>
+                        <mat-label>日付</mat-label>
+                        <input matInput [matDatepicker]="pickerHoli" [(ngModel)]="selectedData.date" placeholder="YYYY/MM/DD">
+                        <mat-datepicker-toggle matSuffix [for]="pickerHoli"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerHoli color="primary"></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>休日名</mat-label>
+                        <input matInput type="text" [(ngModel)]="selectedData.remark">
+                    </mat-form-field>
+                    <button mat-mini-fab color="primary" (click)="onAdd()"><mat-icon>add</mat-icon></button>      
+                </span>
+            </div>
+            <mat-chip-list>
+                <mat-chip *ngFor="let viewHoliday of viewHolidays" (removed)="onRemove(viewHoliday.date)">
+                    {{viewHoliday.view}}
+                    <button matChipRemove>
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+    </mat-card-content>
+</mat-card>
+
 <mat-card class="danger-zone">
     <mat-card-header>
         <mat-card-title class="mat-title" color="warn">Danger Zone</mat-card-title>

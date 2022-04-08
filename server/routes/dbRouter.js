@@ -5,6 +5,7 @@ let Member = require('../models/member');
 let Card = require('../models/card');
 let Log = require('../models/log');
 let Device = require('../models/device');
+let Holiday = require('../models/holiday');
 let bcrypt = require('bcrypt');
 let crypto = require('crypto');
 const saltRounds = 10;
@@ -325,6 +326,33 @@ dbRouter.get('/mode/zaru', (req, res, next) => {
   Member.updateMany({}, {$set: {status: 4}}, error => {
     if(error) next(error);
     res.json(true);
+  });
+});
+
+/* POST db/holiday */
+dbRouter.post('/holiday', async (req, res, next) => {
+  try {
+    await Holiday.create(req.body);
+    res.json(true);
+  }
+  catch(error){
+    next(error);
+  }
+});
+
+/* DELETE db/holiday/:date */
+dbRouter.delete('/holiday/:date', (req, res, next) => {
+  Holiday.deleteOne({date: req.params.date}, error => {
+    if(error) next(error);
+    res.json(true);
+  });
+});
+
+/* GET db/holidays */
+dbRouter.get('/holidays', (req, res, next) => {
+  Holiday.find({}, (error, holidays) => {
+    if(error) next(error);
+    res.json(holidays);
   });
 });
 
