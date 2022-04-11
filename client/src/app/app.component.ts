@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
     });
 
     if(this.swUpdate.isEnabled){
+      console.log('SW enabled');
       this.swUpdate.activateUpdate();
       this.swUpdate.checkForUpdate();
     }
