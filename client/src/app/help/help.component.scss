@@ -1,0 +1,6 @@
+.container {
+    margin: 16px 24px;
+    @media screen and (max-width: 599px) {
+        margin: 16px;
+    }
+}

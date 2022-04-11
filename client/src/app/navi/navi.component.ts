@@ -95,6 +95,10 @@ export class NaviComponent implements OnInit {
       if(result) this.sidenav.close();
     })
   }
+
+  onHelp(): void {
+    this.router.navigate(['/home/help']);
+  }
 }
 
 

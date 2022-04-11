@@ -27,6 +27,7 @@
     "mat-table-exporter": "^10.2.4",
     "moment": "^2.29.1",
     "nfc-module": "file:nfc-module-1.0.0.tgz",
+    "ngx-markdown": "^13.1.0",
     "rxjs": "~7.5.0",
     "screenfull": "^6.0.1",
     "tslib": "^2.3.0",

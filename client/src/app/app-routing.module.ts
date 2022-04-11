@@ -12,6 +12,7 @@ import { ResetComponent } from './reset/reset.component';
 //import { WorkHoursComponent } from './work-hours/work-hours.component';
 import { WorkHoursChartComponent } from './work-hours-chart/work-hours-chart.component';
 import { AdminGuard } from './admin.guard';
+import { HelpComponent } from './help/help.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -27,7 +28,8 @@ const routes: Routes = [
       { path: 'nfc', component: NfcComponent },
       { path: 'deviceList', component: DeviceListComponent },
       { path: 'workHours', component: WorkHoursChartComponent },
-      { path: 'maintenance', component: AccountComponent, canActivate: [AdminGuard] }
+      { path: 'maintenance', component: AccountComponent, canActivate: [AdminGuard] },
+      { path: 'help', component: HelpComponent }
     ]
   },
   { path: "**", redirectTo: "home" }

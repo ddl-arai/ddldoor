@@ -10,6 +10,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 import { MatPaginatorIntlJa } from './mat-paginator-jp';
+import { MarkdownModule } from 'ngx-markdown';
 
 /* Material */
 import { MatButtonModule } from '@angular/material/button';
@@ -77,6 +78,7 @@ import { environment } from '../environments/environment';
 import { MatprogressspinnerComponent } from './matprogressspinner/matprogressspinner.component';
 import { RouterModule } from '@angular/router';
 import { HomeUpdateComponent } from './home-update/home-update.component';
+import { HelpComponent } from './help/help.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +110,8 @@ import { HomeUpdateComponent } from './home-update/home-update.component';
     StampDialogComponent,
     NaviSetMemberComponent,
     MatprogressspinnerComponent,
-    HomeUpdateComponent
+    HomeUpdateComponent,
+    HelpComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -157,7 +160,8 @@ import { HomeUpdateComponent } from './home-update/home-update.component';
       registrationStrategy: 'registerWhenStable:30000'
     }),
     RouterModule,
-    MatChipsModule
+    MatChipsModule,
+    MarkdownModule.forRoot()
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },
