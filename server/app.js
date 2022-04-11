@@ -37,7 +37,7 @@ let doorRouter = require('./routes/doorRouter');
 let app = express();
 app.use(compression());
 app.enable('trust proxy');
-app.use(logger('combined'));
+app.use(logger('short'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
