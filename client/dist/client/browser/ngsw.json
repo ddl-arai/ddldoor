@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1649757668292,
+  "timestamp": 1649758794154,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -15,14 +15,11 @@
         "/557.3bf245f32b84f55c.js",
         "/favicon.ico",
         "/index.html",
-        "/main.1a9630698145d305.js",
+        "/main.e7ea8a6c6996a438.js",
         "/manifest.webmanifest",
-        "/ngsw-worker.js",
         "/polyfills.8837dfbaeeafe0e7.js",
         "/runtime.f143a5caa2e1e8d1.js",
-        "/safety-worker.js",
-        "/styles.d263911e06186bd0.css",
-        "/worker-basic.min.js"
+        "/styles.d263911e06186bd0.css"
       ],
       "patterns": []
     },
@@ -52,7 +49,7 @@
   "hashTable": {
     "/239.395f884b2eaaa287.js": "8223b788ac944c8be00058619e9d7d1a8141e552",
     "/557.3bf245f32b84f55c.js": "73d5d84460dea84511662c7e8d0238269a726885",
-    "/assets/README.md": "250811c3ff5fbd9e289dfe936829500bda393221",
+    "/assets/README.md": "159c4470a82b774f0880d3a66412289beda9ad49",
     "/assets/icons/door-128x128.png": "a96b6b64a2430722b91284032ead10da952d7de3",
     "/assets/icons/door-144x144.png": "b5c72f370964148a229861036c8fde5b6aa84337",
     "/assets/icons/door-152x152.png": "4beea89ae5115ab951f52a21ed851b2fb4dd3116",
@@ -63,15 +60,12 @@
     "/assets/icons/door-72x72.png": "147b3f8483ce789149fda52b35ebefc60718fab1",
     "/assets/icons/door-96x96.png": "b06390653e713d85714268639ed749a11c736418",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/index.html": "c9c4d88ae79511e1609575158ee30de89ac47004",
-    "/main.1a9630698145d305.js": "c119f0d881277f2a8b3f85a90eb8548dd7bd26f6",
+    "/index.html": "6e9e2c02855ef9c23dbbc9a0cb7ce79f98e531d2",
+    "/main.e7ea8a6c6996a438.js": "c919bdbae328ccc1b2ebb17e33dc66c3c91fe1f6",
     "/manifest.webmanifest": "7241a811996ae1f86cf5782a3a25bb7dfba2d931",
-    "/ngsw-worker.js": "2e18672fa410b084492c942db2fd5dd1223b4417",
     "/polyfills.8837dfbaeeafe0e7.js": "62413255988644c28a74eb007a96fc609b9a387e",
     "/runtime.f143a5caa2e1e8d1.js": "4f4e8a0261605ef4658880af160006b6035fcfb5",
-    "/safety-worker.js": "70914dc203fa1f881e56f2b794d7a4f9c48ee745",
-    "/styles.d263911e06186bd0.css": "6d5cfb252053d4e13b90f90a5cd1fdc7ddf202e6",
-    "/worker-basic.min.js": "70914dc203fa1f881e56f2b794d7a4f9c48ee745"
+    "/styles.d263911e06186bd0.css": "6d5cfb252053d4e13b90f90a5cd1fdc7ddf202e6"
   },
   "navigationUrls": [
     {
