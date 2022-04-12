@@ -9,6 +9,7 @@ import { user } from '../models/user';
 import { NaviSetMemberComponent } from '../navi-set-member/navi-set-member.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
+import { QrComponent } from '../qr/qr.component';
 
 @Component({
   selector: 'app-navi',
@@ -98,6 +99,13 @@ export class NaviComponent implements OnInit {
 
   onHelp(): void {
     this.router.navigate(['/home/help']);
+  }
+
+  onQr(): void {
+    this.dialog.open(QrComponent, {
+      width: '400px',
+      data: this.user
+    });
   }
 }
 

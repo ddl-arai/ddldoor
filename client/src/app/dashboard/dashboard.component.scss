@@ -1,0 +1,58 @@
+@import 'variables';
+
+.grid-container {
+  margin: 16px;
+}
+
+.dashboard-card {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+}
+
+.more-button {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+}
+
+.dashboard-card-content {
+  height: calc(100% - 54px);
+}
+
+.mat-title {
+  margin: 0;
+  margin-left: 8px;
+}
+
+.mat-divider.mat-divider-vertical {
+  border-right-width: 2px;
+  height: 100%;
+  //margin-left: 8px;
+  //margin-right: 16px;
+}
+
+.mat-standard-chip {
+  padding: 14px 18px;
+}
+
+.header {
+  margin: 6px 0;
+}
+
+.apb-text {
+  color: $warn;
+  font-size: 18px;
+}
+
+.no-apb {
+  font-size: 18px;
+}
+
+.init-icon {
+  margin-bottom: 2px;
+}
+
+

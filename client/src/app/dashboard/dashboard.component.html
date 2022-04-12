@@ -1,0 +1,67 @@
+<div class="grid-container">
+  <span class="mat-title">ダッシュボード</span>
+  <mat-grid-list cols="2" rowHeight="350px">
+    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+      <mat-card class="dashboard-card">
+        <mat-card-header class="header">
+          <mat-card-title>
+            {{card.title}}
+            <!--
+            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item>Expand</button>
+              <button mat-menu-item>Remove</button>
+            </mat-menu>-->
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content" [ngSwitch]="card.id">
+          <div fxLayout="column" fxFill>
+            <div *ngSwitchCase="1" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="12px" fxFlex>
+              <mat-chip-list>
+                <mat-chip *ngFor="let member of others" selectable="false">
+                  {{member.name}}
+                </mat-chip>
+              </mat-chip-list>
+              <mat-divider *ngIf="others.length !== 0" [vertical]="true"></mat-divider>
+              <mat-chip-list>
+                <mat-chip *ngFor="let member of exists" color="accent" selected>
+                  {{member.name}}
+                </mat-chip>
+              </mat-chip-list>
+              <mat-divider *ngIf="exists.length !== 0" [vertical]="true"></mat-divider>
+              <mat-chip-list>
+                <mat-chip *ngFor="let member of absences" color="primary" selected>
+                  {{member.name}}
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+
+            <div *ngSwitchCase="2" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="12px" fxFlex>
+              <span class="no-apb" *ngIf="apbs.length === 0; else elseBlock">
+                現在、アンチパスバックはありません
+              </span>
+              <ng-template #elseBlock>
+                <div fxLayout="column" fxLayoutGap="8px">
+                  <div *ngFor="let member of apbs">
+                    <span class="apb-text">{{member.name}} <button mat-icon-button (click)="onReset(member.id)"><mat-icon class="init-icon">new_releases</mat-icon></button></span>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+
+            <div *ngSwitchCase="3" fxLayout="row" fxLayoutAlign="center" fxFlex>
+              <div fxLayout="column" fxLayoutGap="8px">
+                <div *ngFor="let log of logs">
+                  <span>{{log.no}}: {{log.info}}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

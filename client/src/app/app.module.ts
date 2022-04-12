@@ -11,6 +11,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 import { MatPaginatorIntlJa } from './mat-paginator-jp';
 import { MarkdownModule } from 'ngx-markdown';
+import { QRCodeModule } from 'angularx-qrcode';
 
 /* Material */
 import { MatButtonModule } from '@angular/material/button';
@@ -79,6 +80,10 @@ import { MatprogressspinnerComponent } from './matprogressspinner/matprogressspi
 import { RouterModule } from '@angular/router';
 import { HomeUpdateComponent } from './home-update/home-update.component';
 import { HelpComponent } from './help/help.component';
+import { QrComponent } from './qr/qr.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [
@@ -111,7 +116,9 @@ import { HelpComponent } from './help/help.component';
     NaviSetMemberComponent,
     MatprogressspinnerComponent,
     HomeUpdateComponent,
-    HelpComponent
+    HelpComponent,
+    QrComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -161,7 +168,10 @@ import { HelpComponent } from './help/help.component';
     }),
     RouterModule,
     MatChipsModule,
-    MarkdownModule.forRoot()
+    MarkdownModule.forRoot(),
+    QRCodeModule,
+    MatGridListModule,
+    LayoutModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },

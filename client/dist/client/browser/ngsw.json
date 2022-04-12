@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1649669134501,
+  "timestamp": 1649757668292,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -15,11 +15,14 @@
         "/557.3bf245f32b84f55c.js",
         "/favicon.ico",
         "/index.html",
-        "/main.f6d415f2f8cc15cf.js",
+        "/main.1a9630698145d305.js",
         "/manifest.webmanifest",
+        "/ngsw-worker.js",
         "/polyfills.8837dfbaeeafe0e7.js",
         "/runtime.f143a5caa2e1e8d1.js",
-        "/styles.d263911e06186bd0.css"
+        "/safety-worker.js",
+        "/styles.d263911e06186bd0.css",
+        "/worker-basic.min.js"
       ],
       "patterns": []
     },
@@ -60,12 +63,15 @@
     "/assets/icons/door-72x72.png": "147b3f8483ce789149fda52b35ebefc60718fab1",
     "/assets/icons/door-96x96.png": "b06390653e713d85714268639ed749a11c736418",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/index.html": "28b7124ab3a0f135c870d41736587215506ad152",
-    "/main.f6d415f2f8cc15cf.js": "545be0fcf326459a1b42f82c033e33a00cd1de7a",
+    "/index.html": "c9c4d88ae79511e1609575158ee30de89ac47004",
+    "/main.1a9630698145d305.js": "c119f0d881277f2a8b3f85a90eb8548dd7bd26f6",
     "/manifest.webmanifest": "7241a811996ae1f86cf5782a3a25bb7dfba2d931",
+    "/ngsw-worker.js": "2e18672fa410b084492c942db2fd5dd1223b4417",
     "/polyfills.8837dfbaeeafe0e7.js": "62413255988644c28a74eb007a96fc609b9a387e",
     "/runtime.f143a5caa2e1e8d1.js": "4f4e8a0261605ef4658880af160006b6035fcfb5",
-    "/styles.d263911e06186bd0.css": "6d5cfb252053d4e13b90f90a5cd1fdc7ddf202e6"
+    "/safety-worker.js": "70914dc203fa1f881e56f2b794d7a4f9c48ee745",
+    "/styles.d263911e06186bd0.css": "6d5cfb252053d4e13b90f90a5cd1fdc7ddf202e6",
+    "/worker-basic.min.js": "70914dc203fa1f881e56f2b794d7a4f9c48ee745"
   },
   "navigationUrls": [
     {

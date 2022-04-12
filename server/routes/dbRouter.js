@@ -39,13 +39,29 @@ dbRouter.get('/user/exist/:email', (req, res, next) => {
 dbRouter.get('/reset', (req, res, next) => {
   crypto.randomBytes(32, (error, buf) => {
     if(error) next(error);
-    const now = new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000));
+    //const now = new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000));
     const token = buf.toString('hex');
-    const expire = now.setMinutes(now.getMinutes() + 5);  // 5 minitue for expire
+    const expire = Date.now() + 3 * 60 * 1000;  // 3 minitue for expire
     User.updateOne({email: req.user['email']}, {
       pw_reset_token: token,
       pw_reset_token_expire: expire
     }, error => {
+      if(error) next(error);
+      res.json(token);
+    });
+  });
+});
+
+/* GET db/qr */
+dbRouter.get('/qr', (req, res, next) => {
+  crypto.randomBytes(32, (error, buf) => {
+    if(error) next(error);
+    const token = buf.toString('hex');
+    const expire = Date.now() + 3 * 60 * 1000;  // 3 minitue for expire
+    User.updateOne({email: req.user['email']}, {$set: {
+      qr_token: token,
+      qr_token_expire: expire
+    }}, error => {
       if(error) next(error);
       res.json(token);
     });
@@ -230,6 +246,17 @@ dbRouter.get('/logs', (req, res, next) => {
     res.json(logs);
   });
 });
+
+/* GET db/logs/:size */
+dbRouter.get('/logs/:size', async (req, res, next) => {
+  try {
+    let logs = await Log.find({}).sort({no: -1}).limit(Number(req.params.size)).exec();
+    res.json(logs);
+  } 
+  catch(error){
+    next(error);
+  }
+})
 
 /* POST db/logs/delete */
 dbRouter.post('/logs/delete', async (req, res, next) => {

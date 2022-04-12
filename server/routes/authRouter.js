@@ -39,8 +39,8 @@ authRouter.get('/generate', (req, res, next) => {
 
 /* GET auth/token/:token */
 authRouter.get('/token/:token', (req, res, next) => {
-  const now = new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000));
-  User.findOne({pw_reset_token: req.params.token, pw_reset_token_expire: {$gt: now }}, (error, user) => {
+  //const now = new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000));
+  User.findOne({pw_reset_token: req.params.token, pw_reset_token_expire: {$gt: Date.now()}}, (error, user) => {
       if(error) next(error);
       if(!user){
           /* Invalid token or expired */
@@ -54,8 +54,8 @@ authRouter.get('/token/:token', (req, res, next) => {
 
 /* POST auth/change/:token */
 authRouter.post('/change/:token', (req, res, next) => {
-  const now = new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000));
-  User.findOne({pw_reset_token: req.params.token, pw_reset_token_expire: {$gt: now }}, (error, user) => {
+  //const now = new Date(Date.now() - (new Date().getTimezoneOffset() * 60 * 1000));
+  User.findOne({pw_reset_token: req.params.token, pw_reset_token_expire: {$gt: Date.now()}}, (error, user) => {
     if(error) next(error);
     if(!user){
       res.json(false);
@@ -76,11 +76,5 @@ authRouter.post('/change/:token', (req, res, next) => {
     }
   });
 });
-
-/* GET auth/dummy */
-authRouter.get('/dummy', (req, res, next) =>{
-  res.json(true);
-})
-
 
 module.exports = authRouter;

@@ -46,7 +46,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24,  // 1 day
+      maxAge: 1000 * 60 * 60 * 24 * 5,  // 5 day
       secure: false // https => true
     },
     proxy: true
@@ -67,7 +67,10 @@ passport.use('local', new LocalStrategy({
         return done(null, false, { message: 'メールアドレスが間違っています' });
       }
       if(!passwordValidator(password, user.password)){
-        return done(null, false, { massage: 'パスワードが間違っています' })
+        /* Token case */
+        if(!(password === user.qr_token && Date.now() < Number(user.qr_token_expire))){
+          return done(null, false, { message: 'パスワードが間違っています' });
+        }
       }
   
       //console.log('valid user');

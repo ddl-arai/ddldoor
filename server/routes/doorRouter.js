@@ -7,14 +7,14 @@ let Device = require('../models/device');
 
 /* GET /door?request=(string)&devid=(number)&idm=(string)&sec=(number) */
 doorRouter.get('/' , async (req, res, next) => {
-    if(req.ip !== process.env.IP){
+    /*if(req.ip !== process.env.IP){
         res.json({
             result: 99,
             message: 'Unpermitted IP',
             request: ''
         });
         return;
-    }
+    }*/
 
     if(!req.query.devid || !req.query.idm || !req.query.sec || !req.query.request){
         res.json({

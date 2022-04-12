@@ -3,9 +3,11 @@ let mongoose = require("mongoose"),
     email: String,
     password: String,
     pw_reset_token: String,
-    pw_reset_token_expire: Date,
+    pw_reset_token_expire: String,
     admin: Boolean,
-    associated_member_id: Number
+    associated_member_id: Number,
+    qr_token: String,
+    qr_token_expire: String
   });
 
 module.exports = mongoose.model("User", userSchema, 'user');

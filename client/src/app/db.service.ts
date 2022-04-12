@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, shareReplay } from 'rxjs/operators';
 import { user } from './models/user'; 
 import { workHours } from './models/workHours';
+import { log } from './models/log';
 
 export interface result {
   result: number
@@ -58,6 +59,21 @@ export class DbService {
     .pipe(
       catchError(this.handleError<string>('')),
       shareReplay(1)
+    );
+  }
+
+  genQr(): Observable<string> {
+    return this.http.get<string>('db/qr', this.httpOptions)
+    .pipe(
+      catchError(this.handleError<string>('')),
+      shareReplay(1)
+    );
+  }
+
+  getLogs(size: number): Observable<log[]> {
+    return this.http.get<log[]>(`db/logs/${size}`, this.httpOptions)
+    .pipe(
+      catchError(this.handleError<log[]>([]))
     );
   }
 

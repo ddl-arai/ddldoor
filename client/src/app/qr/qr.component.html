@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>ログイン用QR</h2>
+<div mat-dialog-content>
+    <p>このQRコードは3分間有効です</p>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <qrcode [qrdata]="qrdata" [width]="256" [errorCorrectionLevel]="'M'" [allowEmptyString]="true"></qrcode>
+    </div>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">終了</button>
+</div>

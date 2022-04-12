@@ -24,6 +24,8 @@ export class LoginComponent implements OnInit {
   ]);
   passwordControl = new FormControl(null, Validators.required);
   redirectTo: string | null = null;
+  email: string | null = null;
+  token: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -39,6 +41,9 @@ export class LoginComponent implements OnInit {
       password: this.passwordControl
     });
     this.redirectTo = this.route.snapshot.queryParamMap.get('redirectTo');
+    this.email = this.route.snapshot.queryParamMap.get('email');
+    this.token = this.route.snapshot.queryParamMap.get('token');
+    this.qrLogin();
   }
 
   onSubmit() {
@@ -63,6 +68,23 @@ export class LoginComponent implements OnInit {
   loginFailed(): void {
     this.snackBar.open('ログインできませんでした', '閉じる', { duration: 5000 });
     //this.form.reset();
+  }
+
+  qrLogin(): void {
+    if(!(this.email && this.token)){
+      return;
+    }
+    this.user.email = this.email; 
+    this.user.password = this.token;
+    this.authService.login(this.user)
+    .subscribe(result => {
+      if(result){
+        this.router.navigate(['/home']);
+      }
+      else{
+        this.loginFailed();
+      }
+    });
   }
 
 

@@ -68,11 +68,11 @@ export class ResetComponent implements OnInit {
       this.authService.changePW(this.user, this.token)
       .subscribe(result => {
         if(result){
-          this.snackBar.open('リセットしました', '閉じる', { duration: 5000 });
+          this.snackBar.open('パスワードを変更しました', '閉じる', { duration: 5000 });
           this.router.navigate(['/home']);
         }
         else{
-          this.snackBar.open('リセットできませんでした', '閉じる', { duration: 7000 });
+          this.snackBar.open('パスワードを変更できませんでした', '閉じる', { duration: 7000 });
         }
       });
     }
