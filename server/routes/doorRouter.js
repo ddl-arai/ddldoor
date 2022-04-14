@@ -7,14 +7,14 @@ let Device = require('../models/device');
 
 /* GET /door?request=(string)&devid=(number)&idm=(string)&sec=(number) */
 doorRouter.get('/', async (req, res, next) => {
-  /*if(req.ip !== process.env.IP){
+  if(req.ip !== process.env.IP){
       res.json({
           result: 99,
           message: 'Unpermitted IP',
           request: ''
       });
       return;
-  }*/
+  }
 
   if (!req.query.devid || !req.query.idm || !req.query.sec || !req.query.request) {
     res.json({
@@ -554,9 +554,7 @@ doorRouter.get('/', async (req, res, next) => {
         */
         /** *************************** */
         const log = await Log.findOne({devid: device.id, result: 0, sec: {$gte: req.query.sec - 5}}).exec();
-        console.log(log);
         const partner_log = await Log.findOne({devid: device.partnerId, result: 0, sec: {$gte: req.query.sec - 5}}).exec();
-        console.log(partner_log);
         if(log || partner_log){
           res.json({
             result: 0,
