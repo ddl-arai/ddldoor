@@ -24,13 +24,13 @@
                   {{member.name}}
                 </mat-chip>
               </mat-chip-list>
-              <mat-divider *ngIf="others.length !== 0" [vertical]="true"></mat-divider>
+              <mat-divider [vertical]="true"></mat-divider>
               <mat-chip-list>
                 <mat-chip *ngFor="let member of exists" color="accent" selected>
                   {{member.name}}
                 </mat-chip>
               </mat-chip-list>
-              <mat-divider *ngIf="exists.length !== 0" [vertical]="true"></mat-divider>
+              <mat-divider [vertical]="true"></mat-divider>
               <mat-chip-list>
                 <mat-chip *ngFor="let member of absences" color="primary" selected>
                   {{member.name}}

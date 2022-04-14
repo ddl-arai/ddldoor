@@ -5,5 +5,6 @@ export interface device {
     status: number,
     openStartTime?: number,
     timeout: number,
-    open?: boolean
+    open?: boolean,
+    partnerId?: number,
 }

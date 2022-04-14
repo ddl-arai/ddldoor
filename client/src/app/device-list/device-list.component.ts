@@ -17,6 +17,7 @@ export interface displayData {
   id: number,
   name: string,
   role: string, // 入口 or 出口
+  partner: string,
   status: string,
   timeout: string
 }
@@ -35,6 +36,7 @@ const COLUMNS = [
   'id',
   'name',
   'role',
+  'partner',
   'status',
   'tmpopen',
   'timeout',
@@ -56,15 +58,7 @@ const COLUMNS_FOR_MOBILE = [
 })
 export class DeviceListComponent implements OnInit, AfterViewInit, OnDestroy {
   subscriptionHandset = new Subscription();
-  displayedColumns: string[] = [
-    'id',
-    'name',
-    'role',
-    'status',
-    'tmpopen',
-    'timeout',
-    'action'
-  ];
+  displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<displayData>();
   usedIds: number[] = [];
   timer = timer(0, 1000);
@@ -118,6 +112,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit, OnDestroy {
         let role: string = '';
         let status: string = '';
         let timeout: string = '';
+        let partner: string = device.partnerId ? devices.find(el => el.id === device.partnerId)!.name : '';
         switch(device.func){
           case 'enter':
             role = '入口'
@@ -165,6 +160,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit, OnDestroy {
           id: device.id,
           name: device.name,
           role: role,
+          partner: partner,
           status: status,
           timeout: timeout
         });

@@ -6,7 +6,8 @@ let mongoose = require("mongoose"),
     status: Number,
     open: Boolean,
     openStartTime: Number,
-    timeout: Number
+    timeout: Number,
+    partnerId: Number,
   });
 
 module.exports = mongoose.model("Device", deviceSchema, 'device');

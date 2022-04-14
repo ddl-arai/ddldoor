@@ -15,6 +15,11 @@ export interface timeout {
   view: string
 }
 
+export interface partner {
+  view: string,
+  value: number
+}
+
 @Component({
   selector: 'app-edit-device-dialog',
   templateUrl: './edit-device-dialog.component.html',
@@ -44,6 +49,10 @@ export class EditDeviceDialogComponent implements OnInit {
     {value: 15 * 1000, view: '15秒'}
   ];
   isAdmin: boolean = false;
+  partnerOptions: partner[] = [];
+  partnerControl = new FormControl(null);
+  devices: device[] = [];
+
 
   constructor(
     public dialogRef: MatDialogRef<EditDeviceDialogComponent>,
@@ -55,12 +64,14 @@ export class EditDeviceDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAdmin();
-    this.getDevice(this.id);
+    this.getDevices();
+    //this.getDevice(this.id);
     this.form = this.fb.group({
       id: this.idControl,
       name: this.nameControl,
       func: this.funcControl,
-      timeout: this.timeoutControl
+      timeout: this.timeoutControl,
+      partner: this.partnerControl
     });
   }
 
@@ -70,7 +81,46 @@ export class EditDeviceDialogComponent implements OnInit {
       this.device = device;
       this.funcControl.setValue(this.device.func);
       this.timeoutControl.setValue(this.device.timeout);
+      if(device.partnerId){
+        this.partnerControl.setValue(this.device.partnerId);
+      }
     });
+  }
+
+  getDevices(): void {
+    this.dbService.getAll<device>('devices')
+    .subscribe(devices => {
+      this.devices = devices;
+      this.device = this.devices.find(device => device.id === this.id)!;
+      this.funcControl.setValue(this.device.func);
+      this.timeoutControl.setValue(this.device.timeout);
+      this.setPartners();
+      if(this.device.partnerId){
+        this.partnerControl.setValue(this.device.partnerId);
+      }
+    });
+  }
+
+  setPartners(): void {
+    if(this.device.func === this.form.get('func')?.value){
+      this.partnerControl.setValue(this.device.partnerId);
+    }
+    else{
+      this.partnerControl.setValue(null);
+    }
+    let buf: partner[] = [];
+    this.devices.filter(device => {
+      if((device.partnerId !== 0 && device.id !== this.device.partnerId) || device.func === this.form.get('func')?.value || device.id === this.id){
+        return false;
+      }
+      return true;
+    }).forEach(device => {
+      buf.push({
+        view: device.name,
+        value: device.id
+      });
+    });
+    this.partnerOptions = buf;
   }
 
   getAdmin(): void {
@@ -81,6 +131,7 @@ export class EditDeviceDialogComponent implements OnInit {
   onSave(): void {
     this.device.func = this.form.get('func')?.value;
     this.device.timeout = this.form.get('timeout')?.value;
+    this.device.partnerId = this.form.get('partner')?.value ? this.form.get('partner')?.value : 0;
     this.dbService.update<device>('device', this.device)
     .subscribe(result => {
       if(result){

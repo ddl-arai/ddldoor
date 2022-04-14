@@ -300,11 +300,23 @@ dbRouter.get('/device/:id', (req, res, next) => {
 });
 
 /* PUT db/device */
-dbRouter.put('/device', (req, res, next) => {
-  Device.updateOne({id: req.body.id}, req.body, error => {
-    if(error) next(error);
+dbRouter.put('/device', async (req, res, next) => {
+  try {
+    let device = await Device.findOne({id: req.body.id}).exec();
+    let partner_device = await Device.findOne({id: device.partnerId}).exec();
+    if(partner_device){
+      partner_device.partnerId = 0;
+      await partner_device.save();
+    }
+    await Device.updateOne({id: req.body.id}, req.body).exec();
+    if(req.body.partnerId){
+      await Device.updateOne({id: req.body.partnerId}, {$set: {partnerId: req.body.id}}).exec();
+    }
     res.json(true);
-  });
+  }
+  catch(error){
+    next(error);
+  }
 });
 
 /* PUT db/device/tmp */
@@ -333,19 +345,34 @@ dbRouter.put('/device/tmp', async (req, res, next) => {
 });
 
 /* POST db/device */
-dbRouter.post('/device', (req, res, next) => {
-  Device.create(req.body, error => {
-    if(error) next(error);
+dbRouter.post('/device', async (req, res, next) => {
+  try {
+    await Device.create(req.body);
+    if(req.body.partnerId){
+      await Device.updateOne({id: req.body.partnerId}, {$set: {partnerId: req.body.id}}).exec();
+    }
     res.json(true);
-  });
+  }
+  catch(error){
+    next(error);
+  }
 });
 
 /* DELETE db/device/:id */
-dbRouter.delete('/device/:id', (req, res, next) => {
-  Device.deleteOne({id: req.params.id}, error => {
-    if(error) next(error);
+dbRouter.delete('/device/:id', async (req, res, next) => {
+  try {
+    let device = await Device.findOne({id: req.params.id}).exec();
+    let partner_device = await Device.findOne({id: device.partnerId}).exec();
+    if(partner_device){
+      partner_device.partnerId = 0;
+      await partner_device.save();
+    }
+    await Device.deleteOne({id: req.params.id}).exec();
     res.json(true);
-  });
+  }
+  catch(error){
+    next(error);
+  }
 });
 
 /* GET db/mode/zaru */
