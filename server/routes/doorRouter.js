@@ -540,7 +540,24 @@ doorRouter.get('/', async (req, res, next) => {
       break;
     case 'check':
       try{
-        if(req.query.devid !== 5){
+        let device = await Device.findOne({ id: req.query.devid }).exec();
+        /** ******* For debug ******** */
+        /*                 
+        if(device.partnerId === 0){
+          res.json({
+            result: 1,
+            message: 'No set partner device',
+            request: req.query.request
+          });
+          return;
+        }
+        */
+        /** *************************** */
+        const log = await Log.findOne({devid: device.id, result: 0, sec: {$gte: req.query.sec - 5}}).exec();
+        console.log(log);
+        const partner_log = await Log.findOne({devid: device.partnerId, result: 0, sec: {$gte: req.query.sec - 5}}).exec();
+        console.log(partner_log);
+        if(log || partner_log){
           res.json({
             result: 0,
             message: 'Success',
@@ -548,35 +565,12 @@ doorRouter.get('/', async (req, res, next) => {
           });
         }
         else{
-
-        
-                  let device = await Device.findOne({ id: req.query.devid }).exec();
-                  /*
-                  if(device.partnerId === 0){
-                    res.json({
-                      result: 1,
-                      message: 'No set partner device',
-                      request: req.query.request
-                    });
-                    return;
-                  }*/
-                  const log = await Log.findOne({devid: device.id, result: 0, sec: {$gte: req.query.sec - 5}}).exec();
-                  const partner_log = await Log.findOne({devid: device.partnerId, result: 0, sec: {$gte: req.query.sec - 5}}).exec();
-                  if(log || partner_log){
-                    res.json({
-                      result: 0,
-                      message: 'Success',
-                      request: req.query.request
-                    });
-                  }
-                  else{
-                    res.json({
-                      result: 1,
-                      message: 'Failed',
-                      request: req.query.request
-                    });
-                  }
-          }
+          res.json({
+            result: 1,
+            message: 'Failed',
+            request: req.query.request
+          });
+        }
       }
       catch(error){
         next(error);
