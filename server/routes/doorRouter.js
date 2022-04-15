@@ -5,6 +5,8 @@ let Card = require('../models/card');
 let Log = require('../models/log');
 let Device = require('../models/device');
 
+/* Constant */
+
 /* GET /door?request=(string)&devid=(number)&idm=(string)&sec=(number) */
 doorRouter.get('/', async (req, res, next) => {
   if(req.ip !== process.env.IP){
@@ -27,7 +29,7 @@ doorRouter.get('/', async (req, res, next) => {
 
   /***** Temporary operation *****/
   req.query.sec = Math.floor(Date.now() / 1000);
-  /*****************************/
+  /*******************************/
 
   switch (req.query.request) {
     case 'stamp':
@@ -258,6 +260,7 @@ doorRouter.get('/', async (req, res, next) => {
               request: req.query.request
             });
             break;
+
           /** 
            * 2022/02/22 [TEMP] Respond success without status check process
            *  => Add open mode by member.status = 4
@@ -541,8 +544,6 @@ doorRouter.get('/', async (req, res, next) => {
     case 'check':
       try{
         let device = await Device.findOne({ id: req.query.devid }).exec();
-        /** ******* For debug ******** */
-        /*                 
         if(device.partnerId === 0){
           res.json({
             result: 1,
@@ -551,8 +552,6 @@ doorRouter.get('/', async (req, res, next) => {
           });
           return;
         }
-        */
-        /** *************************** */
         const log = await Log.findOne({devid: device.id, result: 0, sec: {$gte: req.query.sec - 5}}).exec();
         const partner_log = await Log.findOne({devid: device.partnerId, result: 0, sec: {$gte: req.query.sec - 5}}).exec();
         if(log || partner_log){
