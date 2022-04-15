@@ -9,7 +9,6 @@ let Device = require('../models/device');
 
 /* GET /door?request=(string)&devid=(number)&idm=(string)&sec=(number) */
 doorRouter.get('/', async (req, res, next) => {
-  /*
   if(req.ip !== process.env.IP){
       res.json({
           result: 99,
@@ -17,7 +16,7 @@ doorRouter.get('/', async (req, res, next) => {
           request: ''
       });
       return;
-  }*/
+  }
 
   if (!req.query.devid || !req.query.idm || !req.query.sec || !req.query.request) {
     res.json({
@@ -557,14 +556,13 @@ doorRouter.get('/', async (req, res, next) => {
           {devid: device.id, result: 0, sec: {$gt: Number(req.query.sec) - 5}},
           {devid: device.id, result: 0, sec: {$lte: Number(req.query.sec)}}
         ]}).exec();
-        console.log(`log: ${log}`);
+        console.log(`********** Check Log **********\nlog: ${log}`);
         const partner_log = await Log.findOne({$and:[
           {devid: device.partnerId, result: 0, sec: {$gt: Number(req.query.sec) - 5}},
           {devid: device.partnerId, result: 0, sec: {$lte: Number(req.query.sec)}}
         ]}).exec();
-        console.log(`partner_log: ${partner_log}`);
+        console.log(`partner_log: ${partner_log}\n********** End **********`);
         if(log || partner_log){
-          console.log('0');
           res.json({
             result: 0,
             message: 'Success',
@@ -572,7 +570,6 @@ doorRouter.get('/', async (req, res, next) => {
           });
         }
         else{
-          console.log('1');
           res.json({
             result: 1,
             message: 'Failed',
