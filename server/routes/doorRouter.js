@@ -553,8 +553,10 @@ doorRouter.get('/', async (req, res, next) => {
           });
           return;
         }
-        const log = await Log.findOne({devid: device.id, result: 0, sec: {$gte: req.query.sec - 5}}).exec();
-        const partner_log = await Log.findOne({devid: device.partnerId, result: 0, sec: {$gte: req.query.sec - 5}}).exec();
+        const log = await Log.findOne({devid: device.id, result: 0, sec: {$gte: Number(req.query.sec) - 5}}).exec();
+        console.log(`log: ${log}`);
+        const partner_log = await Log.findOne({devid: device.partnerId, result: 0, sec: {$gte: Number(req.query.sec) - 5}}).exec();
+        console.log(`partner_log: ${partner_log}`);
         if(log || partner_log){
           console.log('0');
           res.json({
