@@ -66,8 +66,8 @@ authRouter.post('/change/:token', (req, res, next) => {
         if(error) next(error);
         User.updateOne({email: req.body.email}, {
             password: hash,
-            pw_reset_token: null,
-            pw_reset_token_expire: null
+            //pw_reset_token: null,
+            //pw_reset_token_expire: null
         }, error => {
             if(error) next(error);
             res.json(true);

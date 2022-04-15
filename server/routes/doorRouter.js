@@ -5,22 +5,74 @@ let Card = require('../models/card');
 let Log = require('../models/log');
 let Device = require('../models/device');
 
-/* Constant */
+/****** Constants *******/
+/* Response */
+const RESPONSE_OK               = 0;
+const RESPONSE_APB              = 1;
+const RESPONSE_NO_IDM           = 2;
+const RESPONSE_NO_DEVICE        = 3;
+const RESPONSE_NO_IDM_DEVICE    = 4;
+const RESPONSE_DISABLE_IDM      = 5;
+const RESPONSE_DISABLE_MEMBER   = 6;
+const RESPONSE_INV_PARAMS       = 7;
+const RESPONSE_NOT_FOUND_REQ    = 8;
+const RESPONSE_TMP_OPEN_STAMP   = 9;
+const RESPONSE_UNP_MEMBER       = 10;
+const RESPONSE_UNP_IP           = 99;
+const RESPONSE_TMP_OPEN_INV_REQ = 1;
+const RESPONSE_TMP_OPEN_ERR     = 2;
+const RESPONSE_CHECK_ERR        = 1;
 
-/* GET /door?request=(string)&devid=(number)&idm=(string)&sec=(number) */
+/* Log code */
+const LOG_OK                    = 0;
+const LOG_APB                   = 1;
+const LOG_NO_IDM                = 2;
+const LOG_NO_DEVICE             = 3;
+const LOG_NO_IDM_DEVICE         = 4;
+const LOG_DISABLE_IDM           = 5;
+const LOG_DISABLE_MEMBER        = 6;
+const LOG_TMP_OPEN              = 7;
+const LOG_TMP_CLOSE             = 8;
+const LOG_INV_REQ               = 9;
+const LOG_UMP_MEMBER            = 10;
+
+/* Device status */
+const DEVICE_CLOSE              = 0;
+const DEVICE_OPEN               = 1;
+
+/* Member status */
+const MEMBER_INIT               = 0;
+const MEMBER_EXIST              = 1;
+const MEMBER_ABSENT             = 2;
+const MEMBER_APB                = 3;
+const MEMBER_NO_STATE           = 4;
+
+/************************/
+
+/**
+ * Request format
+ * GET /door?request=(string)&devid=(number)&idm=(string)&sec=(number)
+ * Response format (JSON)
+ * {
+ *  result: number,
+ *  message: string,
+ *  request: string
+ * }
+ */
+
 doorRouter.get('/', async (req, res, next) => {
-  if(req.ip !== process.env.IP){
-      res.json({
-          result: 99,
-          message: 'Unpermitted IP',
-          request: ''
-      });
-      return;
+  if (req.ip !== process.env.IP) {
+    res.json({
+      result: RESPONSE_UNP_IP,
+      message: 'Unpermitted IP',
+      request: ''
+    });
+    return;
   }
 
   if (!req.query.devid || !req.query.idm || !req.query.sec || !req.query.request) {
     res.json({
-      result: 7,
+      result: RESPONSE_INV_PARAMS,
       message: 'Invalid parameter',
       request: ''
     });
@@ -42,7 +94,7 @@ doorRouter.get('/', async (req, res, next) => {
           /* No card and device */
           if (!device) {
             res.json({
-              result: 4,
+              result: RESPONSE_NO_IDM_DEVICE,
               message: 'Not registered idm and device',
               request: req.query.request
             });
@@ -50,14 +102,14 @@ doorRouter.get('/', async (req, res, next) => {
               sec: req.query.sec,
               idm: req.query.idm,
               devid: req.query.devid,
-              result: 4
+              result: LOG_NO_IDM_DEVICE
             });
             return;
           }
           else {
             /* No card, exist device */
             res.json({
-              result: 2,
+              result: RESPONSE_NO_IDM,
               message: 'Not registered idm',
               request: req.query.request
             });
@@ -66,7 +118,7 @@ doorRouter.get('/', async (req, res, next) => {
               idm: req.query.idm,
               devid: req.query.devid,
               devName: device.name,
-              result: 2
+              result: LOG_NO_IDM
             });
             return;
           }
@@ -76,7 +128,7 @@ doorRouter.get('/', async (req, res, next) => {
         let member = await Member.findOne({ id: card.id }).exec();
         if (!device) {
           res.json({
-            result: 3,
+            result: RESPONSE_NO_DEVICE,
             message: 'Not registered device',
             request: req.query.request
           });
@@ -86,14 +138,14 @@ doorRouter.get('/', async (req, res, next) => {
             id: member.id,
             name: member.name,
             devid: req.query.devid,
-            result: 3
+            result: LOG_NO_DEVICE
           });
           return;
         }
 
         if (!card.enable) {
           res.json({
-            result: 5,
+            result: RESPONSE_DISABLE_IDM,
             message: 'Disable idm',
             request: req.query.request
           });
@@ -104,14 +156,14 @@ doorRouter.get('/', async (req, res, next) => {
             name: member.name,
             devid: req.query.devid,
             devName: device.name,
-            result: 5
+            result: LOG_DISABLE_IDM
           });
           return;
         }
 
         if (!member.enable) {
           res.json({
-            result: 6,
+            result: RESPONSE_DISABLE_MEMBER,
             message: 'Disable member',
             request: req.query.request
           });
@@ -122,14 +174,14 @@ doorRouter.get('/', async (req, res, next) => {
             name: member.name,
             devid: req.query.devid,
             devName: device.name,
-            result: 6
+            result: LOG_DISABLE_MEMBER
           });
           return;
         }
 
         if (card.banDevids.includes(req.query.devid)) {
           res.json({
-            result: 10,
+            result: RESPONSE_UNP_MEMBER,
             message: 'Unpermitted member',
             request: req.query.request
           });
@@ -140,23 +192,23 @@ doorRouter.get('/', async (req, res, next) => {
             name: member.name,
             devid: req.query.devid,
             devName: device.name,
-            result: 10
+            result: LOG_UMP_MEMBER
           });
           return;
         }
 
         /* Status check logic */
         const prevStat = member.status;
-        let result = 0;
+        let result = LOG_OK;
         switch (member.status) {
           /* Initial */
-          case 0:
+          case MEMBER_INIT:
             switch (device.func) {
               case 'enter':
-                member.status = 1;
+                member.status = MEMBER_EXIST;
                 break;
               case 'exit':
-                member.status = 2;
+                member.status = MEMBER_ABSENT;
                 break;
               default:
                 break;
@@ -164,47 +216,47 @@ doorRouter.get('/', async (req, res, next) => {
             await member.save();
 
             /* Temporary open status */
-            if (device.status === 1) {
+            if (device.status === DEVICE_OPEN) {
               res.json({
-                result: 9,
+                result: RESPONSE_TMP_OPEN_STAMP,
                 message: 'Success between temporary open',
                 request: req.query.request
               });
             }
             else {
               res.json({
-                result: 0,
+                result: RESPONSE_OK,
                 message: 'Success',
                 request: req.query.request
               });
             }
             break;
           /* Attendance */
-          case 1:
+          case MEMBER_EXIST:
             switch (device.func) {
               case 'enter':
-                member.status = 3;
-                result = 1;
+                member.status = MEMBER_APB;
+                result = LOG_APB;
                 res.json({
-                  result: 1,
+                  result: RESPONSE_APB,
                   message: 'APB Error',
                   request: req.query.request
                 });
                 break;
               case 'exit':
-                member.status = 2;
+                member.status = MEMBER_ABSENT;
 
                 /* Temporary open status */
-                if (device.status === 1) {
+                if (device.status === DEVICE_OPEN) {
                   res.json({
-                    result: 9,
+                    result: RESPONSE_TMP_OPEN_STAMP,
                     message: 'Success between temporary open',
                     request: req.query.request
                   });
                 }
                 else {
                   res.json({
-                    result: 0,
+                    result: RESPONSE_OK,
                     message: 'Success',
                     request: req.query.request
                   });
@@ -216,32 +268,32 @@ doorRouter.get('/', async (req, res, next) => {
             await member.save();
             break;
           /* Absence */
-          case 2:
+          case MEMBER_ABSENT:
             switch (device.func) {
               case 'enter':
-                member.status = 1;
+                member.status = MEMBER_EXIST;
 
                 /* Temporary open status */
-                if (device.status === 1) {
+                if (device.status === DEVICE_OPEN) {
                   res.json({
-                    result: 9,
+                    result: RESPONSE_TMP_OPEN_STAMP,
                     message: 'Success between temporary open',
                     request: req.query.request
                   });
                 }
                 else {
                   res.json({
-                    result: 0,
+                    result: RESPONSE_OK,
                     message: 'Success',
                     request: req.query.request
                   });
                 }
                 break;
               case 'exit':
-                member.status = 3;
-                result = 1;
+                member.status = MEMBER_APB;
+                result = LOG_APB;
                 res.json({
-                  result: 1,
+                  result: RESPONSE_APB,
                   message: 'APB Error',
                   request: req.query.request
                 });
@@ -252,10 +304,10 @@ doorRouter.get('/', async (req, res, next) => {
             await member.save();
             break;
           /* APB */
-          case 3:
-            result = 1;
+          case MEMBER_APB:
+            result = LOG_APB;
             res.json({
-              result: 1,
+              result: RESPONSE_APB,
               message: 'APB Error',
               request: req.query.request
             });
@@ -265,18 +317,18 @@ doorRouter.get('/', async (req, res, next) => {
            * 2022/02/22 [TEMP] Respond success without status check process
            *  => Add open mode by member.status = 4
            */
-          case 4:
+          case MEMBER_NO_STATE:
             /* Temporary open status */
-            if (device.status === 1) {
+            if (device.status === DEVICE_OPEN) {
               res.json({
-                result: 9,
+                result: RESPONSE_TMP_OPEN_STAMP,
                 message: 'Success between temporary open',
                 request: req.query.request
               });
             }
             else {
               res.json({
-                result: 0,
+                result: RESPONSE_OK,
                 message: 'Success',
                 request: req.query.request
               });
@@ -310,21 +362,21 @@ doorRouter.get('/', async (req, res, next) => {
           /* No card and device */
           if (!device) {
             res.json({
-              result: 2,
+              result: RESPONSE_TMP_OPEN_ERR,
               message: 'Not registered idm and device',
               request: req.query.request
             });
             await Log.create({
               sec: req.query.sec,
               devid: req.query.devid,
-              result: 4
+              result: LOG_NO_IDM_DEVICE
             });
             return;
           }
           else {
             /* No card, exist device */
             res.json({
-              result: 2,
+              result: RESPONSE_TMP_OPEN_ERR,
               message: 'Not registered idm',
               request: req.query.request
             });
@@ -332,7 +384,7 @@ doorRouter.get('/', async (req, res, next) => {
               sec: req.query.sec,
               devid: req.query.devid,
               devName: device.name,
-              result: 2
+              result: LOG_NO_IDM
             });
             return;
           }
@@ -342,21 +394,21 @@ doorRouter.get('/', async (req, res, next) => {
         let member = await Member.findOne({ id: card.id }).exec();
         if (!device) {
           res.json({
-            result: 2,
+            result: RESPONSE_TMP_OPEN_ERR,
             message: 'Not registered device',
             request: req.query.request
           });
           await Log.create({
             sec: req.query.sec,
             devid: req.query.devid,
-            result: 3
+            result: LOG_NO_DEVICE
           });
           return;
         }
 
         if (!card.enable) {
           res.json({
-            result: 2,
+            result: RESPONSE_TMP_OPEN_ERR,
             message: 'Disable idm',
             request: req.query.request
           });
@@ -364,14 +416,14 @@ doorRouter.get('/', async (req, res, next) => {
             sec: req.query.sec,
             devid: req.query.devid,
             devName: device.name,
-            result: 5
+            result: LOG_DISABLE_IDM
           });
           return;
         }
 
         if (!member.enable) {
           res.json({
-            result: 2,
+            result: RESPONSE_TMP_OPEN_ERR,
             message: 'Disable member',
             request: req.query.request
           });
@@ -379,14 +431,14 @@ doorRouter.get('/', async (req, res, next) => {
             sec: req.query.sec,
             devid: req.query.devid,
             devName: device.name,
-            result: 6
+            result: LOG_DISABLE_MEMBER
           });
           return;
         }
 
         if (card.banDevids.includes(req.query.devid)) {
           res.json({
-            result: 2,
+            result: RESPONSE_TMP_OPEN_ERR,
             message: 'Unpermitted member',
             request: req.query.request
           });
@@ -394,25 +446,25 @@ doorRouter.get('/', async (req, res, next) => {
             sec: req.query.sec,
             devid: req.query.devid,
             devName: device.name,
-            result: 10
+            result: LOG_UMP_MEMBER
           });
           return;
         }
 
-        let result = 7;
+        let result = LOG_TMP_OPEN;
         switch (device.status) {
-          case 0:
-            device.status = 1;
+          case DEVICE_CLOSE:
+            device.status = DEVICE_OPEN;
             res.json({
-              result: 0,
+              result: RESPONSE_OK,
               message: 'Success',
               request: req.query.request
             });
             break;
-          case 1:
-            result = 9;
+          case DEVICE_OPEN:
+            result = LOG_INV_REQ;
             res.json({
-              result: 1,
+              result: RESPONSE_TMP_OPEN_INV_REQ,
               message: 'Already opened',
               request: req.query.request
             });
@@ -436,32 +488,32 @@ doorRouter.get('/', async (req, res, next) => {
         let device = await Device.findOne({ id: req.query.devid }).exec();
         if (!device) {
           res.json({
-            result: 2,
+            result: RESPONSE_TMP_OPEN_ERR,
             message: 'Not registered device',
             request: req.query.request
           });
           await Log.create({
             sec: req.query.sec,
             devid: req.query.devid,
-            result: 3
+            result: LOG_NO_DEVICE
           });
           return;
         }
 
-        let result = 8;
+        let result = LOG_TMP_CLOSE;
         switch (device.status) {
-          case 0:
-            result = 9;
+          case DEVICE_CLOSE:
+            result = LOG_INV_REQ;
             res.json({
-              result: 1,
+              result: RESPONSE_TMP_OPEN_INV_REQ,
               message: 'Already closed',
               request: req.query.request
             });
             break;
-          case 1:
-            device.status = 0;
+          case DEVICE_OPEN:
+            device.status = DEVICE_CLOSE;
             res.json({
-              result: 0,
+              result: RESPONSE_OK,
               message: 'Success',
               request: req.query.request
             });
@@ -486,19 +538,19 @@ doorRouter.get('/', async (req, res, next) => {
         let device = await Device.findOne({ id: req.query.devid }).exec();
         if (!device) {
           res.json({
-            result: 2,
+            result: RESPONSE_TMP_OPEN_ERR,
             message: 'Not registered device',
             request: req.query.request
           });
           await Log.create({
             sec: req.query.sec,
             devid: req.query.devid,
-            result: 3
+            result: LOG_NO_DEVICE
           });
           return;
         }
         switch (device.status) {
-          case 0:
+          case DEVICE_CLOSE:
             if (device.open) {
               device.open = false;
             }
@@ -510,18 +562,18 @@ doorRouter.get('/', async (req, res, next) => {
               request: req.query.request
             });
             break;
-          case 1:
+          case DEVICE_OPEN:
             if (!device.open) {
               device.open = true;
               device.openStartTime = Date.now();
             }
             if (Date.now() - device.openStartTime > device.timeout) {
-              device.status = 0;
+              device.status = DEVICE_CLOSE;
               await Log.create({
                 sec: req.query.sec,
                 devid: req.query.devid,
                 devName: device.name,
-                result: 8
+                result: LOG_TMP_CLOSE
               });
             }
             await device.save();
@@ -542,48 +594,52 @@ doorRouter.get('/', async (req, res, next) => {
 
       break;
     case 'check':
-      try{
+      try {
         let device = await Device.findOne({ id: req.query.devid }).exec();
-        if(device.partnerId === 0){
+        if (device.partnerId === 0) {
           res.json({
-            result: 1,
+            result: RESPONSE_CHECK_ERR,
             message: 'No set partner device',
             request: req.query.request
           });
           return;
         }
-        const log = await Log.findOne({$and: [
-          {devid: device.id, result: 0, sec: {$gt: Number(req.query.sec) - 5}},
-          {devid: device.id, result: 0, sec: {$lte: Number(req.query.sec)}}
-        ]}).exec();
+        const log = await Log.findOne({
+          $and: [
+            { devid: device.id, result: LOG_OK, sec: { $gt: Number(req.query.sec) - 5 } },
+            { devid: device.id, result: LOG_OK, sec: { $lte: Number(req.query.sec) } }
+          ]
+        }).exec();
         console.log(`********** Check Log **********\nlog: ${log}`);
-        const partner_log = await Log.findOne({$and:[
-          {devid: device.partnerId, result: 0, sec: {$gt: Number(req.query.sec) - 5}},
-          {devid: device.partnerId, result: 0, sec: {$lte: Number(req.query.sec)}}
-        ]}).exec();
+        const partner_log = await Log.findOne({
+          $and: [
+            { devid: device.id, result: LOG_OK, sec: { $gt: Number(req.query.sec) - 5 } },
+            { devid: device.id, result: LOG_OK, sec: { $lte: Number(req.query.sec) } }
+          ]
+        }).exec();
         console.log(`partner_log: ${partner_log}\n********** End **********`);
-        if(log || partner_log){
+        if (log || partner_log) {
           res.json({
-            result: 0,
+            result: RESPONSE_OK,
             message: 'Success',
             request: req.query.request
           });
         }
-        else{
+        else {
           res.json({
-            result: 1,
+            result: RESPONSE_CHECK_ERR,
             message: 'Failed',
             request: req.query.request
           });
         }
       }
-      catch(error){
+      catch (error) {
         next(error);
       }
       break;
     default:
       res.json({
-        result: 8,
+        result: RESPONSE_NOT_FOUND_REQ,
         message: 'Not found reqeust',
         request: req.query.request
       });

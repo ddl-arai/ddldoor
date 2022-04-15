@@ -14,16 +14,19 @@ import { WorkHoursChartComponent } from './work-hours-chart/work-hours-chart.com
 import { AdminGuard } from './admin.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HelpComponent } from './help/help.component';
+import { ResetInitComponent } from './reset-init/reset-init.component';
+import { InitGuard } from './init.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: "reset/:token", component: ResetComponent },
+  { path: 'init', component: ResetInitComponent, canActivate: [AuthGuard] },
   { path: 'home', 
     component: HomeComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, InitGuard],
     children:[
-      { path: 'dashboard', component: DashboardComponent},
+      { path: 'dashboard', component: DashboardComponent },
       { path: 'member', component: MemberComponent },
       //{ path: 'statusList', component: StatusListComponent },
       { path: 'log', component: LogComponent },

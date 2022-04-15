@@ -211,7 +211,7 @@ export class WorkHoursChartComponent implements OnInit {
 
                     calcSet.s_number[i] += Number(hours) - 1;
                     let num_hours: number = Number(hours);
-                    if(num_hours > 8){
+                    if(num_hours > 6){
                       num_hours = num_hours - 1;
                     }
                     text = `退勤<br>(${workHours.start}～${workHours.end})<br>【実務】${num_hours}時間`;

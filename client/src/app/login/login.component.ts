@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.user)
     .subscribe(result => {
       if(result){
+        
         if(!this.redirectTo){
           this.router.navigate(['/home']);
         }

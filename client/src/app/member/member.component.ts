@@ -20,7 +20,8 @@ export interface displayData {
   firstname: string,
   company: string,
   enable: string, // 有効 or 無効
-  status: string  // 在室, 外室, 初期状態 or アンチパスバック
+  status: string,  // 在室, 外室, 初期状態 or アンチパスバック
+  display: boolean
 }
 
 const COLUMNS = [
@@ -99,45 +100,55 @@ export class MemberComponent implements OnInit, AfterViewInit, OnDestroy {
         this.snackBar.open('データがありませんでした', '閉じる', {duration: 7000});
         return;
       }
-      let displayMembers: displayData[] = [];
-      members.forEach(member => {
-        let enable: string;
-        let status: string;
-        if(member.enable){
-          enable = '有効';
-        }
-        else{
-          enable = '無効';
-        }
-        switch(member.status){
-          case 1:
-            status = '在室';
-            break;
-          case 2:
-            status = '外室';
-            break;
-          case 3:
-            status = 'アンチパスバック';
-            break;
-          case 4:
-            status = '状態管理なし';
-            break;
-          default:
-            status = '初期状態';
-            break;
-        }
-        displayMembers.push({
-          id: member.id,
-          name: member.name,
-          lastname: member.lastname,
-          firstname: member.firstname,
-          company: member.company,
-          enable: enable,
-          status: status
+      this.dbService.getUsers()
+      .subscribe(users => {
+        let displayMembers: displayData[] = [];
+        members.forEach(member => {
+          let enable: string;
+          let status: string;
+          let display: boolean = true;
+          if(users.map(user => user.associated_member_id).includes(member.id)){
+            if(member.id !== this.user.associated_member_id){
+              display = false;
+            }
+          }
+          if(member.enable){
+            enable = '有効';
+          }
+          else{
+            enable = '無効';
+          }
+          switch(member.status){
+            case 1:
+              status = '在室';
+              break;
+            case 2:
+              status = '外室';
+              break;
+            case 3:
+              status = 'アンチパスバック';
+              break;
+            case 4:
+              status = '状態管理なし';
+              break;
+            default:
+              status = '初期状態';
+              break;
+          }
+          displayMembers.push({
+            id: member.id,
+            name: member.name,
+            lastname: member.lastname,
+            firstname: member.firstname,
+            company: member.company,
+            enable: enable,
+            status: status,
+            display: display
+          });
+          this.usedIds.push(member.id);
         });
-        this.usedIds.push(member.id);
+        this.dataSource.data = displayMembers;
       });
-      this.dataSource.data = displayMembers;
     });
   }
 
