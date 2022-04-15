@@ -77,6 +77,17 @@ dbRouter.get('/user', (req, res, next) => {
   });
 });
 
+/* PUT db/user */
+dbRouter.put('/user', (req, res, next) => {
+  bcrypt.hash(req.body['password'], saltRounds, (error, hash) => {
+    if(error) next(error);
+    User.updateOne({email: req.body['email']}, {$set: {password: hash, pw_reset_token: 'initpasswordchangedone'} }, error2 => {
+        if(error2) next(error2);
+        res.json(true);
+    });
+  });
+});
+
 /* GET db/users */
 dbRouter.get('/users', (req, res, next) => {
   User.find({}, (error, users) => {
@@ -122,6 +133,19 @@ dbRouter.delete('/user/:email', (req, res, next) => {
   User.deleteOne({email: req.params.email}, error => {
     if(error) next(error);
       res.json(true);
+  });
+});
+
+/* GET db/checkPW */
+dbRouter.get('/checkPW', (req, res, next) => {
+  User.findOne({email: req.user['email'], pw_reset_token: {$exists: true}}, (error, user) => {
+    if(error) next(error);
+    if(user){
+      res.json(true);
+    }
+    else{
+      res.json(false);
+    }
   });
 });
 

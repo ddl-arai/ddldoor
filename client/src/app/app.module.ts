@@ -84,6 +84,7 @@ import { QrComponent } from './qr/qr.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { LayoutModule } from '@angular/cdk/layout';
+import { ResetInitComponent } from './reset-init/reset-init.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +119,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     HomeUpdateComponent,
     HelpComponent,
     QrComponent,
-    DashboardComponent
+    DashboardComponent,
+    ResetInitComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

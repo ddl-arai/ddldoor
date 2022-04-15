@@ -1,0 +1,39 @@
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+	<mat-card class="mat-elevation-z8">
+		<mat-card-header>
+			<mat-card-title>パスワード変更</mat-card-title>
+            <mat-card-subtitle>
+                初期パスワードが使われています
+            </mat-card-subtitle>
+		</mat-card-header>
+
+		<form class="form" [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
+
+			<mat-card-content>
+
+                <mat-form-field class="full-width">
+                    <mat-label>メールアドレス</mat-label>
+                    <input matInput type="email" name="email" formControlName="email" readonly>
+                </mat-form-field>
+
+				<mat-form-field class="full-width">
+					<input matInput placeholder="新しいパスワード" type="password" name="password" formControlName="password" autocomplete="off">
+					<mat-error *ngIf="passwordControl.hasError('required')">
+							<strong>パスワードを入力してください</strong>
+					</mat-error>
+				</mat-form-field>
+
+				<mat-form-field class="full-width">
+					<input matInput placeholder="新しいパスワード(確認)" type="password" name="password2" formControlName="password2" autocomplete="off">
+					<mat-error *ngIf="password2Control.hasError('required')">
+							<strong>パスワード(確認)を入力してください</strong>
+					</mat-error>
+				</mat-form-field>
+
+			</mat-card-content>
+
+			<button mat-raised-button color="primary" class="btn-block" type="submit" [disabled]="form.invalid">変更</button>
+
+		</form>
+	</mat-card>
+</div>

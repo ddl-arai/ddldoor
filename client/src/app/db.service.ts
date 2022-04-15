@@ -84,6 +84,28 @@ export class DbService {
     );
   }
 
+  getUsers(): Observable<user[]>{
+    return this.http.get<user[]>('db/users', this.httpOptions)
+    .pipe(
+      map(users => {
+        for(let user of users){
+          user.admin = false;
+          user.email = '';
+          user.password = '';
+        }
+        return users;
+      }),
+      catchError(this.handleError<user[]>([]))
+    );
+  }
+
+  checkPW(): Observable<boolean>{
+    return this.http.get<boolean>('db/checkPW', this.httpOptions)
+    .pipe(
+      catchError(this.handleError<boolean>(false))
+    );
+  }
+
   get<T>(kind: string, id: number | string): Observable<T> {
     const url = `db/${kind}/${id}`;
     return this.http.get<T>(url, this.httpOptions)
