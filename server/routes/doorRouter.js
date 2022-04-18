@@ -610,14 +610,16 @@ doorRouter.get('/', async (req, res, next) => {
             { devid: device.id, result: LOG_OK, sec: { $lte: Number(req.query.sec) } }
           ]
         }).exec();
-        console.log(`********** Check Log **********\nlog: ${log}`);
+        console.log('********** Check Log **********');
+        console.log(`log: ${JSON.stringify(log)}`);
         const partner_log = await Log.findOne({
           $and: [
-            { devid: device.id, result: LOG_OK, sec: { $gt: Number(req.query.sec) - 5 } },
-            { devid: device.id, result: LOG_OK, sec: { $lte: Number(req.query.sec) } }
+            { devid: device.partnerId, result: LOG_OK, sec: { $gt: Number(req.query.sec) - 5 } },
+            { devid: device.partnerId, result: LOG_OK, sec: { $lte: Number(req.query.sec) } }
           ]
         }).exec();
-        console.log(`partner_log: ${partner_log}\n********** End **********`);
+        console.log(`partner_log: ${JSON.stringify(partner_log)}`);
+        console.log('********** End **********');
         if (log || partner_log) {
           res.json({
             result: RESPONSE_OK,
