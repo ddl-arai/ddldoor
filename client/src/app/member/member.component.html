@@ -67,7 +67,7 @@
                                     {{element.status}}<button mat-icon-button (click)="onReset(element.id)" matTooltip="初期状態になります" matTooltipPosition="right"><mat-icon class="init-icon">new_releases</mat-icon></button>
                                 </span>
                                 <span *ngSwitchCase="'状態管理なし'">
-                                    {{element.status}}<button mat-icon-button (click)="onReset(element.id)" matTooltip="初期状態になります" matTooltipPosition="right"><mat-icon class="init-icon">new_releases</mat-icon></button>
+                                    {{element.status}}
                                 </span>
                             </div>
                         </td>
@@ -75,19 +75,29 @@
 
                     <!-- edit Column -->
                     <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef>アクション</th>
+                        <th mat-header-cell *matHeaderCellDef></th>
                         <td mat-cell *matCellDef="let element">
-                            <div *ngIf="element.display">
-                                <button mat-icon-button color="primary" (click)="onEdit(element.id)">
+                            <button mat-icon-button type="button" [matMenuTriggerFor]="memberMenu">
+                                <mat-icon class="more_vert">more_vert</mat-icon>
+                            </button>
+                            <mat-menu #memberMenu="matMenu" yPosition="below" xPosition="before">
+                                <button mat-menu-item (click)="onReset(element.id)">
+                                    <mat-icon>new_releases</mat-icon>
+                                    初期化
+                                </button>
+                                <button mat-menu-item (click)="onEdit(element.id)" *ngIf="element.display">
                                     <mat-icon>edit</mat-icon>
+                                    編集
                                 </button>
-                                <button mat-icon-button color="warn" (click)="onDelete(element.id, element.name)">
+                                <button mat-menu-item color="warn" (click)="onDelete(element.id, element.name)" *ngIf="element.display">
                                     <mat-icon>delete</mat-icon>
+                                    削除
                                 </button> 
-                                <button class="timer" *ngIf="!(element.status === 'アンチパスバック') && element.id === user.associated_member_id" mat-icon-button (click)="onStamp(element.id, element.name)">
+                                <button mat-menu-item class="timer" color="primary" *ngIf="!(element.status === 'アンチパスバック') && element.id === user.associated_member_id && element.display" (click)="onStamp(element.id, element.name)">
                                     <mat-icon>timer</mat-icon>
+                                    手動打刻
                                 </button>
-                            </div>
+                            </mat-menu>
                         </td>
                     </ng-container>
 
