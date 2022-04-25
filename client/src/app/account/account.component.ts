@@ -11,6 +11,7 @@ import { DeleteAccountDialogComponent } from '../delete-account-dialog/delete-ac
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteLogDialogComponent } from '../delete-log-dialog/delete-log-dialog.component';
 import { holiday } from '../models/holiday';
+import { message } from '../models/message';
 
 export interface viewHoliday {
   view: string,
@@ -61,6 +62,7 @@ export class AccountComponent implements OnInit {
     'action'
   ];
   dataSource = new MatTableDataSource<displayData>();
+  inputMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -242,6 +244,27 @@ export class AccountComponent implements OnInit {
         }
       });
     }
+  }
+
+  onMessageAdd(): void {
+    if(!this.inputMessage){
+      this.snackBar.open('内容を入力してください', '閉じる', {duration: 7000});
+      return;
+    }
+    let message: message = {
+      timestamp: Date.now(),
+      content: this.inputMessage
+    }
+    this.dbService.add<message>('message', message)
+    .subscribe(result => {
+      if(result){
+        this.snackBar.open('メッセージを作成しました', '閉じる', {duration: 5000});
+        this.inputMessage = '';
+      }
+      else{
+        this.snackBar.open('メッセージを作成できませんでした', '閉じる', {duration: 7000});
+      }
+    })
   }
 
   isDup(): boolean {

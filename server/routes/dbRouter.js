@@ -6,9 +6,39 @@ let Card = require('../models/card');
 let Log = require('../models/log');
 let Device = require('../models/device');
 let Holiday = require('../models/holiday');
+let Message = require('../models/message');
 let bcrypt = require('bcrypt');
 let crypto = require('crypto');
 const saltRounds = 10;
+
+/* GET db/message */
+dbRouter.get('/messages', (req, res, next) => {
+  Message.find({}, (error, messages) => {
+    if(error) next(error);
+    res.json(messages);
+  });
+});
+
+/* POST db/message */
+dbRouter.post('/message', (req, res, next) => {
+  Message.create(req.body, error => {
+    if(error) next(error);
+    res.json(true);
+  });
+});
+
+/* GET db/readMessage */
+dbRouter.get('/readMessage/:id', async (req, res, next) => {
+  try {
+    let user = await User.findOne({email: req.user['email']}).exec();
+    user.messageIds.push(req.params.id);
+    await user.save();
+    res.json(true);
+  }
+  catch(error){
+    next(error);
+  }
+})
 
 /* POST db/user */
 dbRouter.post('/user', (req, res, next) => {

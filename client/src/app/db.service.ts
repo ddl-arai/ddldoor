@@ -99,6 +99,13 @@ export class DbService {
     );
   }
 
+  readMessage(id: number): Observable<boolean>{
+    return this.http.get<boolean>(`db/readMessage/${id}`, this.httpOptions)
+    .pipe(
+      catchError(this.handleError<boolean>(false))
+    );
+  } 
+
   checkPW(): Observable<boolean>{
     return this.http.get<boolean>('db/checkPW', this.httpOptions)
     .pipe(

@@ -1,5 +1,17 @@
 <div class="grid-container">
   <span class="mat-title">ダッシュボード</span>
+  
+  <div class="message-container">
+    <mat-chip-list class="mat-chip-list-stacked">
+      <mat-chip class="message" *ngFor="let message of showMessages" (removed)="readMessage(message.id!)" (click)="readMessage(message.id!)">
+        {{message.content}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+
   <mat-grid-list cols="2" rowHeight="350px">
     <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
       <mat-card class="dashboard-card">

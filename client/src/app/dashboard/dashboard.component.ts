@@ -5,6 +5,8 @@ import { DbService } from '../db.service';
 import { timer, Subscription } from 'rxjs';
 import { member } from '../models/member';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { message } from '../models/message';
+import { user } from '../models/user';
 
 export interface status {
   id: number,
@@ -31,6 +33,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   absences: member[] = [];
   apbs: member[] = [];
   logs: monitor[] = [];
+  showMessages: message[] = [];
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
@@ -46,8 +49,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       return [
         { id: 1, title: '在外状況', cols: 2, rows: 1 },
         { id: 2, title: 'アンチパスバック', cols: 1, rows: 1 },
-        { id: 3, title: '直近のログ', cols: 1, rows: 1 },
-        //{ title: 'Card 4', cols: 1, rows: 1 }
+        { id: 3, title: '直近のログ', cols: 1, rows: 1 }
       ];
     })
   );
@@ -59,6 +61,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ) {}
 
   ngOnInit(): void {
+    this.setMessages();
     this.startGetMembers();
   }
 
@@ -71,6 +74,35 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.getMembers();
       this.getLogs();
     });
+  }
+
+  setMessages(): void {
+    this.dbService.getAll<message>('messages')
+    .subscribe(messages => {
+      this.dbService.getUser()
+      .subscribe(user => {
+        if(user.messageIds){
+          this.showMessages = messages.filter(message => !user.messageIds!.includes(message.id!));
+        }
+        else{
+          this.showMessages = messages;
+        }
+        this.showMessages.sort((x, y) => y.timestamp - x.timestamp);
+        console.log(this.showMessages);
+      });
+    });
+  }
+
+  readMessage(id: number){
+    this.dbService.readMessage(id)
+    .subscribe(result => {
+      if(result){
+        this.showMessages = this.showMessages.filter(message => message.id !== id);
+      }
+      else{
+        this.snackBar.open('エラーが発生しました', '閉じる', {duration: 5000});
+      }
+    })
   }
 
   getMembers(): void {

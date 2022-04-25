@@ -103,6 +103,23 @@
     </mat-card-content>
 </mat-card>
 
+<mat-card>
+    <mat-card-header>
+        <mat-card-title class="mat-title">メッセージ</mat-card-title>
+        <mat-card-subtitle>以下に入力した内容がそのままダッシュボードに表示されます</mat-card-subtitle>
+    </mat-card-header>
+    <mat-divider inset="true"></mat-divider>
+    <mat-card-content>
+        <span fxLayout="row" fxFlexAlign=" center" fxLayoutGap="14px">
+            <mat-form-field class="message">
+                <mat-label>内容</mat-label>
+                <input matInput type="text" [(ngModel)]="inputMessage" placeholder="YYYY/MM/DD これはメッセージです">
+            </mat-form-field>
+            <button mat-mini-fab color="primary" (click)="onMessageAdd()"><mat-icon>add</mat-icon></button>
+        </span>
+    </mat-card-content>
+</mat-card>
+
 <mat-card class="danger-zone">
     <mat-card-header>
         <mat-card-title class="mat-title" color="warn">Danger Zone</mat-card-title>

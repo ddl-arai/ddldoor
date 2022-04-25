@@ -59,4 +59,16 @@ mat-chip-list {
   margin-bottom: 2px;
 }
 
+.message {
+  width: 100%;
+  height: auto;
+}
+
+.message-container {
+  margin: 16px 28px 0 22px;
+}
+
+.mat-standard-chip .mat-chip-remove, .mat-standard-chip .mat-chip-trailing-icon {
+  margin-left: auto;
+}
 
