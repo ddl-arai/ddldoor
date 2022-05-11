@@ -35,6 +35,8 @@ const LOG_TMP_OPEN              = 7;
 const LOG_TMP_CLOSE             = 8;
 const LOG_INV_REQ               = 9;
 const LOG_UMP_MEMBER            = 10;
+/* Log number 11 is used by manual stamp on client side */
+const LOG_GUEST                 = 12;
 
 /* Device status */
 const DEVICE_CLOSE              = 0;
@@ -85,6 +87,7 @@ doorRouter.get('/', async (req, res, next) => {
 
   switch (req.query.request) {
     case 'stamp':
+    case 'guest':
       /* Processing status logic */
       try {
         let card = await Card.findOne({ idm: req.query.idm }).exec();
@@ -197,8 +200,40 @@ doorRouter.get('/', async (req, res, next) => {
           return;
         }
 
-        /* Status check logic */
+        /* Start status check logic */
         const prevStat = member.status;
+
+        /* In Guest touch, adapt the same process as MEMBER_NO_STATE  */
+        if(req.query.request === 'guest'){
+          /* Temporary open status */
+          if (device.status === DEVICE_OPEN) {
+            res.json({
+              result: RESPONSE_TMP_OPEN_STAMP,
+              message: 'Success between temporary open',
+              request: req.query.request
+            });
+          }
+          else {
+            res.json({
+              result: RESPONSE_OK,
+              message: 'Success',
+              request: req.query.request
+            });
+          }
+          await Log.create({
+            sec: req.query.sec,
+            idm: req.query.idm,
+            id: member.id,
+            name: member.name,
+            devid: req.query.devid,
+            devName: device.name,
+            prevStat: prevStat,
+            result: LOG_GUEST
+          });
+          return;
+        }
+
+        /* Normal stamp process */
         let result = LOG_OK;
         switch (member.status) {
           /* Initial */

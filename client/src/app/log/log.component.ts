@@ -170,6 +170,9 @@ export class LogComponent implements OnInit, AfterViewInit, OnDestroy {
           case 11:
             result = '手動打刻';
             break;
+          case 12:
+            result = 'ゲストタッチOK';
+            break;
           default:
             break;
         }
@@ -201,13 +204,12 @@ export class LogComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onFilter(): void {
-    let start = new Date(this.range.value['start']);
-    if(!this.range.value['end']){
-      this.snackBar.open('範囲を選択してください', '閉じる', {duration: 7000});
-      this.onRefresh();
+    if(!this.range.value['start']){
+      this.snackBar.open('日付を選択してください', '閉じる', {duration: 7000});
       return;
     }
-    let end = new Date(this.range.value['end']);
+    let start = new Date(this.range.value['start']);
+    let end = !this.range.value['end'] ? start : new Date(this.range.value['end']);
     this.dataSource.data = this.dataSource.data.filter(el => new Date(el.date) >= start && new Date(el.date) <= end);
     let start_str = `${start.getFullYear()}-${this.pad(start.getMonth() + 1)}-${this.pad(start.getDate())}`;
     let end_str = `${end.getFullYear()}-${this.pad(end.getMonth() + 1)}-${this.pad(end.getDate())}`
