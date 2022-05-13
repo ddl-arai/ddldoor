@@ -88,7 +88,8 @@
                         <mat-label>休日名</mat-label>
                         <input matInput type="text" [(ngModel)]="selectedData.remark">
                     </mat-form-field>
-                    <button mat-mini-fab color="primary" (click)="onAdd()"><mat-icon>add</mat-icon></button>      
+                    <!--button mat-mini-fab color="primary" (click)="onAdd()"><mat-icon>add</mat-icon></button-->
+                    <button mat-icon-button class="action-btn" color="primary" (click)="onAdd()"><mat-icon>add</mat-icon></button>      
                 </span>
             </div>
             <mat-chip-list>
@@ -115,7 +116,8 @@
                 <mat-label>内容</mat-label>
                 <input matInput type="text" [(ngModel)]="inputMessage" placeholder="YYYY/MM/DD これはメッセージです">
             </mat-form-field>
-            <button mat-mini-fab color="primary" (click)="onMessageAdd()"><mat-icon>send</mat-icon></button>
+            <!--button mat-mini-fab color="primary" (click)="onMessageAdd()"><mat-icon>send</mat-icon></button-->
+            <button mat-icon-button class="action-btn" color="primary" (click)="onMessageAdd()"><mat-icon>send</mat-icon></button>
         </span>
     </mat-card-content>
 </mat-card>

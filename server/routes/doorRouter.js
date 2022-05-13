@@ -642,7 +642,8 @@ doorRouter.get('/', async (req, res, next) => {
         const log = await Log.findOne({
           $or: [
             { $and: [{ devid: device.id, result: LOG_OK, sec: { $gt: Number(req.query.sec) - 5 } }, { devid: device.id, result: LOG_OK, sec: { $lte: Number(req.query.sec) } }] },
-            { $and: [{ devid: device.id, result: LOG_GUEST, sec: { $gt: Number(req.query.sec) - 5 } }, { devid: device.id, result: LOG_GUEST, sec: { $lte: Number(req.query.sec) } }] }
+            { $and: [{ devid: device.id, result: LOG_GUEST, sec: { $gt: Number(req.query.sec) - 5 } }, { devid: device.id, result: LOG_GUEST, sec: { $lte: Number(req.query.sec) } }] },
+            { $and: [{ devid: device.id, result: LOG_TMP_OPEN, sec: { $gt: Number(req.query.sec) - 5 } }, { devid: device.id, result: LOG_GUEST, sec: { $lte: Number(req.query.sec) } }] }
           ]
         }).exec();
         console.log('********** Check Log **********');
@@ -650,7 +651,8 @@ doorRouter.get('/', async (req, res, next) => {
         const partner_log = await Log.findOne({
           $or: [
             { $and: [{ devid: device.partnerId, result: LOG_OK, sec: { $gt: Number(req.query.sec) - 5 } }, { devid: device.partnerId, result: LOG_OK, sec: { $lte: Number(req.query.sec) } }] },
-            { $and: [{ devid: device.partnerId, result: LOG_GUEST, sec: { $gt: Number(req.query.sec) - 5 } }, { devid: device.partnerId, result: LOG_GUEST, sec: { $lte: Number(req.query.sec) } }] }
+            { $and: [{ devid: device.partnerId, result: LOG_GUEST, sec: { $gt: Number(req.query.sec) - 5 } }, { devid: device.partnerId, result: LOG_GUEST, sec: { $lte: Number(req.query.sec) } }] },
+            { $and: [{ devid: device.partnerId, result: LOG_TMP_OPEN, sec: { $gt: Number(req.query.sec) - 5 } }, { devid: device.partnerId, result: LOG_GUEST, sec: { $lte: Number(req.query.sec) } }] },
           ]
         }).exec();
         console.log(`partner_log: ${JSON.stringify(partner_log)}`);
