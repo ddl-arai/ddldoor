@@ -7,47 +7,50 @@ let Device = require('../models/device');
 
 /****** Constants *******/
 /* Response */
-const RESPONSE_OK               = 0;
-const RESPONSE_APB              = 1;
-const RESPONSE_NO_IDM           = 2;
-const RESPONSE_NO_DEVICE        = 3;
-const RESPONSE_NO_IDM_DEVICE    = 4;
-const RESPONSE_DISABLE_IDM      = 5;
-const RESPONSE_DISABLE_MEMBER   = 6;
-const RESPONSE_INV_PARAMS       = 7;
-const RESPONSE_NOT_FOUND_REQ    = 8;
-const RESPONSE_TMP_OPEN_STAMP   = 9;
-const RESPONSE_UNP_MEMBER       = 10;
-const RESPONSE_UNP_IP           = 99;
+const RESPONSE_OK = 0;
+const RESPONSE_APB = 1;
+const RESPONSE_NO_IDM = 2;
+const RESPONSE_NO_DEVICE = 3;
+const RESPONSE_NO_IDM_DEVICE = 4;
+const RESPONSE_DISABLE_IDM = 5;
+const RESPONSE_DISABLE_MEMBER = 6;
+const RESPONSE_INV_PARAMS = 7;
+const RESPONSE_NOT_FOUND_REQ = 8;
+const RESPONSE_TMP_OPEN_STAMP = 9;
+const RESPONSE_UNP_MEMBER = 10;
+const RESPONSE_UNP_IP = 99;
 const RESPONSE_TMP_OPEN_INV_REQ = 1;
-const RESPONSE_TMP_OPEN_ERR     = 2;
-const RESPONSE_CHECK_ERR        = 1;
+const RESPONSE_TMP_OPEN_ERR = 2;
+const RESPONSE_CHECK_ERR = 1;
+const RESPONSE_IS_TMP_OPEN_FALSE = 0;
+const RESPONSE_IS_TMP_OPEN_TRUE = 1;
+const RESPONSE_IS_TMP_OPEN_ERR = 2;
 
 /* Log code */
-const LOG_OK                    = 0;
-const LOG_APB                   = 1;
-const LOG_NO_IDM                = 2;
-const LOG_NO_DEVICE             = 3;
-const LOG_NO_IDM_DEVICE         = 4;
-const LOG_DISABLE_IDM           = 5;
-const LOG_DISABLE_MEMBER        = 6;
-const LOG_TMP_OPEN              = 7;
-const LOG_TMP_CLOSE             = 8;
-const LOG_INV_REQ               = 9;
-const LOG_UMP_MEMBER            = 10;
+const LOG_OK = 0;
+const LOG_APB = 1;
+const LOG_NO_IDM = 2;
+const LOG_NO_DEVICE = 3;
+const LOG_NO_IDM_DEVICE = 4;
+const LOG_DISABLE_IDM = 5;
+const LOG_DISABLE_MEMBER = 6;
+const LOG_TMP_OPEN = 7;
+const LOG_TMP_CLOSE = 8;
+const LOG_INV_REQ = 9;
+const LOG_UMP_MEMBER = 10;
 /* Log number 11 is used by manual stamp on client side */
-const LOG_GUEST                 = 12;
+const LOG_GUEST = 12;
 
 /* Device status */
-const DEVICE_CLOSE              = 0;
-const DEVICE_OPEN               = 1;
+const DEVICE_CLOSE = 0;
+const DEVICE_OPEN = 1;
 
 /* Member status */
-const MEMBER_INIT               = 0;
-const MEMBER_EXIST              = 1;
-const MEMBER_ABSENT             = 2;
-const MEMBER_APB                = 3;
-const MEMBER_NO_STATE           = 4;
+const MEMBER_INIT = 0;
+const MEMBER_EXIST = 1;
+const MEMBER_ABSENT = 2;
+const MEMBER_APB = 3;
+const MEMBER_NO_STATE = 4;
 
 /************************/
 
@@ -204,7 +207,7 @@ doorRouter.get('/', async (req, res, next) => {
         const prevStat = member.status;
 
         /* In Guest touch, adapt the same process as MEMBER_NO_STATE  */
-        if(req.query.request === 'guest'){
+        if (req.query.request === 'guest') {
           /* Temporary open status */
           if (device.status === DEVICE_OPEN) {
             res.json({
@@ -631,6 +634,14 @@ doorRouter.get('/', async (req, res, next) => {
     case 'check':
       try {
         let device = await Device.findOne({ id: req.query.devid }).exec();
+        if (!device) {
+          res.json({
+            result: RESPONSE_CHECK_ERR,
+            message: 'Not registered device',
+            request: req.query.request
+          });
+          return;
+        }
         if (device.partnerId === 0) {
           res.json({
             result: RESPONSE_CHECK_ERR,
@@ -676,6 +687,54 @@ doorRouter.get('/', async (req, res, next) => {
         next(error);
       }
       break;
+
+
+    case 'isTmpOpen':
+      try {
+        let device = await Device.findOne({ id: req.query.devid }).exec();
+        if (!device) {
+          res.json({
+            result: RESPONSE_IS_TMP_OPEN_ERR,
+            message: 'Not registered device',
+            request: req.query.request
+          });
+          return;
+        }
+        if (device.partnerId === 0) {
+          res.json({
+            result: RESPONSE_IS_TMP_OPEN_ERR,
+            message: 'No set partner device',
+            request: req.query.request
+          });
+          return;
+        }
+        let partner_device = await Device.findOne({id: device.partnerId}).exec();
+        if(device.status === DEVICE_OPEN || partner_device.status === DEVICE_OPEN){
+          res.json({
+            result: RESPONSE_IS_TMP_OPEN_TRUE,
+            message: 'True',
+            request: req.query.request
+          });
+          /* DEBUG */
+          console.log('The request of "isTmpOpen" returned ' + RESPONSE_IS_TMP_OPEN_TRUE);
+          /*********/
+        }
+        else{
+          res.json({
+            result: RESPONSE_IS_TMP_OPEN_FALSE,
+            message: 'False',
+            request: req.query.request
+          });
+          /* DEBUG */
+          console.log('The request of "isTmpOpen" returned ' + RESPONSE_IS_TMP_OPEN_FALSE);
+          /*********/
+        }
+      }
+      catch (error) {
+        next(error);
+      }
+      break;
+
     default:
       res.json({
         result: RESPONSE_NOT_FOUND_REQ,
