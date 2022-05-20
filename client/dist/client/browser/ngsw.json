@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1652435197628,
+  "timestamp": 1653024366014,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -15,11 +15,11 @@
         "/557.3bf245f32b84f55c.js",
         "/favicon.ico",
         "/index.html",
-        "/main.9207c552808e40cc.js",
+        "/main.185a819a1de5c17d.js",
         "/manifest.webmanifest",
         "/polyfills.8837dfbaeeafe0e7.js",
         "/runtime.f143a5caa2e1e8d1.js",
-        "/styles.d263911e06186bd0.css"
+        "/styles.2abe5ff07826e0b7.css"
       ],
       "patterns": []
     },
@@ -49,7 +49,7 @@
   "hashTable": {
     "/239.395f884b2eaaa287.js": "8223b788ac944c8be00058619e9d7d1a8141e552",
     "/557.3bf245f32b84f55c.js": "73d5d84460dea84511662c7e8d0238269a726885",
-    "/assets/README.md": "dfa9715dad0fdf2d64fa16769565506327590b4a",
+    "/assets/README.md": "2900809b51bf83d6743204cf2254c71348b86de5",
     "/assets/icons/door-128x128.png": "a96b6b64a2430722b91284032ead10da952d7de3",
     "/assets/icons/door-144x144.png": "b5c72f370964148a229861036c8fde5b6aa84337",
     "/assets/icons/door-152x152.png": "4beea89ae5115ab951f52a21ed851b2fb4dd3116",
@@ -60,12 +60,12 @@
     "/assets/icons/door-72x72.png": "147b3f8483ce789149fda52b35ebefc60718fab1",
     "/assets/icons/door-96x96.png": "b06390653e713d85714268639ed749a11c736418",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/index.html": "b2db3ad0c97e4619f8a04b67fc1cf02c9b67725d",
-    "/main.9207c552808e40cc.js": "d63b50a527032aba34362e9c97a30cb268e2648d",
+    "/index.html": "83173bf928a9e901cff876af7240321c4351f44b",
+    "/main.185a819a1de5c17d.js": "fc84b98721dd393995cedbe9d2062a9c6c6ede8c",
     "/manifest.webmanifest": "7241a811996ae1f86cf5782a3a25bb7dfba2d931",
     "/polyfills.8837dfbaeeafe0e7.js": "62413255988644c28a74eb007a96fc609b9a387e",
     "/runtime.f143a5caa2e1e8d1.js": "4f4e8a0261605ef4658880af160006b6035fcfb5",
-    "/styles.d263911e06186bd0.css": "6d5cfb252053d4e13b90f90a5cd1fdc7ddf202e6"
+    "/styles.2abe5ff07826e0b7.css": "3668caf8ff0686af4c8afd049c96efd8c5f955f6"
   },
   "navigationUrls": [
     {

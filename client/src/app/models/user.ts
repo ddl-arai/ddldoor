@@ -3,5 +3,6 @@ export interface user {
     password: string,
     admin: false,
     associated_member_id?: number,
-    messageIds?: number[]
+    messageIds?: number[],
+    tutorial?: boolean
 }

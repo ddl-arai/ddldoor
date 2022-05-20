@@ -85,6 +85,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ResetInitComponent } from './reset-init/reset-init.component';
+import { TutrialModalComponent } from './tutrial-modal/tutrial-modal.component';
 
 @NgModule({
   declarations: [
@@ -120,7 +121,8 @@ import { ResetInitComponent } from './reset-init/reset-init.component';
     HelpComponent,
     QrComponent,
     DashboardComponent,
-    ResetInitComponent
+    ResetInitComponent,
+    TutrialModalComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

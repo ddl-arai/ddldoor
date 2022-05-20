@@ -8,7 +8,8 @@ let mongoose = require("mongoose"),
     associated_member_id: Number,
     qr_token: String,
     qr_token_expire: String,
-    messageIds: [Number]
+    messageIds: [Number],
+    tutorial: Boolean
   });
 
 module.exports = mongoose.model("User", userSchema, 'user');

@@ -118,6 +118,14 @@ dbRouter.put('/user', (req, res, next) => {
   });
 });
 
+/* PUT db/user/tutorial */
+dbRouter.put('/user/tutorial', (req, res, next) => {
+  User.updateOne({email: req.body['email']}, {$set: {tutorial: req.body['tutorial']}}, error => {
+    if(error) next(error);
+    res.json(true);
+  });
+})
+
 /* GET db/users */
 dbRouter.get('/users', (req, res, next) => {
   User.find({}, (error, users) => {

@@ -17,10 +17,35 @@
         <span fxFlex></span>
         <div class="user" fxLayout="row" fxLayoutAlign="space-between center" *ngIf="!(isHandset$ | async)">
           {{name}}
-          <button mat-icon-button type="button" [matMenuTriggerFor]="userMenu">
+          <button mat-icon-button *ngIf="user.tutorial" type="button" [matMenuTriggerFor]="userMenu">
             <mat-icon class="more_vert" matBadge="!" matBadgeColor="warn" [matBadgeHidden]="!badge" matBadgeSize="small">more_vert</mat-icon>
           </button>
-          <mat-menu #userMenu="matMenu" class="user-profile" yPosition="above" xPosition="before">
+          <button mat-icon-button *ngIf="!user.tutorial" #menuTrigger="matMenuTrigger" type="button" [matMenuTriggerFor]="userMenu2" (menuClosed)="onMenuClose()">
+            <mat-icon class="more_vert" matBadge="!" matBadgeColor="warn" [matBadgeHidden]="!badge" matBadgeSize="small">more_vert</mat-icon>
+          </button>
+          <mat-menu #userMenu="matMenu" class="user-profile" yPosition="above" xPosition="before"> 
+            <button mat-menu-item (click)="onLogout()">
+                <mat-icon>logout</mat-icon>
+                ログアウト
+            </button>
+            <button mat-menu-item (click)="onResetPW()">
+              <mat-icon>security</mat-icon>
+                パスワード変更
+            </button>
+            <button mat-menu-item (click)="onSetMember()">
+              <mat-icon>person_add</mat-icon>
+                <span matBadge="!" matBadgeColor="warn" [matBadgeHidden]="!badge" matBadgeSize="small" matBadgeOverlap="false">メンバーリンク</span>
+            </button>
+            <button mat-menu-item (click)="onQr()">
+              <mat-icon>mobile_screen_share</mat-icon>
+                ログイン用QR
+            </button>
+            <button mat-menu-item (click)="onHelp()">
+              <mat-icon>info</mat-icon>
+                ヘルプ
+            </button>
+          </mat-menu>
+          <mat-menu #userMenu2="matMenu" class="user-profile" yPosition="above" xPosition="before" backdropClass="menuBack"> 
             <button mat-menu-item (click)="onLogout()">
                 <mat-icon>logout</mat-icon>
                 ログアウト
@@ -58,12 +83,40 @@
         <span class="navi-email" fxFlexOffset="auto">
           {{name}}
           <button
+            *ngIf="user.tutorial"
             type="button"
             mat-icon-button
             [matMenuTriggerFor]="userMenu">
             <mat-icon matBadge="!" matBadgeColor="warn" [matBadgeHidden]="!badge" matBadgeSize="small">keyboard_arrow_down</mat-icon>
           </button>
+          <button
+            *ngIf="!user.tutorial"
+            #menuTrigger="matMenuTrigger"
+            (menuClosed)="onMenuClose()"
+            type="button"
+            mat-icon-button
+            [matMenuTriggerFor]="userMenu2">
+            <mat-icon matBadge="!" matBadgeColor="warn" [matBadgeHidden]="!badge" matBadgeSize="small">keyboard_arrow_down</mat-icon>
+          </button>
           <mat-menu #userMenu="matMenu" class="user-profile" yPosition="above" xPosition="before">
+            <button mat-menu-item (click)="onLogout()">
+                <mat-icon>logout</mat-icon>
+                ログアウト
+            </button>
+            <button mat-menu-item (click)="onResetPW()">
+              <mat-icon>security</mat-icon>
+                パスワード変更
+            </button>
+            <button mat-menu-item (click)="onSetMember()">
+              <mat-icon>person_add</mat-icon>
+                <span matBadge="!" matBadgeColor="warn" [matBadgeHidden]="!badge" matBadgeSize="small" matBadgeOverlap="false">メンバーリンク</span>
+            </button>
+            <button mat-menu-item (click)="onHelp()">
+              <mat-icon>info</mat-icon>
+                ヘルプ
+            </button>
+          </mat-menu>
+          <mat-menu #userMenu2="matMenu" class="user-profile" yPosition="above" xPosition="before" backdropClass="menuBack">
             <button mat-menu-item (click)="onLogout()">
                 <mat-icon>logout</mat-icon>
                 ログアウト
