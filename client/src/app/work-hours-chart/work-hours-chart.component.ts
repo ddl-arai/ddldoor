@@ -214,8 +214,19 @@ export class WorkHoursChartComponent implements OnInit {
                     if(num_hours > 6){
                       num_hours = num_hours - 1;
                     }
-                    text = `退勤<br>(${workHours.start}～${workHours.end})<br>【実務】${num_hours}時間`;
-                    calcSet.o_number[i] += num_hours - 8;
+                    if(num_hours === 0){
+                      text = `退勤<br>(${workHours.start})<br>【実務】${num_hours}時間`;
+                    }
+                    else{
+                      text = `退勤<br>(${workHours.start}～${workHours.end})<br>【実務】${num_hours}時間`;
+                      const day = this.getDay(date.view);
+                      if(day === 1 || day === 2){
+                        calcSet.o_number[i] += num_hours;
+                      }
+                      else{
+                        calcSet.o_number[i] += num_hours - 8;
+                      }
+                    }
                   }
                 }
                 else if(workHours.start && !workHours.end){
