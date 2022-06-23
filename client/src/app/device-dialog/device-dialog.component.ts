@@ -33,6 +33,7 @@ export class DeviceDialogComponent implements OnInit {
   partnerOptions: partner[] = [];
   partnerControl = new FormControl(null);
   devices: device[] = [];
+  enableControl = new FormControl(false);
 
   constructor(
     public dialogRef: MatDialogRef<DeviceDialogComponent>,
@@ -48,7 +49,8 @@ export class DeviceDialogComponent implements OnInit {
       id: this.idControl,
       name: this.nameControl,
       func: this.funcControl,
-      partner: this.partnerControl
+      partner: this.partnerControl,
+      enable: this.enableControl
     });
     this.getDevices();
   }
@@ -79,6 +81,7 @@ export class DeviceDialogComponent implements OnInit {
       id: this.form.get('id')?.value,
       name: this.form.get('name')?.value,
       func: this.form.get('func')?.value,
+      virtual: this.form.get('enable')?.value,
       status: 0,
       timeout: 60 * 60 * 1000,
       partnerId: this.form.get('partner')?.value ? this.form.get('partner')?.value : 0

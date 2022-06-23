@@ -52,7 +52,7 @@ export class EditDeviceDialogComponent implements OnInit {
   partnerOptions: partner[] = [];
   partnerControl = new FormControl(null);
   devices: device[] = [];
-
+  enableControl = new FormControl(false);
 
   constructor(
     public dialogRef: MatDialogRef<EditDeviceDialogComponent>,
@@ -71,7 +71,8 @@ export class EditDeviceDialogComponent implements OnInit {
       name: this.nameControl,
       func: this.funcControl,
       timeout: this.timeoutControl,
-      partner: this.partnerControl
+      partner: this.partnerControl,
+      enable: this.enableControl
     });
   }
 
@@ -97,6 +98,12 @@ export class EditDeviceDialogComponent implements OnInit {
       this.setPartners();
       if(this.device.partnerId){
         this.partnerControl.setValue(this.device.partnerId);
+      }
+      if(this.device.virtual === undefined){
+        this.enableControl.setValue(false);
+      }
+      else{
+        this.enableControl.setValue(this.device.virtual);
       }
     });
   }
@@ -132,6 +139,7 @@ export class EditDeviceDialogComponent implements OnInit {
     this.device.func = this.form.get('func')?.value;
     this.device.timeout = this.form.get('timeout')?.value;
     this.device.partnerId = this.form.get('partner')?.value ? this.form.get('partner')?.value : 0;
+    this.device.virtual = this.form.get('enable')?.value;
     this.dbService.update<device>('device', this.device)
     .subscribe(result => {
       if(result){
