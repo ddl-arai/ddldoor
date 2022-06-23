@@ -3,9 +3,9 @@
     <div fxLayout="column" fxLayoutGap="24px">
         <div>
             <!--<p>{{data.name}}さん</p>-->
-            <p>手動打刻用デバイスの選択を推奨します</p>
+            <p>出勤または退勤を選択できます</p>
             <mat-form-field class="full-width">
-                <mat-label>デバイス</mat-label>
+                <!--mat-label>デバイス</mat-label-->
                 <mat-select [(ngModel)]="deviceId">
                     <mat-option *ngFor="let device of deviceOptions" [value]="device.id">
                         {{device.view}}

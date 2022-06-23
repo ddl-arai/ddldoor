@@ -7,4 +7,5 @@ export interface device {
     timeout: number,
     open?: boolean,
     partnerId?: number,
+    virtual?: boolean
 }

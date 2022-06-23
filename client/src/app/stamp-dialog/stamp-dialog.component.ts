@@ -71,7 +71,9 @@ export class StampDialogComponent implements OnInit, OnDestroy {
       })
       .subscribe(result => {
         if(result){
-          this.snackBar.open('打刻しました', '閉じる', {duration: 5000});
+          let content = '退勤';
+          if(device!.func === 'enter' ) content = '出勤';
+          this.snackBar.open(`${content}で打刻しました`, '閉じる', {duration: 5000});
           this.dialogRef.close();
         }
         else{
@@ -88,7 +90,7 @@ export class StampDialogComponent implements OnInit, OnDestroy {
   getDevices(): void {
     this.dbService.getAll<device>('devices')
     .subscribe(devices => {
-      this.devices = devices;
+      this.devices = devices.filter(dev => dev.virtual);
       this.devices.forEach(device => {
         if(this.deviceId === 0){
           this.deviceId = device.id;
