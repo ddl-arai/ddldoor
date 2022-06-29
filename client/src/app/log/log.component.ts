@@ -9,7 +9,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { SpinnerService } from '../spinner.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Subscription } from 'rxjs';
+import { fromEvent, map, Subscription, throttleTime, pairwise, distinctUntilChanged, share, filter } from 'rxjs';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 export interface displayData {
   no: number,
@@ -21,6 +22,11 @@ export interface displayData {
   devName: string,
   prevStat: string,
   result: string
+}
+
+export interface range {
+  start: number,
+  end: number
 }
 
 export interface options {
@@ -64,10 +70,15 @@ export class LogComponent implements OnInit, AfterViewInit, OnDestroy {
     fileName: ''
   }
   mobileTitle: boolean = false;
-
+  scrollSubsc = new Subscription();
+  logCounter: number = 0;
+  reloading: boolean = false;
+  displaylogs: displayData[] = [];
+  logRange: range = { start: 0, end: 0 };
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(CdkScrollable) cdkScrollable!: CdkScrollable;
 
   constructor(
     private dbService: DbService,
@@ -78,8 +89,9 @@ export class LogComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.getLogs();
+    this.logRange = { start: 0, end: 0 };
     this.range.reset();
+    this.initLogs();
     this.options.fileName = 'ddldoor_log';
     this.subscription.unsubscribe();
     this.subscription = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -98,18 +110,54 @@ export class LogComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    const content = document.querySelector('.mat-sidenav-content');
+    if(!content){
+      this.snackBar.open('オートリロードエラー', '閉じる', {duration: 7000});
+      return;
+    }
+    const scroll = fromEvent(content, 'scroll').pipe(
+      throttleTime(10), // only emit every 10 ms
+      map(() => (content.scrollHeight - window.innerHeight) * 0.8 < content.scrollTop ? true : false),
+      share(),
+    );
+    this.scrollSubsc = scroll.subscribe(result => {
+      if(result && !this.reloading){
+        //console.log('reload! logCounter: ' + this.logCounter);
+        this.getLogs();
+      }
+    });
+  }
+
+  initLogs(): void {
+    this.displaylogs = [];
+    this.reloading = false;
+    this.getLogsLen();
+  }
+
+  getLogsLen(): void {
+    this.dbService.get<number>('logs', `len/${this.logRange.start}/${this.logRange.end}`)
+    .subscribe(result => {
+      if(result === 0){
+        this.snackBar.open('データがありませんでした', '閉じる', {duration: 5000});
+        return;
+      }
+      this.logCounter = result;
+      this.getLogs();
+    });
   }
 
   getLogs(): void {
-    this.spinnerService.attach();
-    this.dbService.getAll<log>('logs')
+    this.reloading = true;
+    //this.spinnerService.attach();
+    this.dbService.getAll<log>(`logs/${this.logCounter}/${this.logRange.start}/${this.logRange.end}`)
     .subscribe(logs => {
       if(logs.length === 0){
-        this.snackBar.open('データがありませんでした', '閉じる', {duration: 7000});
+        this.snackBar.open('全てのデータをロードしました', '閉じる', {duration: 5000});
         this.spinnerService.detach();
         return;
       }
-      let displaylogs: displayData[] = [];
+      this.logCounter = logs[logs.length - 1].no! - 1;
       logs.forEach(log => {
         let time = new Date(log.sec * 1000);
         let prevStat: string = '';
@@ -177,7 +225,7 @@ export class LogComponent implements OnInit, AfterViewInit, OnDestroy {
             break;
         }
 
-        displaylogs.push({
+        this.displaylogs.push({
           no: log.no!,
           date: `${time.getFullYear()}/${this.pad(time.getMonth() + 1)}/${this.pad(time.getDate())}`,
           time: `${this.pad(time.getHours())}:${this.pad(time.getMinutes())}:${this.pad(time.getSeconds())}`,
@@ -189,8 +237,9 @@ export class LogComponent implements OnInit, AfterViewInit, OnDestroy {
           result: result
         });
       });
-      this.dataSource.data = displaylogs;
+      this.dataSource.data = this.displaylogs;
       this.spinnerService.detach();
+      this.reloading = false;
     });
   }
 
@@ -210,11 +259,14 @@ export class LogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     let start = new Date(this.range.value['start']);
     let end = !this.range.value['end'] ? start : new Date(this.range.value['end']);
-    this.dataSource.data = this.dataSource.data.filter(el => new Date(el.date) >= start && new Date(el.date) <= end);
+
+    this.logRange.start = start.getTime() / 1000;
+    this.logRange.end = ((end.getTime() / 1000) + 24 * 60 * 60) - 1;
+    this.initLogs();
+ 
     let start_str = `${start.getFullYear()}-${this.pad(start.getMonth() + 1)}-${this.pad(start.getDate())}`;
     let end_str = `${end.getFullYear()}-${this.pad(end.getMonth() + 1)}-${this.pad(end.getDate())}`
-    this.options.fileName += `(${start_str}_${end_str})`;
-    this.snackBar.open('フィルタリングしました', '閉じる', {duration: 5000});
+    this.options.fileName += start_str !== end_str ? `(${start_str}_${end_str})` : `(${start_str})`;
   }
 
   onCSVStart(): void {
@@ -227,6 +279,7 @@ export class LogComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.scrollSubsc.unsubscribe();
   }
 
 }

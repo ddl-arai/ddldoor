@@ -34,6 +34,7 @@ export class DeviceDialogComponent implements OnInit {
   partnerControl = new FormControl(null);
   devices: device[] = [];
   enableControl = new FormControl(false);
+  virtual: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<DeviceDialogComponent>,
@@ -52,12 +53,18 @@ export class DeviceDialogComponent implements OnInit {
       partner: this.partnerControl,
       enable: this.enableControl
     });
+    this.virtual = this.form.get('enable')?.value;
+    this.enableControl.valueChanges.subscribe(value => {
+      this.virtual = value;
+    })
     this.getDevices();
   }
 
   getDevices(): void {
     this.dbService.getAll<device>('devices')
-    .subscribe(devices => this.devices = devices);
+    .subscribe(devices => {
+      this.devices = devices;
+    });
   }
 
   setPartners(): void {

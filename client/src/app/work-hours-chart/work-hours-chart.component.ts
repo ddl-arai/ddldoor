@@ -194,6 +194,8 @@ export class WorkHoursChartComponent implements OnInit {
               let workHours = extracted.find(el => el.name === kinds[i].name);
               if(workHours){
                 if(workHours.start && workHours.end){
+                  if(workHours.manualStart) workHours.start += '*';
+                  if(workHours.manualEnd) workHours.end += '*';
                   const now = new Date();
                   const workDate = new Date(workHours.date);
                   if(kinds[i].status === 1 && (now.getFullYear() === workDate.getFullYear() && now.getMonth() === workDate.getMonth() && now.getDate() === workDate.getDate())){
@@ -232,6 +234,7 @@ export class WorkHoursChartComponent implements OnInit {
                   }
                 }
                 else if(workHours.start && !workHours.end){
+                  if(workHours.manualStart) workHours.start += '*';
                   text = `出勤<br>(${workHours.start}～)`;
                 }
               }

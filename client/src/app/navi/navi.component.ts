@@ -52,7 +52,6 @@ export class NaviComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log(this.user.tutorial);
     if(!this.user.tutorial){
       this.menuTrigger.openMenu();
       this.dialogId = this.dialog.open(TutrialModalComponent, {

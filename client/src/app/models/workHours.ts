@@ -4,5 +4,7 @@ export interface workHours {
     date: string,
     start: string,
     end: string,
-    hours: string
+    hours: string,
+    manualStart?: boolean,
+    manualEnd?: boolean
 }

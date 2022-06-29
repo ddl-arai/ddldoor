@@ -9,6 +9,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatPaginatorIntlJa } from './mat-paginator-jp';
 import { MarkdownModule } from 'ngx-markdown';
 import { QRCodeModule } from 'angularx-qrcode';
@@ -151,7 +152,7 @@ import { TutrialModalComponent } from './tutrial-modal/tutrial-modal.component';
     MatSelectModule,
     MatSortModule,
     MatPaginatorModule,
-    MatTableExporterModule.forRoot({xlsxLightWeight: true}),
+    MatTableExporterModule.forRoot({ xlsxLightWeight: true }),
     MatDatepickerModule,
     MatNativeDateModule,
     MatRadioModule,
@@ -160,6 +161,7 @@ import { TutrialModalComponent } from './tutrial-modal/tutrial-modal.component';
     MatCheckboxModule,
     MatTooltipModule,
     OverlayModule,
+    ScrollingModule,
     PortalModule,
     MatTabsModule,
     MatExpansionModule,
@@ -182,7 +184,7 @@ import { TutrialModalComponent } from './tutrial-modal/tutrial-modal.component';
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlJa },
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {panelClass: ['custom-snack-bar']} },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { panelClass: ['custom-snack-bar'] } },
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: {} }
   ],
