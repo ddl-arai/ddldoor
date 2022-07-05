@@ -1,0 +1,36 @@
+@import 'variables';
+
+table {
+    width: 100%;
+}
+
+.mat-cell {
+    padding: 8px 8px 8px 0;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.container {
+    margin: 16px;
+}
+
+.mat-title {
+    margin: 0;
+    margin-left: 8px;
+}
+
+.green-header {
+    background: $accent;
+    color: #fff;
+}
+
+.blue-header {
+    background: $primary;
+    color: #fff;
+}
+
+.header {
+    margin: 0 8px;
+}

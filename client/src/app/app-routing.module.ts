@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NfcComponent } from './nfc/nfc.component';
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { MemberComponent } from './member/member.component';
-import { AuthGuard } from './auth.guard';
-import { LogComponent } from './log/log.component';
-import { DeviceListComponent } from './device-list/device-list.component';
-import { AccountComponent } from './account/account.component';
-import { ResetComponent } from './reset/reset.component';
+import { NfcComponent } from './components/nfc/nfc.component';
+import { LoginComponent } from './components/login/login.component';
+import { HomeComponent } from './components/home/home.component';
+import { MemberComponent } from './components/member/member.component';
+import { AuthGuard } from './guards/auth.guard';
+import { LogComponent } from './components/log/log.component';
+import { DeviceListComponent } from './components/device-list/device-list.component';
+import { AccountComponent } from './components/account/account.component';
+import { ResetComponent } from './components/reset/reset.component';
 //import { WorkHoursComponent } from './work-hours/work-hours.component';
-import { WorkHoursChartComponent } from './work-hours-chart/work-hours-chart.component';
-import { AdminGuard } from './admin.guard';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { HelpComponent } from './help/help.component';
-import { ResetInitComponent } from './reset-init/reset-init.component';
-import { InitGuard } from './init.guard';
+import { WorkHoursChartComponent } from './components/work-hours-chart/work-hours-chart.component';
+import { AdminGuard } from './guards/admin.guard';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { HelpComponent } from './components/help/help.component';
+import { ResetInitComponent } from './components/reset-init/reset-init.component';
+import { InitGuard } from './guards/init.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },

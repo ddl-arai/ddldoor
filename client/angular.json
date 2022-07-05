@@ -47,7 +47,12 @@
             "scripts": [
             ],
             "serviceWorker": true,
-            "ngswConfigPath": "ngsw-config.json"
+            "ngswConfigPath": "ngsw-config.json",
+            "allowedCommonJsDependencies": [
+              "@cordobo/qrcode",
+              "xlsx",
+              "xlsx/dist/xlsx.mini.min"
+            ]
           },
           "configurations": {
             "production": {

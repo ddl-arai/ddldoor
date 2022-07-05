@@ -49,44 +49,44 @@ import { MatChipsModule } from '@angular/material/chips';
 
 /* Component */
 import { AppComponent } from './app.component';
-import { NfcComponent } from './nfc/nfc.component';
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { MemberComponent } from './member/member.component';
-import { NaviComponent } from './navi/navi.component';
-import { MemberDialogComponent } from './member-dialog/member-dialog.component';
-import { EditMemberDialogComponent } from './edit-member-dialog/edit-member-dialog.component';
-import { StatusListComponent } from './status-list/status-list.component';
-import { LogComponent } from './log/log.component';
-import { CardDialogComponent } from './card-dialog/card-dialog.component';
-import { EditCardDialogComponent } from './edit-card-dialog/edit-card-dialog.component';
-import { DeleteMemberDialogComponent } from './delete-member-dialog/delete-member-dialog.component';
-import { DeleteCardDialogComponent } from './delete-card-dialog/delete-card-dialog.component';
-import { DeviceListComponent } from './device-list/device-list.component';
-import { DeviceDialogComponent } from './device-dialog/device-dialog.component';
-import { EditDeviceDialogComponent } from './edit-device-dialog/edit-device-dialog.component';
-import { DeleteDeviceDialogComponent } from './delete-device-dialog/delete-device-dialog.component';
-import { AccountComponent } from './account/account.component';
-import { ResetComponent } from './reset/reset.component';
-import { DeleteAccountDialogComponent } from './delete-account-dialog/delete-account-dialog.component';
-import { DeleteLogDialogComponent } from './delete-log-dialog/delete-log-dialog.component';
-import { WorkHoursComponent } from './work-hours/work-hours.component';
-import { WorkHoursChartComponent } from './work-hours-chart/work-hours-chart.component';
-import { DeviceTmpopenDialogComponent } from './device-tmpopen-dialog/device-tmpopen-dialog.component';
-import { StampDialogComponent } from './stamp-dialog/stamp-dialog.component';
-import { NaviSetMemberComponent } from './navi-set-member/navi-set-member.component';
+import { NfcComponent } from './components/nfc/nfc.component';
+import { LoginComponent } from './components/login/login.component';
+import { HomeComponent } from './components/home/home.component';
+import { MemberComponent } from './components/member/member.component';
+import { NaviComponent } from './components/navi/navi.component';
+import { MemberDialogComponent } from './components/dialogs/member-dialog/member-dialog.component';
+import { MemberEditComponent } from './components/dialogs/member-edit/member-edit.component';
+import { StatusListComponent } from './components/status-list/status-list.component';
+import { LogComponent } from './components/log/log.component';
+import { CardRegisterComponent } from './components/dialogs/card-register/card-register.component';
+import { CardEditComponent } from './components/dialogs/card-edit/card-edit.component';
+import { MemberDeleteComponent } from './components/dialogs/member-delete/member-delete.component';
+import { CardDeleteComponent } from './components/dialogs/card-delete/card-delete.component';
+import { DeviceListComponent } from './components/device-list/device-list.component';
+import { DeviceRegisterComponent } from './components/dialogs/device-register/device-register.component';
+import { DeviceEditComponent } from './components/dialogs/device-edit/device-edit.component';
+import { DeviceDeleteComponent } from './components/dialogs/device-delete/device-delete.component';
+import { AccountComponent } from './components/account/account.component';
+import { ResetComponent } from './components/reset/reset.component';
+import { AccountDeleteComponent } from './components/dialogs/account-delete/account-delete.component';
+import { AccountLogDeleteComponent } from './components/dialogs/account-log-delete/account-log-delete.component';
+import { WorkHoursComponent } from './components/work-hours/work-hours.component';
+import { WorkHoursChartComponent } from './components/work-hours-chart/work-hours-chart.component';
+import { DeviceTmpopenComponent } from './components/dialogs/device-tmpopen/device-tmpopen.component';
+import { StampDialogComponent } from './components/stamp-dialog/stamp-dialog.component';
+import { NaviMemberLinkComponent } from './components/dialogs/navi-member-link/navi-member-link.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { MatprogressspinnerComponent } from './matprogressspinner/matprogressspinner.component';
+import { MatprogressspinnerComponent } from './components/matprogressspinner/matprogressspinner.component';
 import { RouterModule } from '@angular/router';
-import { HomeUpdateComponent } from './home-update/home-update.component';
-import { HelpComponent } from './help/help.component';
-import { QrComponent } from './qr/qr.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomeUpdateComponent } from './components/dialogs/home-update/home-update.component';
+import { HelpComponent } from './components/help/help.component';
+import { NaviQrComponent } from './components/dialogs/navi-qr/navi-qr.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { LayoutModule } from '@angular/cdk/layout';
-import { ResetInitComponent } from './reset-init/reset-init.component';
-import { TutrialModalComponent } from './tutrial-modal/tutrial-modal.component';
+import { ResetInitComponent } from './components/reset-init/reset-init.component';
+import { TutrialModalComponent } from './components/tutrial-modal/tutrial-modal.component';
 
 @NgModule({
   declarations: [
@@ -97,30 +97,30 @@ import { TutrialModalComponent } from './tutrial-modal/tutrial-modal.component';
     MemberComponent,
     NaviComponent,
     MemberDialogComponent,
-    EditMemberDialogComponent,
+    MemberEditComponent,
     StatusListComponent,
     LogComponent,
-    CardDialogComponent,
-    EditCardDialogComponent,
-    DeleteMemberDialogComponent,
-    DeleteCardDialogComponent,
+    CardRegisterComponent,
+    CardEditComponent,
+    MemberDeleteComponent,
+    CardDeleteComponent,
     DeviceListComponent,
-    DeviceDialogComponent,
-    EditDeviceDialogComponent,
-    DeleteDeviceDialogComponent,
+    DeviceRegisterComponent,
+    DeviceEditComponent,
+    DeviceDeleteComponent,
     AccountComponent,
     ResetComponent,
-    DeleteAccountDialogComponent,
-    DeleteLogDialogComponent,
+    AccountDeleteComponent,
+    AccountLogDeleteComponent,
     WorkHoursComponent,
     WorkHoursChartComponent,
-    DeviceTmpopenDialogComponent,
+    DeviceTmpopenComponent,
     StampDialogComponent,
-    NaviSetMemberComponent,
+    NaviMemberLinkComponent,
     MatprogressspinnerComponent,
     HomeUpdateComponent,
     HelpComponent,
-    QrComponent,
+    NaviQrComponent,
     DashboardComponent,
     ResetInitComponent,
     TutrialModalComponent

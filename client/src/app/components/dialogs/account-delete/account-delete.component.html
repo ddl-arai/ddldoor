@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>本当に削除しますか？</h2>
+<div mat-dialog-content>
+  <p>{{email}} が選択されています</p>
+</div>
+<div mat-dialog-actions class="dialog-buttons">
+  <button mat-button (click)="onCancel()">キャンセル</button>
+  <span fxFlexOffset="auto">
+    <button mat-raised-button color="warn" (click)="onDelete()">削除</button>
+  </span>
+</div>

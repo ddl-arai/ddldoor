@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>本当に削除しますか？</h2>
+<div mat-dialog-content>
+  <p>{{dulation}}のログが削除対象になっています</p>
+  <p>このまま削除を続けるには <strong>{{confirmed}}</strong> と入力してください</p>
+  <mat-form-field color="warn" class="example-full-width">
+      <input matInput [(ngModel)]="inputted" autocomplete="off">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="dialog-buttons">
+  <button mat-button (click)="onCancel()">キャンセル</button>
+  <span fxFlexOffset="auto">
+    <button mat-raised-button color="warn" (click)="onDelete()" [disabled]="!(inputted === confirmed)">削除</button>
+  </span>
+</div>
