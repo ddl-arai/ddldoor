@@ -1,0 +1,57 @@
+.login-wrapper {
+    height: 100%;
+    background-size: auto auto;
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 25px, rgba(0, 0, 0, 0.1) 25px, rgba(0, 0, 0, 0.1) 49px );
+  }
+  
+  .login-wrapper .form {
+    min-width: 100%;
+    max-width: 300px;
+    width: 100%;
+  }
+  
+  .login-wrapper .full-width,
+  .login-wrapper .btn-block {
+    width: 100%;
+  }
+  
+  .login-wrapper mat-card-header {
+    text-align: center;
+    width: 100%;
+    display: block;
+    font-weight: 700;
+  }
+  
+  .login-wrapper mat-card-header mat-card-title {
+    font-size: 30px;
+    margin: 0;
+    margin-bottom: 24px;
+  }
+  
+  .login-wrapper .mat-card {
+    @media screen and (max-width: 599px) {
+      padding: 70px 60px 100px;
+      margin: 0;
+      height: -webkit-fill-available;
+    }
+    padding: 60px 70px;
+  }
+  
+  .login-wrapper .mat-stroked-button {
+    border: 1px solid currentColor;
+    line-height: 54px;
+    background: #FFF7FA;
+  }
+  
+  .login-wrapper .mat-form-field-appearance-legacy .mat-form-field-infix {
+    padding: 0.8375em 0;
+  }
+  
+  .img_logo {
+    text-align: center;
+    padding: 24px;
+  }
+
+  .mat-card-header {
+    margin-bottom: 48px;
+}

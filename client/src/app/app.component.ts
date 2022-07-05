@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { MatDialog } from '@angular/material/dialog';
-import { HomeUpdateComponent } from './home-update/home-update.component';
+import { HomeUpdateComponent } from './components/dialogs/home-update/home-update.component';
 
 @Component({
   selector: 'app-root',
